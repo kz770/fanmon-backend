@@ -1,4 +1,4 @@
-package com.example.fanmon_be.domain.goods.entity;
+package com.example.fanmon_be.domain.shop.goods.entity;
 
 import com.example.fanmon_be.domain.artist.entity.Team;
 import com.example.fanmon_be.domain.management.entity.Management;
