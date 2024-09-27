@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: fanmon_be
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USER}
+    password: ${DB_PWD}
+    url: ${DB_URL}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+
+logging:
+  level:
+    org:
+      hibernate: debug
