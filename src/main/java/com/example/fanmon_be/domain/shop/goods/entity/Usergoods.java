@@ -1,4 +1,4 @@
-package com.example.fanmon_be.domain.goods.entity;
+package com.example.fanmon_be.domain.shop.goods.entity;
 
 import com.example.fanmon_be.domain.user.entity.User;
 import jakarta.persistence.*;

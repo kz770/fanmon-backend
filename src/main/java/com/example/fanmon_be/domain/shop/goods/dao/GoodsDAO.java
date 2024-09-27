@@ -1,6 +1,6 @@
-package com.example.fanmon_be.domain.goods.dao;
+package com.example.fanmon_be.domain.shop.goods.dao;
 
-import com.example.fanmon_be.domain.goods.entity.Goods;
+import com.example.fanmon_be.domain.shop.goods.entity.Goods;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
