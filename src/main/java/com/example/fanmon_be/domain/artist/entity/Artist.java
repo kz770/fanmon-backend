@@ -32,7 +32,6 @@ public class Artist {
     @JoinColumn(name="managementuuid", insertable=true, updatable=true)
     private Management management;
 
-    private String type;
     private LocalDate debut;
     private String email;
     private String password;
