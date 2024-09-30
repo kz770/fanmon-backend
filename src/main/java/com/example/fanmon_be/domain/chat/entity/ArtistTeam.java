@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name="artistgroup")
+@Table(name="artistteam")
 public class ArtistTeam {
     @Id
     private UUID artistgroupuuid;
