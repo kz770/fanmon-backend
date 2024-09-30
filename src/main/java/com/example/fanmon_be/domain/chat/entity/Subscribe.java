@@ -1,11 +1,11 @@
 package com.example.fanmon_be.domain.chat.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import com.example.fanmon_be.domain.chat.enums.SubscriptionStatus;
+import com.example.fanmon_be.domain.user.entity.User;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -22,11 +22,17 @@ public class Subscribe {
         }
     }
 
-//    @ManyToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name="useruuid")
-//    private User user;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name="useruuid")
+    private User user;
 
-//    @ManyToOne(cascade=CascadeType.REMOVE)
-//    @JoinColumn(name="chatuuid")
-//    private Chat chat;
+    @ManyToOne(cascade=CascadeType.REMOVE)
+    @JoinColumn(name="chatuuid")
+    private Chat chat;
+
+    @Column(name="status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SubscriptionStatus subscriptionStatus;
+
+    private LocalDateTime lastReadTime;
 }
