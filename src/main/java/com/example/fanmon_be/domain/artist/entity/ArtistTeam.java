@@ -10,11 +10,11 @@ import java.util.UUID;
 @Table(name="artistteam")
 public class ArtistTeam {
     @Id
-    private UUID artistgroupuuid;
+    private UUID artistteamuuid;
     @PrePersist
     protected void onCreate() {
-        if (artistgroupuuid==null){
-            this.artistgroupuuid = UUID.randomUUID();
+        if (artistteamuuid==null){
+            this.artistteamuuid = UUID.randomUUID();
         }
     }
 
