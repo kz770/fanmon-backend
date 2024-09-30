@@ -5,6 +5,7 @@ import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.shop.goods.enums.GoodsCategory;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -40,4 +41,7 @@ public class Goods {
     private long qty;
     private long price;
     private String fname;
+
+    @Transient
+    private MultipartFile uploadfile;
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -36,4 +37,8 @@ public class Artist {
     private String email;
     private String password;
     private LocalDate birth;
+    private String fname;
+
+    @Transient
+    private MultipartFile uploadfile;
 }
