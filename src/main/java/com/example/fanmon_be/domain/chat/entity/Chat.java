@@ -1,9 +1,7 @@
 package com.example.fanmon_be.domain.chat.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import com.example.fanmon_be.domain.artist.entity.Artist;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.UUID;
@@ -22,9 +20,9 @@ public class Chat {
         }
     }
 
-//    @OneToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name="artistuuid", updatable = true, nullable = true)
-//    private Artist artist;
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name="artistuuid", updatable = true, nullable = true)
+    private Artist artist;
 
     private Long price;
 }
