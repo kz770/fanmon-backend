@@ -14,9 +14,11 @@ import java.util.List;
 public class ArtistController {
     @Autowired
     private ArtistService artistService;
+
     @GetMapping("/test")
     @ResponseBody
     public List<Artist> test() {
         return artistService.findAll();
     }
+
 }

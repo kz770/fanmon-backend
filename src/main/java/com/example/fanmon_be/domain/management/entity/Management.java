@@ -1,5 +1,6 @@
 package com.example.fanmon_be.domain.management.entity;
 
+import com.example.fanmon_be.domain.management.enums.ManagementStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +28,11 @@ public class Management {
     private String email;
     private String password;
     private String name;
-    private String status;
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ManagementStatus status = ManagementStatus.NOT_APPROVED;
+
     private String address;
     private Long businessno;
     private LocalDateTime createdat;

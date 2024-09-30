@@ -2,6 +2,7 @@ package com.example.fanmon_be.domain.shop.goods.entity;
 
 import com.example.fanmon_be.domain.artist.entity.Team;
 import com.example.fanmon_be.domain.management.entity.Management;
+import com.example.fanmon_be.domain.shop.goods.enums.GoodsCategory;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -31,7 +32,10 @@ public class Goods {
     @JoinColumn(name="teamuuid", nullable = false)
     private Team team;
 
-    private String category;
+    @Column(name = "category", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GoodsCategory category = GoodsCategory.OTHERS;
+
     private String name;
     private long qty;
     private long price;
