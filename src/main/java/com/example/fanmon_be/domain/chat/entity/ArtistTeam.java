@@ -10,8 +10,8 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name="artistgroup")
-public class ArtistGroup {
+@Table(name="artistteam")
+public class ArtistTeam {
     @Id
     private UUID artistgroupuuid;
     @PrePersist
