@@ -41,6 +41,7 @@ public class Goods {
     private long qty;
     private long price;
     private String fname;
+    private String description;
 
     @Transient
     private MultipartFile uploadfile;
