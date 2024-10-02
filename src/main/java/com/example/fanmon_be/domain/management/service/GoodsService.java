@@ -5,12 +5,15 @@ import com.example.fanmon_be.domain.shop.goods.entity.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class GoodsService {
     @Autowired
     private GoodsDAO goodsDAO;
+
+    public List<Goods> getAllGoods() { return goodsDAO.findAll(); }
 
     public Goods createGoods(Goods goods) {
         return goodsDAO.save(goods);
