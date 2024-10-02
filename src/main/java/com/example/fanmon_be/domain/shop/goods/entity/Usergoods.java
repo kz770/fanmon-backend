@@ -33,6 +33,4 @@ public class Usergoods {
     @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name="goodsuuid")
     private Goods goods;
-
-    private String cardinfo;
 }
