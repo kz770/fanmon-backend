@@ -22,9 +22,9 @@ public class UserController {
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<UserResponse> signUp(@RequestBody SignUpRequest signUpRequest) {
-        return ResponseEntity.created(URI.create("/login")).body(userService.signUp(signUpRequest));
-//        return ResponseEntity.status(HttpStatus.OK).body(userService.signUp(signUpRequest));
+    public ResponseEntity<UserResponse> signUp(@RequestBody SignUpRequest request) {
+        return ResponseEntity.created(URI.create("/login")).body(userService.signUp(request));
+//        return ResponseEntity.status(HttpStatus.OK).body(userService.signUp(request));
     }
 
 
