@@ -14,8 +14,8 @@ public class CartService {
     @Autowired
     private CartDAO cartDAO;
 
-    // 장바구니 목록 출력
-    public List<Cart> findById(UUID uuid) {
-        return cartDAO.findById(uuid);
-    }
+//    // 장바구니 목록 출력
+//    public List<Cart> findById(UUID uuid) {
+//        return cartDAO.findById(uuid);
+//    }
 }

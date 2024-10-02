@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface CartDAO extends JpaRepository<Cart, Long> {
 
 
-    public List<Cart> findById(UUID uuid);
+//    public List<Cart> findById(UUID uuid);
 }

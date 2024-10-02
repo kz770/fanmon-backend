@@ -14,8 +14,8 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @GetMapping("/shop/cart")
-    public String cart(UUID uuid, Model model) {
-
-    }
+//    @GetMapping("/shop/cart")
+//    public String cart(UUID uuid, Model model) {
+//
+//    }
 }
