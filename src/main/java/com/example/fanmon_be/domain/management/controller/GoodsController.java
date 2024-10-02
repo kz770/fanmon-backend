@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "상품 관리 API",description = "상품관련 CRUD 작업 수행")
@@ -21,6 +22,13 @@ public class GoodsController {
     private ManagementService service;
     @Autowired
     private GoodsService goodsService;
+
+    @Operation(summary = "상품 리스트",description = "상품 리스트")
+    @GetMapping
+    public ResponseEntity<List<Goods>> findAll() {
+        List<Goods> list = goodsService.getAllGoods();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 
     @Operation(summary = "상품 생성",description = "새로운 상품 생성")
     @PostMapping
