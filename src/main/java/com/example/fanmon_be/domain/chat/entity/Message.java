@@ -23,7 +23,7 @@ public class Message {
     @ManyToOne
     @JoinColumn(name="useruuid")
     private User user;
-    @Column(name="from", nullable = false)
+    @Column(name="messagefrom", nullable = false)
     @Enumerated(EnumType.STRING)
     private MessageFrom messageFrom;
     @ManyToOne
