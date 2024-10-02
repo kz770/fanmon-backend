@@ -1,6 +1,7 @@
 package com.example.fanmon_be.domain.chat.entity;
 
 import com.example.fanmon_be.domain.artist.entity.Artist;
+import com.example.fanmon_be.domain.chat.enums.MessageFrom;
 import com.example.fanmon_be.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -22,4 +23,10 @@ public class Message {
     @ManyToOne
     @JoinColumn(name="useruuid")
     private User user;
+    @Column(name="from", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MessageFrom messageFrom;
+    @ManyToOne
+    @JoinColumn(name="chatuuid")
+    private Chat chat;
 }

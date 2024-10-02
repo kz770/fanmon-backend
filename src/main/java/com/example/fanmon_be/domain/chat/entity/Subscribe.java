@@ -33,6 +33,4 @@ public class Subscribe {
     @Column(name="status", nullable = false)
     @Enumerated(EnumType.STRING)
     private SubscriptionStatus subscriptionStatus;
-
-    private LocalDateTime lastReadTime;
 }
