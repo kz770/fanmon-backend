@@ -35,6 +35,8 @@ public class Team {
 
     private LocalDate debut;
     private String fname;
+    private String description;
+    private int followers;
 
     @Transient
     private MultipartFile uploadfile;
