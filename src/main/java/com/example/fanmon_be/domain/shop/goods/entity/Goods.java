@@ -4,7 +4,9 @@ import com.example.fanmon_be.domain.artist.entity.Team;
 import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.shop.goods.enums.GoodsCategory;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
@@ -12,6 +14,8 @@ import java.util.UUID;
 @Entity
 @Data
 @Table(name="goods")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Goods {
 
     @Id
