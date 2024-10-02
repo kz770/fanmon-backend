@@ -4,6 +4,7 @@ import com.example.fanmon_be.domain.management.dto.ManagementResponse;
 import com.example.fanmon_be.domain.management.dto.ManagementSignUpRequest;
 import com.example.fanmon_be.domain.management.service.ManagementService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ManagementController {
 
     @Operation(summary = "management 회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<ManagementResponse> signUp(@RequestBody ManagementSignUpRequest request){
+    public ResponseEntity<ManagementResponse> signUp(@Valid @RequestBody ManagementSignUpRequest request){
         return ResponseEntity.status(HttpStatus.OK).body(managementService.signUp(request));
     }
 }

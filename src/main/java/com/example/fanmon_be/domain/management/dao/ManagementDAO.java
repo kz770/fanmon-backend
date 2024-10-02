@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ManagementDAO extends JpaRepository<Management, Integer> {
     boolean existsByEmail(String email);
+    boolean existsByBusinessno(String businessno);
 }

@@ -5,6 +5,7 @@ import com.example.fanmon_be.domain.user.enums.UserRole;
 import com.example.fanmon_be.domain.user.enums.UserStatus;
 import com.example.fanmon_be.global.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,6 +48,7 @@ public class User extends BaseEntity {
     private String name;
 
     @Column(name="email", nullable = true, unique = true)
+    @Email(message = "유효한 이메일 주소를 입력하세요.")
     private String email;
 
     //추후 소셜로그인 기능 구현 위해 nullable true 로 했습니다

@@ -15,5 +15,5 @@ public class ManagementResponse {
     private String email;
     private String name;
     private String address;
-    private Long businessno;
+    private String businessno;
 }

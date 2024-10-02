@@ -23,6 +23,9 @@ public class ManagementService {
         if(managementDAO.existsByEmail(signUpRequest.getEmail())){
             throw new IllegalStateException("이미 사용중인 이메일 입니다.");
         }
+        if(managementDAO.existsByBusinessno(signUpRequest.getBusinessno())){
+            throw new IllegalStateException("이미 등록된 사업자번호 입니다.");
+        }
 
         Management newManagement = Management.builder()
                 .status(ManagementStatus.NOT_APPROVED)
