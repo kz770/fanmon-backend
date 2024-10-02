@@ -4,6 +4,7 @@ public enum UserStatusInRoom {
     ERROR_QUIT,
     NORMAL_TERNATION,
     FORCE_EXIT,
-    FORCE_QUIT
-
+    FORCE_QUIT,
+    ROOM_FORCE_EXIT,
+    ROOM_ERROR_QUIT
 }
