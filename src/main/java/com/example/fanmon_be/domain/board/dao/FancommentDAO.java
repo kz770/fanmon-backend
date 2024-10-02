@@ -9,5 +9,4 @@ import java.util.UUID;
 @Repository
 public interface FancommentDAO extends JpaRepository<Fancomment, UUID> {
 
-    public int countById(UUID uuid);
 }
