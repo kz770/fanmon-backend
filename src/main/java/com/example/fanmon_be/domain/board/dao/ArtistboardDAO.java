@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface ArtisboardDAO extends JpaRepository<Artistboard, UUID> {
+public interface ArtistboardDAO extends JpaRepository<Artistboard, UUID> {
 }
