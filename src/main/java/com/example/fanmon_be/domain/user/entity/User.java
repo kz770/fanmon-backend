@@ -1,9 +1,14 @@
 package com.example.fanmon_be.domain.user.entity;
 
+import com.example.fanmon_be.domain.user.dto.UserResponse;
 import com.example.fanmon_be.domain.user.enums.UserRole;
 import com.example.fanmon_be.domain.user.enums.UserStatus;
+import com.example.fanmon_be.global.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,7 +17,10 @@ import java.util.UUID;
 @Entity
 @Table(name="user")
 @Data
-public class User {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class User extends BaseEntity {
     @Id
     @Column(name = "useruuid", nullable = false)
     private UUID useruuid;
@@ -22,6 +30,9 @@ public class User {
         if(useruuid == null){
             useruuid = UUID.randomUUID();
         }
+        LocalDateTime now = LocalDateTime.now();
+        super.createdat = now;
+        super.updatedat = now;
     }
 
     @Column(name = "status", nullable = false)
@@ -51,9 +62,17 @@ public class User {
     @Column(name = "birth", nullable = false)
     private LocalDate birth;
 
-    @Column(name="createdat", nullable = false, updatable = false)
-    private LocalDateTime createdat;
 
-    @Column(name="updatedat", nullable = false)
-    private LocalDateTime updatedat;
+    public UserResponse toResponse(){
+        return new UserResponse(
+                this.useruuid,
+                this.status.name(),
+                this.role.name(),
+                this.name,
+                this.email,
+                this.birth,
+                this.phone,
+                this.address
+        );
+    }
 }
