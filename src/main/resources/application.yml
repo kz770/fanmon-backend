@@ -10,9 +10,11 @@ spring:
     hibernate:
       ddl-auto: update
     generate-ddl: true
-    show-sql: true
 
 logging:
   level:
     org:
       hibernate: debug
+    root: warn
+    org.springframework: warn
+    org.hibernate: warn
