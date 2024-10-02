@@ -11,7 +11,4 @@ public class FanCommentService {
     @Autowired
     FancommentDAO dao;
 
-    public int countById(UUID uuid){
-        return dao.countById(uuid);
-    }
 }
