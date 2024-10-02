@@ -36,7 +36,7 @@ public class Orders {
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private OrdersStatus status;
+    private OrdersStatus status; //구매완료, 배송중, 배송완료, 환불중, 환불완료
 
 
 
