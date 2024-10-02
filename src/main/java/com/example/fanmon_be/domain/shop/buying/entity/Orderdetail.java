@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Orderdetail {
 
     @Id
-    @Column(name = "orderuuid", nullable = false)
+    @Column(name = "orderdetailuuid", nullable = false)
     private UUID orderdetailuuid;
 
     @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
