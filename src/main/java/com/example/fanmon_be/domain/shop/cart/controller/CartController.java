@@ -15,7 +15,7 @@ public class CartController {
     private CartService cartService;
 
 //    @GetMapping("/shop/cart")
-//    public String cart(UUID uuid, Model model) {
+//    public List<> cart(UUID uuid, Model model) {
 //
 //    }
 }
