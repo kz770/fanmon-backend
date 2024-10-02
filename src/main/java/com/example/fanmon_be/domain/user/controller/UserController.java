@@ -4,6 +4,7 @@ import com.example.fanmon_be.domain.user.dto.SignUpRequest;
 import com.example.fanmon_be.domain.user.dto.UserResponse;
 import com.example.fanmon_be.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class UserController {
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<UserResponse> signUp(@RequestBody SignUpRequest request) {
+    public ResponseEntity<UserResponse> signUp(@Valid @RequestBody SignUpRequest request) {
         return ResponseEntity.created(URI.create("/login")).body(userService.signUp(request));
 //        return ResponseEntity.status(HttpStatus.OK).body(userService.signUp(request));
     }
