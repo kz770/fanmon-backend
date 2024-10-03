@@ -10,6 +10,4 @@ import java.util.UUID;
 @Repository
 public interface CartDAO extends JpaRepository<Cart, UUID> {
 
-
-//    public List<Cart> findById(UUID uuid);
 }

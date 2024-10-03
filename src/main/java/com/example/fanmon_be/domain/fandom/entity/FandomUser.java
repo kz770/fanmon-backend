@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 public class FandomUser {
     @Id
-    @Column(name="fandomuser", nullable = false)
+    @Column(name="fandomuseruuid", nullable = false)
     private UUID fandomuseruuid;
 
     @PrePersist
