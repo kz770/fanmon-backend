@@ -6,11 +6,18 @@ import com.example.fanmon_be.domain.shop.goods.entity.Goods;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,9 +38,25 @@ public class GoodsController {
     }
 
     @Operation(summary = "상품 생성",description = "새로운 상품 생성")
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Goods> createGoods(
-            @Parameter(description = "생성할 상품 정보",required = true) @RequestBody Goods goods) {
+            HttpServletRequest request,
+            @Parameter(description = "생성할 상품 정보",required = true) @ModelAttribute Goods goods) {
+        String path = request.getServletContext().getRealPath("/resources/goodsimg");
+        System.out.println("real path : "+path);
+        String fname = null;
+        MultipartFile uploadfile = goods.getUploadfile();
+        fname = uploadfile.getOriginalFilename();
+        if(fname!=null && !fname.equals("")) {
+            try{
+                FileOutputStream fos = new FileOutputStream(new File(path+"/"+fname));
+                FileCopyUtils.copy(uploadfile.getInputStream(), fos);
+                fos.close();
+                goods.setFname(fname);
+            }catch (Exception e){
+                System.out.println("파일 처리 예외! => "+e.getMessage());
+            }
+        }
         Goods createdGoods = goodsService.createGoods(goods);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdGoods);
     }
