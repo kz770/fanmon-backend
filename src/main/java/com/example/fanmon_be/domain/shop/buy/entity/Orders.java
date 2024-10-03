@@ -38,6 +38,6 @@ public class Orders {
     @Enumerated(EnumType.STRING)
     private OrdersStatus status; //구매완료, 배송중, 배송완료, 환불중, 환불완료
 
-
+    private long qty;
 
 }
