@@ -30,13 +30,13 @@ public class BoardController {
     FanCommentService fanCommentService;
 
     @ResponseBody
-    @GetMapping("/board/{artistuuid}")
-    public ResponseEntity<BoardDTO> getBoardData(@PathVariable UUID artistuuid){
+    @GetMapping("/board/{teamuuid}")
+    public ResponseEntity<BoardDTO> getBoardData(@PathVariable UUID teamuuid){
         // board dto에 필요한 데이터 목록
         BoardDTO boardDTO = new BoardDTO(
-                artistBoardService.findAll(),
-                boardNoticeService.findAll(),
-                fanBoardService.findAll());
+                artistBoardService.findById(teamuuid),
+                boardNoticeService.findById(teamuuid),
+                fanBoardService.findById(teamuuid));
 
         return ResponseEntity.ok(boardDTO);
     }
