@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -46,8 +47,15 @@ public class GoodsViewController {
     //전체 굿즈 목록 출력
     @GetMapping("/shop/goods/list/{teamuuid}/all")
     public ResponseEntity<List<Goods>> findGoodsByCategory(@PathVariable UUID teamuuid, HttpSession session) {
+        Enumeration<String> attributeNames = session.getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            String attributeName = attributeNames.nextElement();
+            System.out.println(attributeName + ": " + session.getAttribute(attributeName));
+        }
+
+        System.out.println(session.getAttribute("category"));
+        session.removeAttribute("category");
         session.setAttribute("teamuuid", teamuuid);
-        session.setAttribute("category", null);
         List<Goods> goodsList = goodsViewService.findByTeam(teamuuid);
         return ResponseEntity.ok(goodsList);
     }
@@ -55,7 +63,7 @@ public class GoodsViewController {
     //카테고리별 굿즈 목록 출력
     @GetMapping("/shop/goods/list/{teamuuid}/{category}")
     public ResponseEntity<List<Goods>> findGoodsByCategory(@PathVariable UUID teamuuid, @PathVariable String category, HttpSession session) {
-
+        System.out.println(session.getAttribute("category"));
         GoodsCategory goodsCategory;
         try {
             goodsCategory = GoodsCategory.valueOf(category.toUpperCase());
