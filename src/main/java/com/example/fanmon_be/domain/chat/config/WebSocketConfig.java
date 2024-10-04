@@ -15,10 +15,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // 구독을 위한 브로커 경로
         // 이 경로를 구독하여 서버에서 발행된 메세지 수신 가능
         // 서버가 클라이언트에게 메세지를 발송할 때 사용
-        config.enableSimpleBroker("/pub");
-        // 클라이언트가 이 경로로 메세지를 보내면 해당 메세지는 지정된 컨트롤러 메서드로 자동 라우팅
-        config.setApplicationDestinationPrefixes("/sub");
-
+        config.enableSimpleBroker("/sub");
+//         클라이언트가 이 경로로 메세지를 보내면 해당 메세지는 지정된 컨트롤러 메서드로 자동 라우팅
+        config.setApplicationDestinationPrefixes("/pub");
+        // Redis를 이용한 메시지 브로커 사용
+//        config.enableStompBrokerRelay("/sub")
+//                .setRelayHost("localhost")   // Redis 호스트 주소
+//                .setRelayPort(6379);          // Redis 포트
+//        config.setApplicationDestinationPrefixes("/pub");
     }
 
     @Override
@@ -26,7 +30,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // 클라이언트가 websocket 서버에 연결하기 위해 사용할 수 있는 url을 정의한다
         // 해당 endpoint를 통해 websocket 세션을 시작한다
-        registry.addEndpoint("/chat/ws/{artistuuid}")
+        registry.addEndpoint("/chat/ws")
                 .setAllowedOrigins("http://localhost:3000")
                 .withSockJS();
         // socketjs 를 사용하면 브라우저가 websocket을 지원하지 않을 경우 대체 프로토콜(ex ajax polling)을 통해 연결

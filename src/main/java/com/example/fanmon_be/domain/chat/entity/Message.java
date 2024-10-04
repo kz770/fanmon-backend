@@ -15,6 +15,12 @@ import java.util.UUID;
 public class Message {
     @Id
     private UUID messageuuid;
+    @PrePersist
+    protected void onCreate() {
+        if (messageuuid==null){
+            this.messageuuid = UUID.randomUUID();
+        }
+    }
     private String messagetext;
     private LocalDateTime timestamp;
     @ManyToOne
