@@ -30,13 +30,11 @@ public class GoodsViewController {
     }
 
     // 굿즈 상세 정보 출력
-    @GetMapping("/shop/goods/detail/{uuid}")
+    @GetMapping("/shop/goods/detail/{goodsuuid}")
     @ResponseBody
-    public ResponseEntity<Goods> findByID(@PathVariable UUID uuid) {
-        Goods goods = goodsViewService.findById(uuid); // UUID로 굿즈 조회
-        if (goods == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 굿즈가 없을 경우 404 반환
-        }
-        return ResponseEntity.ok(goods); // 굿즈가 있을 경우 200 OK와 함께 반환
+    public ResponseEntity<Goods> findByID(@PathVariable UUID goodsuuid, HttpSession session) {
+        session.setAttribute("goodsuuid", goodsuuid);
+        Goods goods = goodsViewService.findById(goodsuuid);
+        return ResponseEntity.ok(goods);
     }
 }
