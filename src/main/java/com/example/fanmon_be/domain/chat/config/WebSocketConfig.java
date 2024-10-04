@@ -16,9 +16,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // 이 경로를 구독하여 서버에서 발행된 메세지 수신 가능
         // 서버가 클라이언트에게 메세지를 발송할 때 사용
         config.enableSimpleBroker("/sub");
-        // 클라이언트가 이 경로로 메세지를 보내면 해당 메세지는 지정된 컨트롤러 메서드로 자동 라우팅
+//         클라이언트가 이 경로로 메세지를 보내면 해당 메세지는 지정된 컨트롤러 메서드로 자동 라우팅
         config.setApplicationDestinationPrefixes("/pub");
-
+        // Redis를 이용한 메시지 브로커 사용
+//        config.enableStompBrokerRelay("/sub")
+//                .setRelayHost("localhost")   // Redis 호스트 주소
+//                .setRelayPort(6379);          // Redis 포트
+//        config.setApplicationDestinationPrefixes("/pub");
     }
 
     @Override
