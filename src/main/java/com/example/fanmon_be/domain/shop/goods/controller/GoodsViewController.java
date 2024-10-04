@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,9 +28,14 @@ public class GoodsViewController {
     }
 
     //굿즈 상세 정보 출력
-    @GetMapping("/shop/goods/detail")
-    public String findByID(UUID uuid, Model model) {
-        model.addAttribute("goods", goodsViewService.findById(uuid));
-        return "/shop/goods/detail";
+    @GetMapping("/shop/goods/detail/{uuid}")
+    @ResponseBody
+    public ResponseEntity<Goods> findByID(@PathVariable UUID uuid) {
+        Goods goods = goodsViewService.findById(uuid);
+        if (goods != null) {
+            return ResponseEntity.ok(goods); // 성공적으로 찾은 경우 200 OK 응답
+        } else {
+            return ResponseEntity.notFound().build(); // 찾지 못한 경우 404 NOT FOUND 응답
+        }
     }
 }
