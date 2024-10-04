@@ -43,11 +43,28 @@ public class GoodsViewController {
         return ResponseEntity.ok(categories);
     }
 
-    //굿즈 목록 출력
+    //굿즈 전체 목록 출력
     @GetMapping("/shop/goods/list/{teamuuid}")
     public ResponseEntity<List<Goods>> findGoodsByCategory(@PathVariable UUID teamuuid, HttpSession session) {
         session.setAttribute("teamuuid", teamuuid);
-        List<Goods> goodsList = goodsViewService.findByTeamuuid(teamuuid);
+        List<Goods> goodsList = goodsViewService.findByTeam(teamuuid);
+        return ResponseEntity.ok(goodsList);
+    }
+
+    //굿즈 카테고리 목록 출력
+    @GetMapping("/shop/goods/list/{teamuuid}/{category}")
+    public ResponseEntity<List<Goods>> findGoodsByCategory(@PathVariable UUID teamuuid, @PathVariable String category, HttpSession session) {
+
+        GoodsCategory goodsCategory;
+        try {
+            goodsCategory = GoodsCategory.valueOf(category.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build(); // 잘못된 category 값일 경우 400 Bad Request 반환
+        }
+
+        session.setAttribute("teamuuid", teamuuid);
+        session.setAttribute("category", goodsCategory);
+        List<Goods> goodsList = goodsViewService.findByTeamuuidAndCategory(teamuuid, goodsCategory);
         return ResponseEntity.ok(goodsList);
     }
 

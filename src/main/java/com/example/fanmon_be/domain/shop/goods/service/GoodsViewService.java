@@ -4,6 +4,7 @@ import com.example.fanmon_be.domain.artist.dao.TeamDAO;
 import com.example.fanmon_be.domain.artist.entity.Team;
 import com.example.fanmon_be.domain.shop.goods.dao.GoodsDAO;
 import com.example.fanmon_be.domain.shop.goods.entity.Goods;
+import com.example.fanmon_be.domain.shop.goods.enums.GoodsCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,22 @@ public class GoodsViewService {
     @Autowired
     private TeamDAO teamDAO;
 
-    //굿즈 목록 출력
-    public List<Goods> findByTeamuuid(UUID teamuuid) {
-        Team team = teamDAO.findById(teamuuid).orElse(null); // Team 객체 조회
-        if (team != null) {
-            return goodsDAO.findByTeam(team); // Team 객체로 굿즈 목록 조회
+    //굿즈 전체 목록 출력
+    public List<Goods> findByTeam(UUID teamuuid) {
+        Team team = teamDAO.findById(teamuuid).orElse(null);
+        if (teamuuid != null) {
+            return goodsDAO.findByTeam(team);
         }
-        return Collections.emptyList(); // 팀이 존재하지 않을 경우 빈 리스트 반환
+        return Collections.emptyList();
+    }
+
+    //굿즈 카테고리별 목록 출력
+    public List<Goods> findByTeamuuidAndCategory(UUID teamuuid, GoodsCategory category) {
+        Team team = teamDAO.findById(teamuuid).orElse(null);
+        if (teamuuid != null && category != null) {
+            return goodsDAO.findByTeamAndCategory(team, category);
+        }
+        return Collections.emptyList();
     }
 
     //굿즈 상세보기 출력
