@@ -40,4 +40,8 @@ public class Team {
 
     @Transient
     private MultipartFile uploadfile;
+
+    public Team(UUID teamuuid) {
+        this.teamuuid = teamuuid;
+    }
 }

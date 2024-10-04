@@ -1,5 +1,7 @@
 package com.example.fanmon_be.domain.management.controller;
 
+import com.example.fanmon_be.domain.artist.entity.Team;
+import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.management.service.GoodsService;
 import com.example.fanmon_be.domain.management.service.ManagementService;
 import com.example.fanmon_be.domain.shop.goods.entity.Goods;
@@ -41,7 +43,14 @@ public class GoodsController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Goods> createGoods(
             HttpServletRequest request,
-            @Parameter(description = "생성할 상품 정보",required = true) @ModelAttribute Goods goods) {
+            @Parameter(description = "생성할 상품 정보",required = true)
+            @ModelAttribute Goods goods,
+            @RequestParam("managementuuid") UUID managementuuid,
+            @RequestParam("teamuuid") UUID teamuuid) {
+        //프론트에서 넘어온 uuid 정보들 포함시키도록
+        goods.setManagement(new Management(managementuuid));
+        goods.setTeam(new Team(teamuuid));
+
         String path = request.getServletContext().getRealPath("/resources/goodsimg");
         System.out.println("real path : "+path);
         String fname = null;
