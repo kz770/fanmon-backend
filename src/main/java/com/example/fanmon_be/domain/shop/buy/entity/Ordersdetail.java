@@ -10,23 +10,23 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "orderdetail")
+@Table(name = "ordersdetail")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Orderdetail {
+public class Ordersdetail {
 
     @Id
-    @Column(name = "orderdetailuuid", nullable = false)
-    private UUID orderdetailuuid;
+    @Column(name = "ordersdetailuuid", nullable = false)
+    private UUID ordersdetailuuid;
 
     @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name="useruuid", nullable = false)
     private User user;
 
     @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    @JoinColumn(name="orderuuid", nullable = false)
-    private Orders order;
+    @JoinColumn(name="ordersuuid", nullable = false)
+    private Orders orders;
 
     @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name="goodsuuid", nullable = false)

@@ -10,6 +10,11 @@ spring:
     hibernate:
       ddl-auto: update
     generate-ddl: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB  # 최대 파일 사이즈 설정
+      max-request-size: 10MB  # 최대 요청 사이즈 설정
   redis:
     host: localhost
     port: 6379
