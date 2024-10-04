@@ -29,14 +29,14 @@ public class GoodsViewController {
 
     //굿즈 팀별 출력
     @GetMapping("/shop/goods")
-    public ResponseEntity<List<Team>> findAllCategory() {
-        List<Team> category = teamService.findAll();
-        return ResponseEntity.ok(category);
+    public ResponseEntity<List<Team>> findAllTeamList() {
+        List<Team> teamlist = teamService.findAll();
+        return ResponseEntity.ok(teamlist);
     }
 
     //굿즈 카테고리 출력
     @GetMapping("/shop/goods/category")
-    public ResponseEntity<List<String>> getCategory() {
+    public ResponseEntity<List<String>> findAllCategory() {
         List<String> categories = Arrays.stream(GoodsCategory.values())
             .map(Enum::name)
             .collect(Collectors.toList());
@@ -44,9 +44,10 @@ public class GoodsViewController {
     }
 
     //굿즈 목록 출력
-    @GetMapping("/shop/goods/list")
-    public ResponseEntity<List<Goods>> findAllList() {
-        List<Goods> goodsList = goodsViewService.findAll();
+    @GetMapping("/shop/goods/list/{teamuuid}")
+    public ResponseEntity<List<Goods>> findGoodsByCategory(@PathVariable UUID teamuuid, HttpSession session) {
+        session.setAttribute("teamuuid", teamuuid);
+        List<Goods> goodsList = goodsViewService.findByTeamuuid(teamuuid);
         return ResponseEntity.ok(goodsList);
     }
 
