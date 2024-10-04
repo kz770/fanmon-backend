@@ -26,10 +26,6 @@ public class Orders {
     @JoinColumn(name="useruuid", nullable = false)
     private User user;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="goodsuuid", nullable = false)
-    private Goods goods;
-
     private String address;
     private long totalcost;
     private LocalDateTime createdat;

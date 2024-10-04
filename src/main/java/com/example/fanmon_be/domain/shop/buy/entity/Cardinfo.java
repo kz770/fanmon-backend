@@ -31,6 +31,7 @@ public class Cardinfo {
     private String brand;
     private String number;
     private String currency;
+    private long totalcost;
     private String provider;
     private String type;
 }

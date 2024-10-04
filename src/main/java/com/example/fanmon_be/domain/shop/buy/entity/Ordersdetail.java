@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Orderdetail {
+public class Ordersdetail {
 
     @Id
     @Column(name = "orderdetailuuid", nullable = false)
@@ -25,8 +25,8 @@ public class Orderdetail {
     private User user;
 
     @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    @JoinColumn(name="orderuuid", nullable = false)
-    private Orders order;
+    @JoinColumn(name="ordersuuid", nullable = false)
+    private Orders orders;
 
     @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name="goodsuuid", nullable = false)
