@@ -31,7 +31,7 @@ public class GoodsViewService {
     }
 
     //굿즈 카테고리별 목록 출력
-    public List<Goods> findByTeamuuidAndCategory(UUID teamuuid, GoodsCategory category) {
+    public List<Goods> findByTeamAndCategory(UUID teamuuid, GoodsCategory category) {
         Team team = teamDAO.findById(teamuuid).orElse(null);
         if (teamuuid != null && category != null) {
             return goodsDAO.findByTeamAndCategory(team, category);

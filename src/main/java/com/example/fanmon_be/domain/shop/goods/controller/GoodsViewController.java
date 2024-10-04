@@ -27,14 +27,14 @@ public class GoodsViewController {
     @Autowired
     private TeamService teamService;
 
-    //굿즈 팀별 출력
+    //팀별 굿즈샵 출력
     @GetMapping("/shop/goods")
     public ResponseEntity<List<Team>> findAllTeamList() {
         List<Team> teamlist = teamService.findAll();
         return ResponseEntity.ok(teamlist);
     }
 
-    //굿즈 카테고리 출력
+    //굿즈 nav바 카테고리 목록 출력
     @GetMapping("/shop/goods/category")
     public ResponseEntity<List<String>> findAllCategory() {
         List<String> categories = Arrays.stream(GoodsCategory.values())
@@ -43,15 +43,16 @@ public class GoodsViewController {
         return ResponseEntity.ok(categories);
     }
 
-    //굿즈 전체 목록 출력
-    @GetMapping("/shop/goods/list/{teamuuid}")
+    //전체 굿즈 목록 출력
+    @GetMapping("/shop/goods/list/{teamuuid}/all")
     public ResponseEntity<List<Goods>> findGoodsByCategory(@PathVariable UUID teamuuid, HttpSession session) {
         session.setAttribute("teamuuid", teamuuid);
+        session.setAttribute("category", null);
         List<Goods> goodsList = goodsViewService.findByTeam(teamuuid);
         return ResponseEntity.ok(goodsList);
     }
 
-    //굿즈 카테고리 목록 출력
+    //카테고리별 굿즈 목록 출력
     @GetMapping("/shop/goods/list/{teamuuid}/{category}")
     public ResponseEntity<List<Goods>> findGoodsByCategory(@PathVariable UUID teamuuid, @PathVariable String category, HttpSession session) {
 
@@ -59,12 +60,12 @@ public class GoodsViewController {
         try {
             goodsCategory = GoodsCategory.valueOf(category.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build(); // 잘못된 category 값일 경우 400 Bad Request 반환
+            return ResponseEntity.badRequest().build();
         }
 
         session.setAttribute("teamuuid", teamuuid);
         session.setAttribute("category", goodsCategory);
-        List<Goods> goodsList = goodsViewService.findByTeamuuidAndCategory(teamuuid, goodsCategory);
+        List<Goods> goodsList = goodsViewService.findByTeamAndCategory(teamuuid, goodsCategory);
         return ResponseEntity.ok(goodsList);
     }
 
