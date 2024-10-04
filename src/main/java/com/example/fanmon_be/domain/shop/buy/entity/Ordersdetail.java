@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "orderdetail")
+@Table(name = "ordersdetail")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Ordersdetail {
 
     @Id
-    @Column(name = "orderdetailuuid", nullable = false)
-    private UUID orderdetailuuid;
+    @Column(name = "ordersdetailuuid", nullable = false)
+    private UUID ordersdetailuuid;
 
     @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name="useruuid", nullable = false)
