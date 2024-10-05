@@ -2,6 +2,7 @@ package com.example.fanmon_be.domain.artist.service;
 
 import com.example.fanmon_be.domain.artist.dao.TeamDAO;
 import com.example.fanmon_be.domain.artist.entity.Team;
+import com.example.fanmon_be.domain.management.service.ManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,9 @@ public class TeamService {
 
     public Team findById(UUID uuid){
         return teamDAO.findById(uuid).get();
+    }
+
+    public List<Team> getTeamsByManagementUuid(UUID managementUuid){
+        return teamDAO.findByManagementManagementuuid(managementUuid);
     }
 }
