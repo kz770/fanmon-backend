@@ -48,6 +48,7 @@ public class SecurityConfig {
                                 "/{artistuuid}", "/sub/{artistuuid}", "/{artistuuid}/{useruuid}", "/sub/{artistuuid}/{useruuid}",
                                 "/shop/cart", "/shop/goods", "/shop/goods/category", "/shop/goods/list/{teamuuid}/all", "/shop/goods/list/{teamuuid}/{category}", "/shop/goods/detail/{goodsuuid}",
                                 "/users/signup", "/users/login", "/management/signup", "/management/login",
+                                "/users/{useruuid}/myprofile",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()

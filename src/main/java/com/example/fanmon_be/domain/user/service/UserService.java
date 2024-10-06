@@ -1,10 +1,7 @@
 package com.example.fanmon_be.domain.user.service;
 
 import com.example.fanmon_be.domain.user.dao.UserDAO;
-import com.example.fanmon_be.domain.user.dto.LoginRequest;
-import com.example.fanmon_be.domain.user.dto.LoginResponse;
-import com.example.fanmon_be.domain.user.dto.SignUpRequest;
-import com.example.fanmon_be.domain.user.dto.UserResponse;
+import com.example.fanmon_be.domain.user.dto.*;
 import com.example.fanmon_be.domain.user.entity.User;
 import com.example.fanmon_be.domain.user.enums.Role;
 import com.example.fanmon_be.domain.user.enums.UserStatus;
@@ -14,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -63,5 +62,20 @@ public class UserService {
         return new LoginResponse(
                 accessToken
         );
+    }
+
+    public UserResponse findById(UUID useruuid){
+        User user = userDAO.findById(useruuid)
+                .orElseThrow(() -> new ModelNotFoundException(useruuid.toString()));
+        return user.toResponse();
+    }
+
+    public UserResponse updateUser(UUID useruuid, UpdateUserRequest request){
+       User user = userDAO.findById(useruuid)
+               .orElseThrow(() -> new ModelNotFoundException(useruuid.toString()));
+       user.setPassword(passwordEncoder.encode(request.getPassword()));
+       user.setPhone(request.getPhone());
+       user.setAddress(request.getAddress());
+       return userDAO.save(user).toResponse();
     }
 }
