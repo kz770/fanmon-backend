@@ -9,6 +9,7 @@ import com.example.fanmon_be.domain.user.dao.UserDAO;
 import com.example.fanmon_be.domain.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -62,7 +63,7 @@ public class CartService {
     }
 
     //장바구니에 있는 특정 상품의 수량 업데이트
-    public boolean updateQty(UUID useruuid, UUID goodsuuid, int qty) {
+    public boolean plusQty(UUID useruuid, UUID goodsuuid, long qty) {
         Cart cart = cartDAO.findByUserUseruuidAndGoodsGoodsuuid(useruuid, goodsuuid);
 
         if (cart != null) {
@@ -74,6 +75,45 @@ public class CartService {
         } else {
             return false; // 레코드가 없는 경우 업데이트 실패
         }
+    }
+
+    //장바구니 리스트에 담긴 목록 수량 변경
+    public boolean updateQty(UUID useruuid, UUID goodsuuid, long qty) {
+        Cart cart = cartDAO.findByUserUseruuidAndGoodsGoodsuuid(useruuid, goodsuuid);
+
+        if (cart != null) {
+            cart.setQty(qty); // 기존 수량에 전달받은 qty만큼 더하기
+            System.out.println("엔티티 저장 전");
+            cartDAO.save(cart); // 변경된 엔티티 저장
+            System.out.println("엔티티에 저장함");
+            return true;
+        } else {
+            return false; // 레코드가 없는 경우 업데이트 실패
+        }
+    }
+
+    //장바구니 상품 삭제
+//    트랜잭션 허용해주시면 쓸게용.. 근데 이 어노테이션 없이도 잘만 돌아갑니덩
+//    @Transactional
+    public boolean deleteCartItem(UUID useruuid, Long cartsequence) {
+        boolean result = false;
+        User user = userDAO.findById(useruuid).orElse(null);
+
+        try {
+            //사용자 UUID와 cartSequence로 카트를 조회
+            Optional<Cart> optionalCart = cartDAO.findByUserAndCartsequence(user, cartsequence);
+
+            //카트가 존재하고, 사용자가 해당 카트의 소유자인지 확인
+            if (optionalCart.isPresent()) {
+                cartDAO.deleteByCartsequence(cartsequence);
+                result = true;
+            } else {
+                System.out.println("해당 카트가 존재하지 않거나, 사용자가 소유하지 않는 카트입니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 
