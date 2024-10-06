@@ -3,6 +3,7 @@ package com.example.fanmon_be.domain.shop.goods.entity;
 import com.example.fanmon_be.domain.artist.entity.Team;
 import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.shop.goods.enums.GoodsCategory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,5 +49,7 @@ public class Goods {
     private String description;
 
     @Transient
+    @JsonIgnore // 직렬화 시 무시하도록 설정
     private MultipartFile uploadfile;
+
 }

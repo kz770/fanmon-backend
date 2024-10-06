@@ -64,4 +64,8 @@ public class Management extends BaseEntity {
                 this.businessno
         );
     }
+
+    public Management(UUID managementuuid) {
+        this.managementuuid = managementuuid;
+    }
 }
