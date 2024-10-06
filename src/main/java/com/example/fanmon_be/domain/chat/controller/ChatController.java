@@ -13,6 +13,7 @@ import com.example.fanmon_be.domain.user.enums.UserStatus;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -22,10 +23,10 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
-@Controller
+@RestController
 public class ChatController {
 
     @Autowired
@@ -36,27 +37,39 @@ public class ChatController {
     UserDAO userDAO;
     @Autowired
     private MessageService messageService;
-    
-    // 임시 세션유지
-    public UUID useruuid = UUID.fromString("0cf55a0d-a2a5-443b-af46-835d70874c40");
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private ArtistDAO artistDAO;
+    private static final String USER_TYPE = "USER:";
+    private static final String ARTIST_TYPE = "ARTIST:";
+
+    // 메세지 리스트를 반환
+    @ResponseBody
+    @GetMapping("/chat/messages/{chatuuid}")
+    public List<Message> list(@PathVariable UUID chatuuid){
+        List<Message> messages=messageService.findByChatuuid(chatuuid);
+        return messages;
+    }
 
     // 아티스트 -> 유저 메세지 전송 메서드
     @MessageMapping("/{artistuuid}/toFans")    // uuid로 메세지를 발행한 아티스트 구분
     @SendTo("/sub/{artistuuid}/toFans")    // 특정 artist를 구독한 유저 모두에게 메세지 전송
     public Message sendFromArtist(@Payload Message message, @DestinationVariable UUID artistuuid) {
-        System.out.println("send from artist"+"message = " + message.getMessagetext()+" from = "+message.getMessageFrom());
-//        messageService.save(message);
+        message.setTimestamp(LocalDateTime.now());
+        System.out.println("message : "+message);
+        redisTemplate.opsForList().rightPush(ARTIST_TYPE + artistuuid, message);
+//        System.out.println(redisTemplate.opsForList().leftPop(ARTIST_TYPE+"*")); // 왜 안먹히지..?
         return message;
     }
     //유저 -> 아티스트 메세지 전송 메서드
     @MessageMapping("/{artistuuid}/{useruuid}/toArtist")     // 어떤 아티스트에게 어떤 유저가 메세지를 발행했는지 구분
     @SendTo("/sub/{artistuuid}/fromFans")     // 특정 아티스트에게 모든 유저의 메세지 전송
     public Message sendFromFan(@Payload Message message, @DestinationVariable UUID artistuuid, @DestinationVariable UUID useruuid) {
-        System.out.println("send from fans"+"message = " + message.getMessagetext()+" from = "+message.getMessageFrom());
-        System.out.println("useruuid : "+message.getUser().getUseruuid());
-//        messageService.save(message);
+        // 레디스에 메세지 임시저장
+        redisTemplate.opsForList().rightPush(USER_TYPE + useruuid, message);
+        System.out.println("message : "+message.getMessagetext());
+
         return message;
     }
 
