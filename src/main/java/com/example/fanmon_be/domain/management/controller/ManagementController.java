@@ -24,7 +24,7 @@ public class ManagementController {
     @Operation(summary = "management 회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ManagementResponse> signUp(@Valid @RequestBody ManagementSignUpRequest request){
-        return ResponseEntity.status(HttpStatus.OK).body(managementService.signUp(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(managementService.signUp(request));
     }
 
     @Operation(summary = "management 로그인")
@@ -32,6 +32,4 @@ public class ManagementController {
     public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest request) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(managementService.login(request));
     }
-
-
 }
