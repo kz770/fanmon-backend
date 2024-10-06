@@ -9,29 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
+@RequestMapping("/shop/cart")
 public class CartController {
 
     @Autowired
     private CartService cartService;
 
-//    @GetMapping("/shop/cart/list")
-//    public ResponseEntity<List<Cart>> getAllCartsWithGoods(Model model) {
-//        List<Cart> cartList = cartService.findAll();
-//        return ResponseEntity.ok(cartList);
-//    }
-
     //유저별 장바구니 리스트 출력
-    @GetMapping("/shop/cart/list/{useruuid}")
+    @GetMapping("/list/{useruuid}")
     public ResponseEntity<List<Cart>> getCartByUser(@PathVariable UUID useruuid, HttpSession session) {
         Enumeration<String> attributeNames = session.getAttributeNames();
         while (attributeNames.hasMoreElements()) {
@@ -44,4 +34,28 @@ public class CartController {
         return ResponseEntity.ok(cartList);
 
     }
+
+    // 장바구니에 새 상품 추가
+    @PostMapping("/update/{useruuid}/{goodsuuid}/{qty}")
+    public ResponseEntity<Boolean> inputQty(
+            @PathVariable UUID useruuid,
+            @PathVariable UUID goodsuuid,
+            @PathVariable int qty) {
+
+        boolean result = false;
+
+        if (cartService.existsInCart(useruuid, goodsuuid)) { // 상품이 존재하는지 확인
+            // 상품이 이미 장바구니에 존재하므로 수량만 변경
+            cartService.updateQty(useruuid, goodsuuid, qty);
+            result = true;
+        } else {
+            // 장바구니에 상품이 없으므로 레코드 생성
+            cartService.inputQty(useruuid, goodsuuid, qty);
+            result = true;
+        }
+
+        return ResponseEntity.ok(result); // 성공적인 응답 반환
+    }
+
+
 }
