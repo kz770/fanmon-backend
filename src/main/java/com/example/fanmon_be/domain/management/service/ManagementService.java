@@ -3,6 +3,7 @@ package com.example.fanmon_be.domain.management.service;
 import com.example.fanmon_be.domain.management.dao.ManagementDAO;
 import com.example.fanmon_be.domain.management.dto.ManagementResponse;
 import com.example.fanmon_be.domain.management.dto.ManagementSignUpRequest;
+import com.example.fanmon_be.domain.management.dto.UpdateManagementRequest;
 import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.management.enums.ManagementStatus;
 import com.example.fanmon_be.domain.user.dto.LoginRequest;
@@ -14,6 +15,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class ManagementService {
@@ -64,5 +67,19 @@ public class ManagementService {
         return new LoginResponse(
                 accessToken
         );
+    }
+
+    public ManagementResponse findById(UUID managementuuid) {
+        Management management = managementDAO.findById(managementuuid)
+                .orElseThrow(() -> new ModelNotFoundException(managementuuid.toString()));
+        return management.toResponse();
+    }
+
+    public ManagementResponse updateManagement(UUID managementuuid, UpdateManagementRequest request){
+        Management management = managementDAO.findById(managementuuid)
+                .orElseThrow(() -> new ModelNotFoundException(managementuuid.toString()));
+        management.setPassword(passwordEncoder.encode(request.getPassword()));
+        management.setAddress(request.getAddress());
+        return managementDAO.save(management).toResponse();
     }
 }

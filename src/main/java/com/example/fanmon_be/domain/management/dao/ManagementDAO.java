@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ManagementDAO extends JpaRepository<Management, Integer> {
+public interface ManagementDAO extends JpaRepository<Management, UUID> {
     boolean existsByEmail(String email);
     boolean existsByBusinessno(String businessno);
 
