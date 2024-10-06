@@ -1,11 +1,14 @@
 package com.example.fanmon_be.domain.user.controller;
 
+import com.example.fanmon_be.domain.user.dto.LoginRequest;
+import com.example.fanmon_be.domain.user.dto.LoginResponse;
 import com.example.fanmon_be.domain.user.dto.SignUpRequest;
 import com.example.fanmon_be.domain.user.dto.UserResponse;
 import com.example.fanmon_be.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,5 +31,10 @@ public class UserController {
 //        return ResponseEntity.status(HttpStatus.OK).body(userService.signUp(request));
     }
 
+    @Operation(summary = "로그인")
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest request) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.login(request));
+    }
 
 }

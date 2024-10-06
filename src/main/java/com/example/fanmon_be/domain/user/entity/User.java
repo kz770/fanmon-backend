@@ -1,7 +1,7 @@
 package com.example.fanmon_be.domain.user.entity;
 
 import com.example.fanmon_be.domain.user.dto.UserResponse;
-import com.example.fanmon_be.domain.user.enums.UserRole;
+import com.example.fanmon_be.domain.user.enums.Role;
 import com.example.fanmon_be.domain.user.enums.UserStatus;
 import com.example.fanmon_be.global.BaseEntity;
 import jakarta.persistence.*;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,7 +42,7 @@ public class User extends BaseEntity {
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole role = UserRole.NORMAL;
+    private Role role = Role.USER;
 
     @Column(name="name", nullable = false)
     private String name;

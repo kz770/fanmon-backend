@@ -26,3 +26,8 @@ logging:
     root: warn
     org.springframework: warn
     org.hibernate: warn
+auth:
+  jwt:
+    issuer: fanmon
+    secret: ${JWT_SECRET_KEY}
+    accessTokenExpirationHour : 72  #3일
