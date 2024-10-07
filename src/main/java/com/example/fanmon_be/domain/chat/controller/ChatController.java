@@ -2,7 +2,9 @@ package com.example.fanmon_be.domain.chat.controller;
 
 import com.example.fanmon_be.domain.artist.dao.ArtistDAO;
 import com.example.fanmon_be.domain.artist.entity.Artist;
-import com.example.fanmon_be.domain.chat.entity.Message;
+import com.example.fanmon_be.domain.chat.dao.UserMessageDAO;
+import com.example.fanmon_be.domain.chat.entity.ArtistMessage;
+import com.example.fanmon_be.domain.chat.entity.UserMessage;
 import com.example.fanmon_be.domain.chat.entity.Subscribe;
 import com.example.fanmon_be.domain.chat.service.ChatService;
 import com.example.fanmon_be.domain.chat.service.MessageService;
@@ -10,6 +12,7 @@ import com.example.fanmon_be.domain.chat.service.SubscribeService;
 import com.example.fanmon_be.domain.user.dao.UserDAO;
 import com.example.fanmon_be.domain.user.entity.User;
 import com.example.fanmon_be.domain.user.enums.UserStatus;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +23,10 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.server.UID;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -41,35 +45,87 @@ public class ChatController {
     private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private ArtistDAO artistDAO;
-    private static final String USER_TYPE = "USER:";
-    private static final String ARTIST_TYPE = "ARTIST:";
+//    private static final String USER_TYPE = "USER:";
+//    private static final String ARTIST_TYPE = "ARTIST:";
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private UserMessageDAO userMessageDAO;
 
-    // 메세지 리스트를 반환
-    @ResponseBody
-    @GetMapping("/chat/messages/{chatuuid}")
-    public List<Message> list(@PathVariable UUID chatuuid){
-        List<Message> messages=messageService.findByChatuuid(chatuuid);
-        return messages;
+    // 불량 사용자 차단
+    @Transactional
+    @PostMapping("/chat/block")
+    public void block(String messageuuid){
+        // 레디스 캐시 처리 후 가능 ㅠㅠ
+//        messageService.findById(messageuuid);
+        System.out.println("messageuuid = " + messageuuid);
+//        User user=message.getUser();
+        // 유저 상태 변경
+//        user.setStatus(UserStatus.BANNED);
+//        userDAO.save(user);
     }
+
+//     메세지 리스트를 반환
+//    @ResponseBody
+//    @GetMapping("/chat/messages/{chatuuid}")
+//    public List<UserMessage> list(@PathVariable UUID chatuuid){
+//        // DB에 저장된 메세지 불러오기
+//        List<UserMessage> userMessages=messageService.findUserMessagesByChatuuid(chatuuid);
+//        List<ArtistMessage> artistMessages=messageService.findArtistMessagesByChatuuid(chatuuid);
+//        List<Object> allMessages = new ArrayList<>();
+//        allMessages.addAll(userMessages);
+//        allMessages.addAll(artistMessages);
+//
+//        // 레디스 캐시에 저장된 메세지 불러오기
+//        List<Object> redisMessages=redisTemplate.opsForList().range("ARTIST", 0,-1);
+//        List<UserMessage> convertedRedisMessages = new ArrayList<>();
+//        if (redisMessages==null){
+//            convertedRedisMessages = new ArrayList<>();
+//        }else {
+//            for(Object message:redisMessages){
+//                //Message 객체로 변환
+//                try {
+//                    // Object를 JSON String으로 캐스팅하고, Message 객체로 변환
+//                    String jsonMessage = objectMapper.writeValueAsString(message);
+//                    UserMessage msg = objectMapper.readValue(jsonMessage, UserMessage.class);
+//                    convertedRedisMessages.add(msg);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        allMessages = new ArrayList<>(dbMessages);
+//        allMessages.addAll(convertedRedisMessages);
+//        return allMessages;
+//    }
 
     // 아티스트 -> 유저 메세지 전송 메서드
     @MessageMapping("/{artistuuid}/toFans")    // uuid로 메세지를 발행한 아티스트 구분
     @SendTo("/sub/{artistuuid}/toFans")    // 특정 artist를 구독한 유저 모두에게 메세지 전송
-    public Message sendFromArtist(@Payload Message message, @DestinationVariable UUID artistuuid) {
+    public ArtistMessage sendFromArtist(@Payload ArtistMessage message, @DestinationVariable UUID artistuuid) {
+        // artistuuid로 chatuuid 불러오기
+        UUID chatuuid=chatService.findByArtistuuid(artistuuid);
+        System.out.println("chatuuid = " + chatuuid);
+        // 전송시간과 UUID 설정
         message.setTimestamp(LocalDateTime.now());
+        message.setArtistmessageuuid(UUID.randomUUID());
         System.out.println("message : "+message);
-        redisTemplate.opsForList().rightPush(ARTIST_TYPE + artistuuid, message);
-//        System.out.println(redisTemplate.opsForList().leftPop(ARTIST_TYPE+"*")); // 왜 안먹히지..?
+        redisTemplate.opsForList().rightPush("ARTIST:"+ chatuuid, message);
         return message;
     }
     //유저 -> 아티스트 메세지 전송 메서드
     @MessageMapping("/{artistuuid}/{useruuid}/toArtist")     // 어떤 아티스트에게 어떤 유저가 메세지를 발행했는지 구분
     @SendTo("/sub/{artistuuid}/fromFans")     // 특정 아티스트에게 모든 유저의 메세지 전송
-    public Message sendFromFan(@Payload Message message, @DestinationVariable UUID artistuuid, @DestinationVariable UUID useruuid) {
+    public UserMessage sendFromFan(@Payload UserMessage message, @DestinationVariable UUID artistuuid, @DestinationVariable UUID useruuid) {
+        // artistuuid로 chatuuid 불러오기
+        UUID chatuuid=chatService.findByArtistuuid(artistuuid);
+        System.out.println("chatuuid = " + chatuuid);
+        // 전송시간과 UUID 설정
+        message.setTimestamp(LocalDateTime.now());
+        message.setUsermessageuuid(UUID.randomUUID());
         // 레디스에 메세지 임시저장
-        redisTemplate.opsForList().rightPush(USER_TYPE + useruuid, message);
-        System.out.println("message : "+message.getMessagetext());
-
+        redisTemplate.opsForList().rightPush("USER:" + chatuuid, message);
+        System.out.println("message : "+message);
         return message;
     }
 

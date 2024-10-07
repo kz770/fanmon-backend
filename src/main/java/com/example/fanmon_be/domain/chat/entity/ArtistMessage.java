@@ -11,40 +11,32 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name="message")
+@Table(name="artistmessage")
 @Data
-public class Message implements Serializable {
+public class ArtistMessage {
     @Id
-    private UUID messageuuid;
+    private UUID artistmessageuuid;
     @PrePersist
     protected void onCreate() {
-        if (messageuuid==null){
-            this.messageuuid = UUID.randomUUID();
+        if (artistmessageuuid==null){
+            this.artistmessageuuid = UUID.randomUUID();
         }
     }
+
     private String messagetext;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 
     @ManyToOne
     @JoinColumn(name="artistuuid")
     private Artist artist;
-
-    @ManyToOne
-    @JoinColumn(name="useruuid", nullable = true)
-    private User user;
-
-    @Column(name="messagefrom", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private MessageFrom messageFrom;
 
     @ManyToOne
     @JoinColumn(name="chatuuid")

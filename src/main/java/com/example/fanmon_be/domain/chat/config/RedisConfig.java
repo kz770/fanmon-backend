@@ -1,8 +1,6 @@
 package com.example.fanmon_be.domain.chat.config;
 
-import com.example.fanmon_be.domain.chat.entity.Message;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
