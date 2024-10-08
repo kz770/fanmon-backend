@@ -11,7 +11,8 @@ import java.util.UUID;
 @Repository
 public interface TeamDAO extends JpaRepository<Team, UUID> {
     //Managementuuid로 소속 팀 찾기
-    public List<Team> findByManagementManagementuuid(UUID managementuuid);
+    List<Team> findByManagementManagementuuid(UUID managementuuid);
 
-    public Team findByTeamuuid(UUID teamuuid);
+    Team findByTeamuuid(UUID teamuuid);
+
 }

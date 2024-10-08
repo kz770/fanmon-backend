@@ -18,6 +18,6 @@ public interface GoodsDAO extends JpaRepository<Goods, UUID> {
     List<Goods> findByTeamAndCategory(Team team, GoodsCategory category);
 
     List<Goods> findByTeamTeamuuid(UUID teamuuid);
-    @Modifying
-    void deleteGoodsByGoodsuuid(UUID goodsuuid);
+
+    Goods findByGoodsuuid(UUID goodsuuid);
 }

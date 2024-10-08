@@ -69,14 +69,17 @@ public class GoodsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdGoods);
     }
 
+    //굿즈 수정 UPDATE
     @PutMapping("/{goodsuuid}")
     public ResponseEntity<Goods> updateGoods(
             @PathVariable UUID goodsuuid,
             HttpServletRequest request,
             @ModelAttribute Goods goods,
-            @RequestParam("managementuuid") UUID managementuuid){
-        System.out.println(managementuuid);
+            @RequestParam("managementuuid") UUID managementuuid,
+            @RequestParam("teamuuid") UUID teamuuid){
+        System.out.println("굿즈 수정하는 managementuuid : "+managementuuid+"\n팀 teamuuid : "+teamuuid);
         goods.setManagement(new Management(managementuuid));
+        goods.setTeam(new Team(teamuuid));
         //업뎃된 파일 있으면 그걸로 fname set해서 db에 저장
         String oldFname = goods.getFname();
         MultipartFile uploadfile = goods.getUploadfile();
@@ -108,16 +111,15 @@ public class GoodsController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedGoods);
     }
 
-    @Operation(summary = "상품 삭제", description = "특정 상품을 삭제합니다.")
+    //굿즈 삭제 DELETE
     @DeleteMapping("/{goodsuuid}")
-    public ResponseEntity<Goods> deleteGoods(
-            @Parameter(description = "삭제할 상품 uuid : ", required = true) @PathVariable UUID goodsuuid){
+    public ResponseEntity<Goods> deleteGoods(@PathVariable UUID goodsuuid){
         System.out.println("삭제할 goodsuuid : "+goodsuuid);
         goodsService.deleteGoods(goodsuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Operation(summary = "상품 조회", description = "특정 상품을 조회합니다.")
+    //굿즈 디테일
     @GetMapping("/{goodsuuid}")
     public ResponseEntity<Goods> getGoods(
             @PathVariable UUID goodsuuid){
