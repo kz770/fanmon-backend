@@ -19,4 +19,11 @@ public class SubscribeService {
         }
         return null;
     }
+    public Subscribe getSubscription2(UUID useruuid, UUID chatuuid){
+        Subscribe subscribe = dao.findByUserUseruuidAndChatChatuuid(useruuid, chatuuid);
+        if (subscribe != null){
+            return subscribe;
+        }
+        return null;
+    }
 }
