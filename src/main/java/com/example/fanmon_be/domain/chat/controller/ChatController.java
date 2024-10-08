@@ -2,7 +2,6 @@ package com.example.fanmon_be.domain.chat.controller;
 
 import com.example.fanmon_be.domain.artist.dao.ArtistDAO;
 import com.example.fanmon_be.domain.artist.entity.Artist;
-import com.example.fanmon_be.domain.chat.dao.UserMessageDAO;
 import com.example.fanmon_be.domain.chat.entity.ArtistMessage;
 import com.example.fanmon_be.domain.chat.entity.UserMessage;
 import com.example.fanmon_be.domain.chat.entity.Subscribe;
@@ -12,9 +11,7 @@ import com.example.fanmon_be.domain.chat.service.SubscribeService;
 import com.example.fanmon_be.domain.user.dao.UserDAO;
 import com.example.fanmon_be.domain.user.entity.User;
 import com.example.fanmon_be.domain.user.enums.UserStatus;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +24,10 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.rmi.server.UID;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -51,45 +47,20 @@ public class ChatController {
     @Autowired
     private ArtistDAO artistDAO;
     @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private UserMessageDAO userMessageDAO;
+    private ServletContext servletContext;
 
     //이미지 전송 메서드
-    @MessageMapping("/sendImage")
-    @SendTo("/sub/{artistuuid}/toFans")
-    public void handleImageMessage(@Payload ArtistMessage message) {
-        // 메시지에서 Base64 인코딩된 이미지 데이터 추출
-        int index = message.getMessagetext().indexOf("/");
-        String fname = message.getMessagetext().substring(0,index).trim();
-        System.out.println("fname = " + fname);
-        String imageData=message.getMessagetext().substring(index+1).trim();
-        FileOutputStream fos = null;
-//        String path=req.getServletContext().getRealPath("/resources/images");
-//        System.out.println("path = " + path);
-//            try {
-//                JsonNode jsonNode = new ObjectMapper().readTree(message.getMessagetext());
-//                imageData = jsonNode.get("imageData").asText();
-//                // 이미지 데이터 처리
-//                String base64Image = imageData.split(",")[1]; // "data:image/png;base64," 부분 제거
-//                byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-//
-//                File file = new File("src/main/webapp/images/image.png"); // 원하는 경로와 파일 이름
-//                fos = new FileOutputStream(file);
-//                fos.write(imageBytes);
-//            } catch (Exception e) {
-//                e.printStackTrace(); // 예외 처리
-//            } finally {
-//                try {
-//                    if (fos != null) {
-//                        fos.close(); // 파일 스트림 닫기
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-            // 필요 시 클라이언트에 다른 메시지 전송
-            // Simulate sending back the same image data (for demonstration)
+    @PostMapping("/chat/sendImage")
+    public ResponseEntity<String> sendImage(@RequestParam("image") MultipartFile file) {
+        String savePath = servletContext.getRealPath("/resources/chat/"+file.getOriginalFilename());
+        try {
+            file.transferTo(new File(savePath)); // 파일 저장
+            String returnPath = "http://localhost:8080/resources/chat/" + file.getOriginalFilename();
+            System.out.println("path = " + returnPath);
+            return ResponseEntity.ok(returnPath); // 이미지 url을 리턴한다
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
+        }
     }
 
     // 불량 사용자 차단
@@ -103,7 +74,7 @@ public class ChatController {
         return useruuid;
     }
 
-//     메세지 리스트를 반환
+    //메세지 리스트를 반환
     @ResponseBody
     @GetMapping("/chat/messages/{chatuuid}")
     public List<Object> list(@PathVariable UUID chatuuid){
