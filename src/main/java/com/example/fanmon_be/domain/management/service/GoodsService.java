@@ -2,13 +2,13 @@ package com.example.fanmon_be.domain.management.service;
 
 import com.example.fanmon_be.domain.artist.dao.TeamDAO;
 import com.example.fanmon_be.domain.artist.entity.Team;
-import com.example.fanmon_be.domain.artist.service.TeamService;
 import com.example.fanmon_be.domain.management.dao.ManagementDAO;
 import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.shop.goods.dao.GoodsDAO;
 import com.example.fanmon_be.domain.shop.goods.entity.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,12 +40,14 @@ public class GoodsService {
         goods.setGoodsuuid(goodsuuid);
         return goodsDAO.save(goods);
     }
-
+    @Transactional
     public void deleteGoods(UUID goodsuuid) {
-        goodsDAO.deleteById(goodsuuid);
+        goodsDAO.deleteGoodsByGoodsuuid(goodsuuid);
     }
 
     public Goods getGoodsById(UUID goodsuuid) {
         return goodsDAO.findById(goodsuuid).orElse(null);
     }
+
+    public List<Goods> getGoodsByTeamuuid(UUID teamuuid) { return goodsDAO.findByTeamTeamuuid(teamuuid); }
 }
