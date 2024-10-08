@@ -95,14 +95,12 @@ public class ChatController {
     // 불량 사용자 차단
     @Transactional
     @PostMapping("/chat/block")
-    public void block(UUID messageuuid){
-        // 레디스 캐시 처리 후 가능 ㅠㅠ
-        UserMessage userMessage = messageService.findById(messageuuid);
-        System.out.println("userMessage = " + userMessage);
-        User user=userMessage.getUser();
-        // 유저 상태 변경
+    public UUID block(@RequestParam String uuid){
+        UUID useruuid = UUID.fromString(uuid);
+        User user=userDAO.findById(useruuid).get();
         user.setStatus(UserStatus.BANNED);
-        userDAO.save(user);
+        System.out.println("user = " + user);
+        return useruuid;
     }
 
 //     메세지 리스트를 반환
