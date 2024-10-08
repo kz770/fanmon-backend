@@ -6,10 +6,12 @@ import com.example.fanmon_be.domain.chat.entity.ArtistMessage;
 import com.example.fanmon_be.domain.chat.entity.Chat;
 import com.example.fanmon_be.domain.chat.entity.UserMessage;
 import com.example.fanmon_be.domain.user.dao.UserDAO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.lang.runtime.ObjectMethods;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -23,6 +25,8 @@ public class MessageService {
     private UserDAO userDAO;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    ObjectMapper objectMapper;
 
     // 유저 메세지 메서드
     public void save(UserMessage message){
@@ -34,6 +38,9 @@ public class MessageService {
     public List<UserMessage> findUserMessagesByChatuuid(UUID chatuuid){
         return userMessageDAO.findByChatChatuuid(chatuuid);
     }
+    public UserMessage findById(UUID uuid){
+        return userMessageDAO.findById(uuid).get();
+    }
 
     // 아티스트 메세지
     public void saveAllArtistMessages(List<ArtistMessage> messages) {
@@ -41,9 +48,6 @@ public class MessageService {
     }
     public List<ArtistMessage> findArtistMessagesByChatuuid(UUID chatuuid) {
         return artistMessageDAO.findByChatChatuuid(chatuuid);
-    }
-    public UUID findChatuuid(UUID artistuuid){
-        return artistMessageDAO.findChatChatuuidByArtistArtistuuid(artistuuid);
     }
 
     // 전체 합친 메세지
@@ -58,11 +62,42 @@ public class MessageService {
         allMessages.addAll(userMessages);
         allMessages.addAll(artistMessages);
 
+        // 레디스 캐시에 저장된 메세지 불러오기
+        List<Object> artistRedisMessages = redisTemplate.opsForList().range("ARTIST:" + chatUuid, 0, -1);
+        List<Object> userRedisMessages = redisTemplate.opsForList().range("USER:" + chatUuid, 0, -1);
+
+        List<Object> convertedRedisMessages = new ArrayList<>();
+        if (artistRedisMessages != null) {
+            for (Object message : artistRedisMessages) {
+                try {
+                    // Object를 JSON String으로 캐스팅하고, ArtistMessage 객체로 변환
+                    String jsonMessage = objectMapper.writeValueAsString(message);
+                    ArtistMessage msg = objectMapper.readValue(jsonMessage, ArtistMessage.class);
+                    convertedRedisMessages.add(msg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (userRedisMessages != null) {
+            for (Object message : userRedisMessages) {
+                try {
+                    // Object를 JSON String으로 캐스팅하고, UserMessage 객체로 변환
+                    String jsonMessage = objectMapper.writeValueAsString(message);
+                    UserMessage msg = objectMapper.readValue(jsonMessage, UserMessage.class);
+                    convertedRedisMessages.add(msg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        allMessages.addAll(convertedRedisMessages);
         // 타임스탬프 기준으로 정렬 (내림차순)
         allMessages.sort((m1, m2) -> {
             LocalDateTime timestamp1 = getMessageTimestamp(m1);
             LocalDateTime timestamp2 = getMessageTimestamp(m2);
-            return timestamp2.compareTo(timestamp1); // 내림차순 정렬
+            return timestamp2.compareTo(timestamp2); // 내림차순 정렬
         });
 
         return allMessages;
@@ -78,11 +113,4 @@ public class MessageService {
         throw new IllegalArgumentException("메세지 타입 에러: " + message.getClass());
     }
 
-    public static void main(String[] args) {
-        UUID artistuuid=UUID.fromString("ca5a5a75-809c-11ef-b4db-0a2a78c30fc9");
-        System.out.println("uuid 생성");
-        UUID chatuuid=new MessageService().findChatuuid(artistuuid);
-
-        System.out.println(chatuuid);
-    }
 }

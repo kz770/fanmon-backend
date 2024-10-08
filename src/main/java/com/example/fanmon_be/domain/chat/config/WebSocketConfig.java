@@ -18,11 +18,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         config.enableSimpleBroker("/sub");
 //         클라이언트가 이 경로로 메세지를 보내면 해당 메세지는 지정된 컨트롤러 메서드로 자동 라우팅
         config.setApplicationDestinationPrefixes("/pub");
-        // Redis를 이용한 메시지 브로커 사용
-//        config.enableStompBrokerRelay("/sub")
-//                .setRelayHost("localhost")   // Redis 호스트 주소
-//                .setRelayPort(6379);          // Redis 포트
-//        config.setApplicationDestinationPrefixes("/pub");
+
+//        config.setMaxMessageSize(1024 * 1024 * 5);
     }
 
     @Override
@@ -33,6 +30,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/chat/ws")
                 .setAllowedOrigins("http://localhost:3000")
                 .withSockJS();
+
         // socketjs 를 사용하면 브라우저가 websocket을 지원하지 않을 경우 대체 프로토콜(ex ajax polling)을 통해 연결
         // 호환성 향상
     }

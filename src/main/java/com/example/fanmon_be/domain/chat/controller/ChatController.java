@@ -12,7 +12,9 @@ import com.example.fanmon_be.domain.chat.service.SubscribeService;
 import com.example.fanmon_be.domain.user.dao.UserDAO;
 import com.example.fanmon_be.domain.user.entity.User;
 import com.example.fanmon_be.domain.user.enums.UserStatus;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.rmi.server.UID;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -45,59 +50,68 @@ public class ChatController {
     private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private ArtistDAO artistDAO;
-//    private static final String USER_TYPE = "USER:";
-//    private static final String ARTIST_TYPE = "ARTIST:";
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private UserMessageDAO userMessageDAO;
 
-    // 불량 사용자 차단
-    @Transactional
-    @PostMapping("/chat/block")
-    public void block(String messageuuid){
-        // 레디스 캐시 처리 후 가능 ㅠㅠ
-//        messageService.findById(messageuuid);
-        System.out.println("messageuuid = " + messageuuid);
-//        User user=message.getUser();
-        // 유저 상태 변경
-//        user.setStatus(UserStatus.BANNED);
-//        userDAO.save(user);
-    }
-
-//     메세지 리스트를 반환
-//    @ResponseBody
-//    @GetMapping("/chat/messages/{chatuuid}")
-//    public List<UserMessage> list(@PathVariable UUID chatuuid){
-//        // DB에 저장된 메세지 불러오기
-//        List<UserMessage> userMessages=messageService.findUserMessagesByChatuuid(chatuuid);
-//        List<ArtistMessage> artistMessages=messageService.findArtistMessagesByChatuuid(chatuuid);
-//        List<Object> allMessages = new ArrayList<>();
-//        allMessages.addAll(userMessages);
-//        allMessages.addAll(artistMessages);
+    //이미지 전송 메서드
+    @MessageMapping("/sendImage")
+    @SendTo("/sub/{artistuuid}/toFans")
+    public void handleImageMessage(@Payload ArtistMessage message) {
+        // 메시지에서 Base64 인코딩된 이미지 데이터 추출
+        int index = message.getMessagetext().indexOf("/");
+        String fname = message.getMessagetext().substring(0,index).trim();
+        System.out.println("fname = " + fname);
+        String imageData=message.getMessagetext().substring(index+1).trim();
+        FileOutputStream fos = null;
+//        String path=req.getServletContext().getRealPath("/resources/images");
+//        System.out.println("path = " + path);
+//            try {
+//                JsonNode jsonNode = new ObjectMapper().readTree(message.getMessagetext());
+//                imageData = jsonNode.get("imageData").asText();
+//                // 이미지 데이터 처리
+//                String base64Image = imageData.split(",")[1]; // "data:image/png;base64," 부분 제거
+//                byte[] imageBytes = Base64.getDecoder().decode(base64Image);
 //
-//        // 레디스 캐시에 저장된 메세지 불러오기
-//        List<Object> redisMessages=redisTemplate.opsForList().range("ARTIST", 0,-1);
-//        List<UserMessage> convertedRedisMessages = new ArrayList<>();
-//        if (redisMessages==null){
-//            convertedRedisMessages = new ArrayList<>();
-//        }else {
-//            for(Object message:redisMessages){
-//                //Message 객체로 변환
+//                File file = new File("src/main/webapp/images/image.png"); // 원하는 경로와 파일 이름
+//                fos = new FileOutputStream(file);
+//                fos.write(imageBytes);
+//            } catch (Exception e) {
+//                e.printStackTrace(); // 예외 처리
+//            } finally {
 //                try {
-//                    // Object를 JSON String으로 캐스팅하고, Message 객체로 변환
-//                    String jsonMessage = objectMapper.writeValueAsString(message);
-//                    UserMessage msg = objectMapper.readValue(jsonMessage, UserMessage.class);
-//                    convertedRedisMessages.add(msg);
+//                    if (fos != null) {
+//                        fos.close(); // 파일 스트림 닫기
+//                    }
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
 //            }
-//        }
-//        allMessages = new ArrayList<>(dbMessages);
-//        allMessages.addAll(convertedRedisMessages);
-//        return allMessages;
-//    }
+            // 필요 시 클라이언트에 다른 메시지 전송
+            // Simulate sending back the same image data (for demonstration)
+    }
+
+    // 불량 사용자 차단
+    @Transactional
+    @PostMapping("/chat/block")
+    public void block(UUID messageuuid){
+        // 레디스 캐시 처리 후 가능 ㅠㅠ
+        UserMessage userMessage = messageService.findById(messageuuid);
+        System.out.println("userMessage = " + userMessage);
+        User user=userMessage.getUser();
+        // 유저 상태 변경
+        user.setStatus(UserStatus.BANNED);
+        userDAO.save(user);
+    }
+
+//     메세지 리스트를 반환
+    @ResponseBody
+    @GetMapping("/chat/messages/{chatuuid}")
+    public List<Object> list(@PathVariable UUID chatuuid){
+        // DB에 저장된 메세지 불러오기
+        return messageService.getAllMessages(chatuuid);
+    }
 
     // 아티스트 -> 유저 메세지 전송 메서드
     @MessageMapping("/{artistuuid}/toFans")    // uuid로 메세지를 발행한 아티스트 구분

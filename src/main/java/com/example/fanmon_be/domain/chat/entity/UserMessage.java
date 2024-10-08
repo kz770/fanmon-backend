@@ -46,4 +46,6 @@ public class UserMessage implements Serializable {
     @ManyToOne
     @JoinColumn(name="chatuuid")
     private Chat chat;
+
+    private String type = "USER";
 }

@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface UserMessageDAO extends JpaRepository<UserMessage, Long> {
+public interface UserMessageDAO extends JpaRepository<UserMessage, UUID> {
     public List<UserMessage> findByChatChatuuid(UUID uuid);
 }

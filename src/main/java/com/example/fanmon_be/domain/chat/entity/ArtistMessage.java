@@ -41,4 +41,5 @@ public class ArtistMessage {
     @ManyToOne
     @JoinColumn(name="chatuuid")
     private Chat chat;
+    private String type = "ARTIST";
 }
