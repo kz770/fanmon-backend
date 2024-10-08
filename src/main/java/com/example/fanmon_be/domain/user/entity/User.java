@@ -21,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User extends BaseEntity {
+public class  User extends BaseEntity {
     @Id
     @Column(name = "useruuid", nullable = false)
     private UUID useruuid;
