@@ -52,14 +52,12 @@ public class ChatController {
     //이미지 전송 메서드
     @PostMapping("/chat/sendImage")
     public ResponseEntity<String> sendImage(@RequestParam("image") MultipartFile file) {
-        String filename = file.getOriginalFilename();
-        // 메시지에서 Base64 인코딩된 이미지 데이터 추출
-        System.out.println("message = " + filename);
-        String path = servletContext.getRealPath("/resources/chat/"+filename);
-        System.out.println("path = " + path);
+        String savePath = servletContext.getRealPath("/resources/chat/"+file.getOriginalFilename());
         try {
-            file.transferTo(new File(path)); // 파일 저장
-            return ResponseEntity.ok("Image uploaded successfully: " + filename);
+            file.transferTo(new File(savePath)); // 파일 저장
+            String returnPath = "http://localhost:8080/resources/chat/" + file.getOriginalFilename();
+            System.out.println("path = " + returnPath);
+            return ResponseEntity.ok(returnPath); // 이미지 url을 리턴한다
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
         }
