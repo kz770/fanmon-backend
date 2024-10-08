@@ -27,7 +27,7 @@ public class GoodsViewController {
     private TeamService teamService;
 
     //팀별 굿즈샵 출력
-    @GetMapping("/")
+    @GetMapping("/main")
     public ResponseEntity<List<Team>> findAllTeamList() {
         List<Team> teamlist = teamService.findAll();
         return ResponseEntity.ok(teamlist);

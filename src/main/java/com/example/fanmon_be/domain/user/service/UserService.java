@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserService {
     @Autowired
@@ -37,5 +39,10 @@ public class UserService {
                 .build();
 
         return userDAO.save(newUser).toResponse();
+    }
+
+    //예은이가 임의로 추가했습니다 필요하시면 지워주세용
+    public User getUserById(UUID id){
+        return userDAO.findById(id).orElse(null);
     }
 }
