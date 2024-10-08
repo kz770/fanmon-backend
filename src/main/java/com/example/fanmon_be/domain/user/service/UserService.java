@@ -40,6 +40,7 @@ public class UserService {
                 .phone(signUpRequest.getPhone())
                 .address(signUpRequest.getAddress())
                 .birth(signUpRequest.getBirth())
+                .postcode(signUpRequest.getPostcode())
                 .build();
 
         return userDAO.save(newUser).toResponse();
@@ -76,6 +77,7 @@ public class UserService {
        user.setPassword(passwordEncoder.encode(request.getPassword()));
        user.setPhone(request.getPhone());
        user.setAddress(request.getAddress());
+       user.setPostcode(request.getPostcode());
        return userDAO.save(user).toResponse();
     }
 }

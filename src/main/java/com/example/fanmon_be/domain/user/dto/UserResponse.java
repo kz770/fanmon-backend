@@ -19,4 +19,5 @@ public class UserResponse {
     private LocalDate birth;
     private String phone;
     private String address;
+    private String postcode;
 }
