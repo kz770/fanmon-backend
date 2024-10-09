@@ -1,4 +1,19 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-name: google
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            authorization-grant-type: authorization_code
+            scope:
+              - profile
+              - email
+
+
   application:
     name: fanmon_be
   datasource:
@@ -26,3 +41,8 @@ logging:
     root: warn
     org.springframework: warn
     org.hibernate: warn
+auth:
+  jwt:
+    issuer: fanmon
+    secret: ${JWT_SECRET_KEY}
+    accessTokenExpirationHour : 72  #3일

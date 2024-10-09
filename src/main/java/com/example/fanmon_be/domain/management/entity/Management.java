@@ -2,6 +2,7 @@ package com.example.fanmon_be.domain.management.entity;
 
 import com.example.fanmon_be.domain.management.dto.ManagementResponse;
 import com.example.fanmon_be.domain.management.enums.ManagementStatus;
+import com.example.fanmon_be.domain.user.enums.Role;
 import com.example.fanmon_be.global.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -42,6 +43,10 @@ public class Management extends BaseEntity {
 
     private String password;
     private String name;
+
+    @Column(name="role", nullable=false)
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.MANAGEMENT;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
