@@ -9,6 +9,7 @@ import com.example.fanmon_be.domain.artist.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,7 +26,22 @@ public class ArtistTeamService {
         Artist artist = artistDAO.findByArtistuuid(artistuuid);
         ArtistTeam artistTeam = new ArtistTeam();
         artistTeam.setTeam(team);
-        artistTeam.setAritst(artist);
+        artistTeam.setArtist(artist);
         return artistTeamDAO.save(artistTeam);
+    }
+
+    public List<ArtistTeam> getArtistTeamByTeamuuid(UUID teamuuid) {
+        List<ArtistTeam> list = artistTeamDAO.findByTeamTeamuuid(teamuuid);
+        return list;
+    }
+
+    public void deleteArtistTeam(UUID teamuuid) {
+        System.out.println("삭제하려는 관계 teamuuid:  " + teamuuid);
+        List<ArtistTeam> listToDelete = getArtistTeamByTeamuuid(teamuuid); //삭제하려는 관계들
+        for (ArtistTeam artistTeam : listToDelete) { //하나씩 참조 해제하고
+            artistTeam.setArtist(null);
+            artistTeamDAO.save(artistTeam); //변경사항 저장
+            artistTeamDAO.delete(artistTeam); //삭제
+        }
     }
 }
