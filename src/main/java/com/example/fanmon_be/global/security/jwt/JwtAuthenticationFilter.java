@@ -32,36 +32,37 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = getBearerToken(request);
         if (jwt != null) {
             try {
-            Jws<Claims> claimsJws = jwtPlugin.validateToken(jwt);
-            Claims claims = claimsJws.getBody();
+                Jws<Claims> claimsJws = jwtPlugin.validateToken(jwt);
+                Claims claims = claimsJws.getBody();
 
-            UUID userId = UUID.fromString(claims.getSubject()); //uuid 문자열로 가져온뒤 uuid 로 변환
-            String role = claims.get("role", String.class);
-            String email = claims.get("email", String.class);
-            UserPrincipal principal = new UserPrincipal(
-                    userId,
-                    email,
-                    Set.of(role)
-            );
+                UUID userId = UUID.fromString(claims.getSubject()); //uuid 문자열로 가져온뒤 uuid 로 변환
+                String role = claims.get("role", String.class);
+                String email = claims.get("email", String.class);
+                UserPrincipal principal = new UserPrincipal(
+                        userId,
+                        email,
+                        Set.of(role)
+                );
 
-            WebAuthenticationDetailsSource detailsSource = new WebAuthenticationDetailsSource();
-            WebAuthenticationDetails details = detailsSource.buildDetails(request);
+                WebAuthenticationDetailsSource detailsSource = new WebAuthenticationDetailsSource();
+                WebAuthenticationDetails details = detailsSource.buildDetails(request);
 
-            JwtAuthenticationToken authentication = new JwtAuthenticationToken(principal, details);
+                JwtAuthenticationToken authentication = new JwtAuthenticationToken(principal, details);
 
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
         }
+        filterChain.doFilter(request, response);
     }
-    filterChain.doFilter(request, response);
-}
 
     private String getBearerToken(HttpServletRequest request) {
         String headerValue = request.getHeader(HttpHeaders.AUTHORIZATION);

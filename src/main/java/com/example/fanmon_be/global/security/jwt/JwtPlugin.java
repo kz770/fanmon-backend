@@ -40,8 +40,14 @@ public class JwtPlugin {
         }
     }
 
+    //
+//    public String generateAccessToken(String subject, String email, String role) {
+//        return generateToken(subject, email, role, Duration.ofHours(accessTokenExpirationHour));
+//    }
     public String generateAccessToken(String subject, String email, String role) {
-        return generateToken(subject, email, role, Duration.ofHours(accessTokenExpirationHour));
+        // UUID를 생성하고 JWT의 subject로 사용
+//        subject = UUID.randomUUID().toString();
+        return generateToken(subject, email, role, Duration.ofHours(accessTokenExpirationHour)); // 예시로 ROLE_USER 사용
     }
 
     private String generateToken(String subject, String email, String role, Duration expirationPeriod) {

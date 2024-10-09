@@ -1,11 +1,14 @@
 package com.example.fanmon_be.domain.user.controller;
 
 import com.example.fanmon_be.domain.user.dto.*;
+import com.example.fanmon_be.domain.user.service.CustomOAuth2UserService;
 import com.example.fanmon_be.domain.user.service.UserService;
 import com.example.fanmon_be.global.security.UserPrincipal;
+import com.example.fanmon_be.global.security.jwt.JwtPlugin;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,9 +21,14 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-
     @Autowired
     UserService userService;
+
+    @Autowired
+    CustomOAuth2UserService customOAuth2UserService;
+
+    @Autowired
+    JwtPlugin jwtPlugin;
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
