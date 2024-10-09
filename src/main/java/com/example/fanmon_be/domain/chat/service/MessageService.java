@@ -97,7 +97,7 @@ public class MessageService {
         allMessages.sort((m1, m2) -> {
             LocalDateTime timestamp1 = getMessageTimestamp(m1);
             LocalDateTime timestamp2 = getMessageTimestamp(m2);
-            return timestamp2.compareTo(timestamp2); // 내림차순 정렬
+            return timestamp1.compareTo(timestamp2); // 내림차순 정렬
         });
 
         return allMessages;

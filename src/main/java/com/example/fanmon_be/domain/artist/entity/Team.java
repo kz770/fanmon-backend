@@ -1,6 +1,7 @@
 package com.example.fanmon_be.domain.artist.entity;
 
 import com.example.fanmon_be.domain.management.entity.Management;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,7 @@ public class Team {
     private int followers;
 
     @Transient
+    @JsonIgnore
     private MultipartFile uploadfile;
 
     public Team(UUID teamuuid) {
