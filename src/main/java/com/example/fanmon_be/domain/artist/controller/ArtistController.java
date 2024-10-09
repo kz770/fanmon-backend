@@ -24,12 +24,14 @@ public class ArtistController {
     @Autowired
     private ArtistService artistService;
 
+    //접속한 매니지먼트의 아티스트 LIST
     @GetMapping("/list/{managementuuid}")
     public ResponseEntity<List<Artist>> findByManagementUuid(@PathVariable UUID managementuuid) {
         List<Artist> list = artistService.getArtistsByManagementuuid(managementuuid);
         return ResponseEntity.ok(list);
     }
 
+    //아티스트 생성 CREATE
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Artist> createArtist(
             HttpServletRequest request,
@@ -99,14 +101,21 @@ public class ArtistController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedArtist);
     }
 
-    //디테일
+    //아티스트 디테일
     @GetMapping("/{artistuuid}")
     public ResponseEntity<Artist> getArtist(@PathVariable UUID artistuuid) {
-        System.out.println("찾는 artistuuid : "+artistuuid);
+        System.out.println("(DETAIL)찾는 artistuuid : "+artistuuid);
         Artist artist = artistService.getArtistById(artistuuid);
         if (artist == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(artist);
+    }
+
+    //아티스트 삭제 DELETE
+    @DeleteMapping("/{artistuuid}")
+    public ResponseEntity<Artist> deleteArtist(@PathVariable UUID artistuuid) {
+        artistService.deleteArtist(artistuuid);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

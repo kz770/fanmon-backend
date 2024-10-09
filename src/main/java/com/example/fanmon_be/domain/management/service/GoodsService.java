@@ -42,7 +42,17 @@ public class GoodsService {
     }
     @Transactional
     public void deleteGoods(UUID goodsuuid) {
-        goodsDAO.deleteGoodsByGoodsuuid(goodsuuid);
+        Goods goods = goodsDAO.findByGoodsuuid(goodsuuid);
+        System.out.println("삭제하려는 Goods : "+goods.toString());
+        if(goods!=null) {
+            goods.setManagement(null);
+            goods.setTeam(null);
+            goodsDAO.save(goods);
+            goodsDAO.delete(goods);
+        }else {
+            System.out.println("삭제하려는 goods 못 불러옴");
+        }
+
     }
 
     public Goods getGoodsById(UUID goodsuuid) {

@@ -21,18 +21,31 @@ public class TeamService {
         return teamDAO.findAll();
     }
 
-    public Team findById(UUID uuid){
-        return teamDAO.findById(uuid).get();
-    }
+    public Team getTeamById(UUID teamuuid){ return teamDAO.findById(teamuuid).orElse(null);}
 
     public List<Team> getTeamsByManagementUuid(UUID managementUuid){
         return teamDAO.findByManagementManagementuuid(managementUuid);
     }
 
-    public Team createTeam(Team team){
-        //Management 객체 조회
+    public Team createTeam(Team team){ return teamDAO.save(team); }
+
+    public Team updateTeam(UUID teamuuid,Team team){
         Management management = managementDAO.findByManagementuuid(team.getManagement().getManagementuuid()); // if (management == null) {} 나중에 예외처리
         team.setManagement(management);
+        team.setTeamuuid(teamuuid); //수정하는거니까 그 아이디 그대로 넣어주기
         return teamDAO.save(team);
     }
+
+    public void deleteTeam(UUID teamuuid){
+        Team team = teamDAO.findByTeamuuid(teamuuid);
+        System.out.println("삭제하려는 team : "+team.toString());
+        if(team != null){
+            team.setManagement(null); //management 참조 해제
+            teamDAO.save(team); //변경 사항 저장
+            teamDAO.delete(team); //팀 삭제
+        }else{
+            System.out.println("삭제하려는 team 못 불러옴");
+        }
+    }
+
 }

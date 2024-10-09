@@ -13,4 +13,5 @@ public interface ArtistDAO extends JpaRepository<Artist, UUID> {
     List<Artist> findArtistsByManagementManagementuuid(UUID managementuuid);
 
     Artist findByArtistuuid(UUID artistuuid);
+
 }
