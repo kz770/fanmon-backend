@@ -10,9 +10,10 @@ import java.util.UUID;
 
 @Repository
 public interface CardinfoDAO extends JpaRepository<Cardinfo, UUID>{
-//
-//    @Query("SELECT c FROM Cardinfo c WHERE c.useruuid = HEX(:useruuid))
-//    List<Cardinfo> findByUseruuid(UUID useruuid);
+
+    //아니 이거 정답이 뭐임
+    @Query("SELECT c FROM Cardinfo c WHERE c.useruuid = HEX(:useruuid))
+    List<Cardinfo> findByUseruuid(UUID useruuid);
 }
 
 
