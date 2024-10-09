@@ -23,7 +23,7 @@ public class Artistboard {
         }
     }
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JoinColumn(name="teamuuid", nullable = false)
     private Team team;
 
