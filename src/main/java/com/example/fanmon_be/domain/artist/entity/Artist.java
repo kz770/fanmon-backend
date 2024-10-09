@@ -1,6 +1,7 @@
 package com.example.fanmon_be.domain.artist.entity;
 
 import com.example.fanmon_be.domain.management.entity.Management;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,5 +41,6 @@ public class Artist {
     private String fname;
 
     @Transient
+    @JsonIgnore
     private MultipartFile uploadfile;
 }

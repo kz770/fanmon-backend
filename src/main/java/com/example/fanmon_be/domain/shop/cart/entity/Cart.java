@@ -27,6 +27,8 @@ public class Cart {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "goodsuuid", referencedColumnName = "goodsuuid", insertable = true, updatable = true)
     private Goods goods;
+
     private LocalDateTime createdat;
+    private Long qty;
 
 }
