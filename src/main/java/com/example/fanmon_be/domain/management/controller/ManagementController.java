@@ -3,6 +3,7 @@ package com.example.fanmon_be.domain.management.controller;
 import com.example.fanmon_be.domain.management.dto.ManagementResponse;
 import com.example.fanmon_be.domain.management.dto.ManagementSignUpRequest;
 import com.example.fanmon_be.domain.management.dto.UpdateManagementRequest;
+import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.management.service.ManagementService;
 import com.example.fanmon_be.domain.user.dto.LoginRequest;
 import com.example.fanmon_be.domain.user.dto.LoginResponse;
@@ -54,5 +55,15 @@ public class ManagementController {
             @RequestBody UpdateManagementRequest request){
         UUID id = userPrincipal.getId();
         return ResponseEntity.status(HttpStatus.OK).body(managementService.updateManagement(id, request));
+    }
+
+    @Operation (summary = "management 탈퇴")
+    @PreAuthorize("hasRole('MANAGEMENT')")
+    @DeleteMapping("/withdraw")
+    public ResponseEntity<Management> deleteManagement(
+            @AuthenticationPrincipal UserPrincipal userPrincipal){
+        UUID id = userPrincipal.getId();
+        managementService.deleteManagement(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

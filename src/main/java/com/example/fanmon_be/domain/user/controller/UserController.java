@@ -1,6 +1,7 @@
 package com.example.fanmon_be.domain.user.controller;
 
 import com.example.fanmon_be.domain.user.dto.*;
+import com.example.fanmon_be.domain.user.entity.User;
 import com.example.fanmon_be.domain.user.service.CustomOAuth2UserService;
 import com.example.fanmon_be.domain.user.service.UserService;
 import com.example.fanmon_be.global.security.UserPrincipal;
@@ -8,7 +9,6 @@ import com.example.fanmon_be.global.security.jwt.JwtPlugin;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -60,6 +60,16 @@ public class UserController {
             @RequestBody UpdateUserRequest request){
         UUID id = userPrincipal.getId();
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, request));
+    }
+
+    @Operation (summary = "탈퇴")
+    @PreAuthorize("hasRole('USER')")
+    @DeleteMapping("/withdraw")
+    public ResponseEntity<User> deleteManagement(
+            @AuthenticationPrincipal UserPrincipal userPrincipal){
+        UUID id = userPrincipal.getId();
+        userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

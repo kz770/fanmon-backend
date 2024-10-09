@@ -82,4 +82,11 @@ public class ManagementService {
         management.setAddress(request.getAddress());
         return managementDAO.save(management).toResponse();
     }
+
+    public void deleteManagement(UUID managementuuid){
+        if (!managementDAO.existsById(managementuuid)) {
+            throw new ModelNotFoundException(managementuuid.toString());
+        }
+        managementDAO.deleteById(managementuuid);
+    }
 }

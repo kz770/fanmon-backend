@@ -80,4 +80,12 @@ public class UserService {
        user.setPostcode(request.getPostcode());
        return userDAO.save(user).toResponse();
     }
+
+    public void deleteUser(UUID useruuid){
+        if (!userDAO.existsById(useruuid)) {
+            throw new ModelNotFoundException(useruuid.toString());
+        }
+        userDAO.deleteById(useruuid);
+    }
+
 }
