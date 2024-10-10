@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Table(name="fanboard")
-public class Fanboard extends BaseEntity {
+public class Fanboard {
     @Id
     @Column(name = "fanboarduuid", nullable = false)
     private UUID fanboarduuid;
@@ -22,8 +22,7 @@ public class Fanboard extends BaseEntity {
         if(fanboarduuid == null){
             fanboarduuid = UUID.randomUUID();
         }
-        super.createdat =LocalDateTime.now();
-        super.updatedat = LocalDateTime.now();
+        this.createdat =LocalDateTime.now();
     }
 
     @ManyToOne(cascade = CascadeType.REMOVE)
