@@ -5,6 +5,7 @@ import com.example.fanmon_be.domain.user.dto.*;
 import com.example.fanmon_be.domain.user.entity.User;
 import com.example.fanmon_be.domain.user.enums.Role;
 import com.example.fanmon_be.domain.user.enums.UserStatus;
+import com.example.fanmon_be.global.exception.EmailAlreadyExistsException;
 import com.example.fanmon_be.global.exception.ModelNotFoundException;
 import com.example.fanmon_be.global.security.jwt.JwtPlugin;
 import jakarta.transaction.Transactional;
@@ -87,5 +88,10 @@ public class UserService {
         }
         userDAO.deleteById(useruuid);
     }
-
+    public boolean checkEmail(String email){
+        if(userDAO.existsByEmail(email)){
+            throw new EmailAlreadyExistsException();
+        }
+        return false;
+    }
 }

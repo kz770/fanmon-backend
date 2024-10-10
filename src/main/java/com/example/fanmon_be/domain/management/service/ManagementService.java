@@ -9,6 +9,7 @@ import com.example.fanmon_be.domain.management.enums.ManagementStatus;
 import com.example.fanmon_be.domain.user.dto.LoginRequest;
 import com.example.fanmon_be.domain.user.dto.LoginResponse;
 import com.example.fanmon_be.domain.user.enums.Role;
+import com.example.fanmon_be.global.exception.EmailAlreadyExistsException;
 import com.example.fanmon_be.global.exception.ModelNotFoundException;
 import com.example.fanmon_be.global.security.jwt.JwtPlugin;
 import jakarta.transaction.Transactional;
@@ -88,5 +89,12 @@ public class ManagementService {
             throw new ModelNotFoundException(managementuuid.toString());
         }
         managementDAO.deleteById(managementuuid);
+    }
+
+    public boolean checkEmail(String email){
+        if(managementDAO.existsByEmail(email)){
+            throw new EmailAlreadyExistsException();
+        }
+        return false;
     }
 }

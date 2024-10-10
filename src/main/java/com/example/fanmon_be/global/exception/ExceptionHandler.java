@@ -11,4 +11,10 @@ public class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new Errorresponse(e.getMessage()));
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<Errorresponse> handleEmailAlreadyExistsException(EmailAlreadyExistsException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new Errorresponse(e.getMessage()));
+    }
 }

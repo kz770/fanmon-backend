@@ -1,7 +1,6 @@
 package com.example.fanmon_be.domain.user.controller;
 
 import com.example.fanmon_be.domain.user.dto.*;
-import com.example.fanmon_be.domain.user.entity.User;
 import com.example.fanmon_be.domain.user.service.CustomOAuth2UserService;
 import com.example.fanmon_be.domain.user.service.UserService;
 import com.example.fanmon_be.global.security.UserPrincipal;
@@ -65,11 +64,21 @@ public class UserController {
     @Operation (summary = "탈퇴")
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/withdraw")
-    public ResponseEntity<User> deleteManagement(
+    public ResponseEntity<Void> deleteManagement(
             @AuthenticationPrincipal UserPrincipal userPrincipal){
         UUID id = userPrincipal.getId();
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
+    @Operation(summary="이메일 중복 확인")
+    @GetMapping("/check-email")
+    public ResponseEntity<Void> checkEmail(
+            @RequestParam String email){
+        boolean isDuplicate = userService.checkEmail(email);
+        if(isDuplicate){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+    }
 }
