@@ -1,6 +1,7 @@
 package com.example.fanmon_be.domain.meeting.entity;
 
 import com.example.fanmon_be.domain.artist.entity.Artist;
+import com.example.fanmon_be.domain.artist.entity.Team;
 import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.meeting.enums.MeetingroomStatus;
 import jakarta.persistence.*;
@@ -35,12 +36,12 @@ public class Stayroom {
     private MeetingroomStatus status = MeetingroomStatus.ERROR_QUIT;
 
     @ManyToOne
-    @JoinColumn(name="managementuuid")
-    private Management management;
+    @JoinColumn(name="teamuuid")
+    private Team team;
 
     @ManyToOne
-    @JoinColumn(name="artistuuid")
-    private Artist artist;
+    @JoinColumn(name="managementuuid")
+    private Management management;
 
     private LocalDateTime meetingendedat;
 }
