@@ -32,20 +32,24 @@ public class BuyingController {
 
     @Autowired
     UserService userService;
-
+//
 //    // 결제시 유저 정보와 카드 정보를 불러오는 메소드
 //    @PostMapping("/buying/{useruuid}")
-//    public ResponseEntity<ResponseWrapper> getUserAndCardInfo(@PathVariable UUID useruuid) {
+//    public ResponseEntity<ResponseWrapper> getUserAndCardInfo(@PathVariable String useruuid) {
 //        try{
+//            System.out.println("usersuuid:"+useruuid);
+//
 //            User user = userService.getUserById(useruuid);
-//            System.out.println(user);
+//            System.out.println("user:"+user);
+//
+//
 //            List<Cardinfo> cardinfo = cardinfoService.findByUseruuid(useruuid);
-//            System.out.println(cardinfo);
+//            System.out.println("cardinfo:"+cardinfo);
 //
 //            return ResponseEntity.ok(new ResponseWrapper(user, cardinfo));
 //        } catch (Exception e) {
-//        // 예외 로그 출력
-//        e.printStackTrace();
+//            // 예외 로그 출력
+//            e.printStackTrace();
 //            System.out.println("Error fetching user and card info: " + e.getMessage());
 //            e.printStackTrace(); // 예외 스택 추적 출력
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseWrapper(null, null));
@@ -63,3 +67,5 @@ public class BuyingController {
 //        }
 //    }
 }
+
+

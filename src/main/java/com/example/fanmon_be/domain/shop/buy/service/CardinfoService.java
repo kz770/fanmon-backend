@@ -12,10 +12,10 @@ import java.util.UUID;
 @Service
 public class CardinfoService {
 
-//    @Autowired
-//    private CardinfoDAO cardinfoDAO;
-//
-//    public List<Cardinfo> findByUseruuid(UUID useruuid) {
-//        return cardinfoDAO.findByUseruuid(useruuid);
-//    }
+    @Autowired
+    private CardinfoDAO cardinfoDAO;
+
+    public List<Cardinfo> findByUseruuid(String useruuid) {
+        return cardinfoDAO.findByUseruuid(useruuid);
+    }
 }
