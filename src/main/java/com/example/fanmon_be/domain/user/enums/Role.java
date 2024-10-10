@@ -1,5 +1,5 @@
 package com.example.fanmon_be.domain.user.enums;
 
 public enum Role {
-    USER, MANAGEMENT, ADMIN
+    USER, MANAGEMENT, ADMIN, ARTIST
 }
