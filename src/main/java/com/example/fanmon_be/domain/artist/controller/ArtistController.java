@@ -73,8 +73,9 @@ public class ArtistController {
         //업뎃된 파일 있으면 그걸로 fname set해서 db에 저장
         String oldFname = artist.getFname();
         MultipartFile uploadfile = artist.getUploadfile();
-        String fname = uploadfile.getOriginalFilename();
-        if(fname!=null && !fname.equals("")) {
+        String fname = null;
+        if(uploadfile != null){
+            fname = uploadfile.getOriginalFilename();
             artist.setFname(fname);
         }
         Artist updatedArtist = artistService.updateArtist(artistuuid,artist);
