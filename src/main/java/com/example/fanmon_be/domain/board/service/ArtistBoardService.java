@@ -15,9 +15,13 @@ public class ArtistBoardService {
     ArtistboardDAO artistboardDAO;
 
     public List<Artistboard> findById(UUID uuid){
-        return artistboardDAO.findArtistboardByTeamTeamuuid(uuid);
+        return artistboardDAO.findArtistboardByTeamTeamuuidOrderByCreatedat(uuid);
     }
     public void save(Artistboard artistboard){
         artistboardDAO.save(artistboard);
+    }
+
+    public void delete(UUID uuid) {
+        artistboardDAO.deleteByFanboarduuid(uuid);
     }
 }
