@@ -18,6 +18,7 @@ public class Chat {
         if (chatuuid==null){
             this.chatuuid = UUID.randomUUID();
         }
+
     }
 
     @OneToOne(cascade = CascadeType.REMOVE)

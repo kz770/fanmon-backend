@@ -16,4 +16,5 @@ public class SignUpRequest {
     @ValidPhone
     private String phone;
     private String address;
+    private String postcode;
 }

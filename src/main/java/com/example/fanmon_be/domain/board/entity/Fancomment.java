@@ -1,6 +1,7 @@
 package com.example.fanmon_be.domain.board.entity;
 
 import com.example.fanmon_be.domain.user.entity.User;
+import com.example.fanmon_be.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Table(name="fancomment")
-public class Fancomment {
+public class Fancomment extends BaseEntity {
     @Id
     @Column(name = "fancommentuuid", nullable = false)
     private UUID fancommentuuid;
@@ -20,13 +21,14 @@ public class Fancomment {
         if(fancommentuuid == null){
             fancommentuuid = UUID.randomUUID();
         }
+        super.createdat=LocalDateTime.now();
     }
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="fanboarduuid", nullable = false)
     private Fanboard fanboard;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="useruuid", nullable = false)
     private User user;
 

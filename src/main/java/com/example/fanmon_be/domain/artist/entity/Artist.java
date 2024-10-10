@@ -1,6 +1,8 @@
 package com.example.fanmon_be.domain.artist.entity;
 
 import com.example.fanmon_be.domain.management.entity.Management;
+import com.example.fanmon_be.domain.user.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +41,12 @@ public class Artist {
     private LocalDate birth;
     private String fname;
 
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.ARTIST;
+
+
     @Transient
+    @JsonIgnore
     private MultipartFile uploadfile;
 }

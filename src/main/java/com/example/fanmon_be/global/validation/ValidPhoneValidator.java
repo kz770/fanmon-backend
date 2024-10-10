@@ -10,6 +10,6 @@ public class ValidPhoneValidator implements ConstraintValidator<ValidPhone, Stri
         if(phone == null){
             return false;
         }
-        return phone.matches("^01[016789]\\d{8}$"); // 01012345678 형식
+        return phone.matches("^01[016789]-\\d{4}-\\d{4}$");
     }
 }

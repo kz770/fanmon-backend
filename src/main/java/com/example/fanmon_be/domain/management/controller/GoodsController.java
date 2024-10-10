@@ -8,7 +8,6 @@ import com.example.fanmon_be.domain.shop.goods.entity.Goods;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.UUID;
 
-@Tag(name = "상품 관리 API",description = "상품관련 CRUD 작업 수행")
+@Tag(name = "상품 관리 API", description = "상품관련 CRUD 작업 수행")
 @RestController
 @RequestMapping("/management/goods")
 public class GoodsController {
@@ -32,18 +31,18 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    @Operation(summary = "상품 리스트",description = "상품 리스트")
+    //전체 굿즈 리스트
+    @Operation(summary = "상품 리스트", description = "상품 리스트")
     @GetMapping
     public ResponseEntity<List<Goods>> findAll() {
         List<Goods> list = goodsService.getAllGoods();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @Operation(summary = "상품 생성",description = "새로운 상품 생성")
+    //상품 등록 CREATE
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Goods> createGoods(
             HttpServletRequest request,
-            @Parameter(description = "생성할 상품 정보",required = true)
             @ModelAttribute Goods goods,
             @RequestParam("managementuuid") UUID managementuuid,
             @RequestParam("teamuuid") UUID teamuuid) {
@@ -52,49 +51,94 @@ public class GoodsController {
         goods.setTeam(new Team(teamuuid));
 
         String path = request.getServletContext().getRealPath("/resources/goodsimg");
-        System.out.println("real path : "+path);
+        System.out.println("real path : " + path);
         String fname = null;
         MultipartFile uploadfile = goods.getUploadfile();
         fname = uploadfile.getOriginalFilename();
-        if(fname!=null && !fname.equals("")) {
-            try{
-                FileOutputStream fos = new FileOutputStream(new File(path+"/"+fname));
+        if (fname != null && !fname.equals("")) {
+            try {
+                FileOutputStream fos = new FileOutputStream(new File(path + "/" + fname));
                 FileCopyUtils.copy(uploadfile.getInputStream(), fos);
                 fos.close();
                 goods.setFname(fname);
-            }catch (Exception e){
-                System.out.println("파일 처리 예외! => "+e.getMessage());
+            } catch (Exception e) {
+                System.out.println("파일 처리 예외! => " + e.getMessage());
             }
         }
         Goods createdGoods = goodsService.createGoods(goods);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdGoods);
     }
 
-    @Operation(summary = "상품 업데이트", description = "특정 상품 업데이트")
+    //굿즈 수정 UPDATE
     @PutMapping("/{goodsuuid}")
     public ResponseEntity<Goods> updateGoods(
-            @Parameter(description = "상품 uuid",required = true) @PathVariable UUID goodsuuid,
-            @Parameter(description = "업데이트할 상품 정보",required = true) @RequestBody Goods goods){
+            @PathVariable UUID goodsuuid,
+            HttpServletRequest request,
+            @ModelAttribute Goods goods,
+            @RequestParam("managementuuid") UUID managementuuid,
+            @RequestParam("teamuuid") UUID teamuuid) {
+        System.out.println("굿즈 수정하는 managementuuid : " + managementuuid + "\n팀 teamuuid : " + teamuuid);
+        goods.setManagement(new Management(managementuuid));
+        goods.setTeam(new Team(teamuuid));
+        //업뎃된 파일 있으면 그걸로 fname set해서 db에 저장
+        String oldFname = goods.getFname();
+        MultipartFile uploadfile = goods.getUploadfile();
+        String fname = null;
+        if (uploadfile != null) {
+            fname = uploadfile.getOriginalFilename();
+            goods.setFname(fname);
+        }
         Goods updatedGoods = goodsService.updateGoods(goodsuuid, goods);
+
+        //파일 관리
+        if (updatedGoods != null && fname != null && !fname.equals("")) {
+            String path = request.getServletContext().getRealPath("/resources/goodsimg");
+            //원래 파일 삭제
+            File file = new File(path + "/" + oldFname);
+            file.delete();
+            try {
+                //업뎃된 파일 저장
+                byte[] data = uploadfile.getBytes();
+                FileOutputStream fos = new FileOutputStream(path + "/" + fname);
+                fos.write(data);
+                fos.close();
+            } catch (Exception e) {
+                System.out.println("파일 업로드 예외 : " + e.getMessage());
+            }
+        }
+        if (updatedGoods == null) {
+            System.out.println("파일 업로드 실패");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(updatedGoods);
     }
 
-    @Operation(summary = "상품 삭제", description = "특정 상품을 삭제합니다.")
+    //굿즈 삭제 DELETE
     @DeleteMapping("/{goodsuuid}")
-    public ResponseEntity<Goods> deleteGoods(
-            @Parameter(description = "삭제할 상품 uuid", required = true) @PathVariable UUID goodsuuid){
+    public ResponseEntity<Goods> deleteGoods(@PathVariable UUID goodsuuid) {
+        System.out.println("삭제할 goodsuuid : " + goodsuuid);
         goodsService.deleteGoods(goodsuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Operation(summary = "상품 조회", description = "특정 상품을 조회합니다.")
+    //굿즈 디테일
     @GetMapping("/{goodsuuid}")
     public ResponseEntity<Goods> getGoods(
-            @Parameter(description = "상품 uuid",required = true) @PathVariable UUID goodsuuid){
-            Goods goods = goodsService.getGoodsById(goodsuuid);
-            if(goods == null){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); //404 Not Found
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(goods);
+            @PathVariable UUID goodsuuid) {
+        Goods goods = goodsService.getGoodsById(goodsuuid);
+        if (goods == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); //404 Not Found
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(goods);
+    }
+
+    //팀에 따른 굿즈 리스트
+    @GetMapping("/team/{teamuuid}")
+    public ResponseEntity<List<Goods>> getGoodsByTeamuuid(@PathVariable UUID teamuuid) {
+        List<Goods> list = goodsService.getGoodsByTeamuuid(teamuuid);
+        if (list == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        System.out.println("team's Goods List : " + list);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

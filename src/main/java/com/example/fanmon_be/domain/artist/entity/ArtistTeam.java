@@ -19,12 +19,11 @@ public class ArtistTeam {
     }
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name="teamuuid", updatable = true, nullable = false)
+    @JoinColumn(name="teamuuid", updatable = true)
     private Team team;
 
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="artistuuid", nullable = true)    //아티스트는 반드시 있어야함
-    private Artist aritst;
+    private Artist artist;
 
 }
