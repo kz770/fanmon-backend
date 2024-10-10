@@ -7,7 +7,9 @@ import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.artist.entity.ArtistTeam;
 import com.example.fanmon_be.domain.artist.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,14 +36,27 @@ public class ArtistTeamService {
         List<ArtistTeam> list = artistTeamDAO.findByTeamTeamuuid(teamuuid);
         return list;
     }
-
+    @Transactional
     public void deleteArtistTeam(UUID teamuuid) {
-        System.out.println("삭제하려는 관계 teamuuid:  " + teamuuid);
-        List<ArtistTeam> listToDelete = getArtistTeamByTeamuuid(teamuuid); //삭제하려는 관계들
-        for (ArtistTeam artistTeam : listToDelete) { //하나씩 참조 해제하고
-            artistTeam.setArtist(null);
-            artistTeamDAO.save(artistTeam); //변경사항 저장
-            artistTeamDAO.delete(artistTeam); //삭제
+        System.out.println("service 삭제하려는 관계 teamuuid: " + teamuuid);
+        List<ArtistTeam> listToDelete = getArtistTeamByTeamuuid(teamuuid); // 삭제하려는 관계들
+
+        if (listToDelete.isEmpty()) {
+            System.out.println("삭제할 관계가 없습니다.");
+            return; // 삭제할 관계가 없으면 메서드 종료
+        }
+
+        for (ArtistTeam artistTeam : listToDelete) {
+            try {
+                System.out.println("삭제할 ArtistTeam: " + artistTeam);
+                artistTeamDAO.delete(artistTeam);
+            } catch (DataIntegrityViolationException e) {
+                System.err.println("데이터 무결성 오류: " + e.getMessage());
+                // 추가적인 처리(예: 사용자에게 오류 메시지 전달)
+            } catch (Exception e) {
+                System.err.println("삭제 중 오류 발생: " + e.getMessage());
+                // 추가적인 처리(예: 사용자에게 오류 메시지 전달)
+            }
         }
     }
 }

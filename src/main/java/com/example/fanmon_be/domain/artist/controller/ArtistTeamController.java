@@ -31,13 +31,16 @@ public class ArtistTeamController {
     @GetMapping("/{teamuuid}")
     public ResponseEntity<List<ArtistTeam>> get(@PathVariable("teamuuid") UUID teamuuid) {
         List<ArtistTeam> list = artistTeamService.getArtistTeamByTeamuuid(teamuuid);
-        System.out.println(list);
+        for(ArtistTeam artistTeam : list){
+            System.out.println(artistTeam);
+        }
         return ResponseEntity.ok(list);
     }
 
     //Team -Artist 관계 삭제 DELETE
     @DeleteMapping("/{teamuuid}")
     public ResponseEntity<ArtistTeam> delete(@PathVariable("teamuuid") UUID teamuuid) {
+        System.out.println("controller 삭제할 관계 teamuuid : "+teamuuid);
         artistTeamService.deleteArtistTeam(teamuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

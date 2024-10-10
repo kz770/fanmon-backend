@@ -19,7 +19,7 @@ public class ArtistTeam {
     }
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name="teamuuid", updatable = true, nullable = false)
+    @JoinColumn(name="teamuuid", updatable = true)
     private Team team;
 
     @ManyToOne(cascade = CascadeType.REMOVE)

@@ -7,6 +7,7 @@ import com.example.fanmon_be.domain.management.entity.Management;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +35,7 @@ public class ArtistService {
         artist.setArtistuuid(artistuuid); //수정하는거니까 그 아이디 그대로 넣어주기
         return dao.save(artist);
     }
-
+    @Transactional
     public void deleteArtist(UUID artistuuid){
         Artist artist = dao.findById(artistuuid).orElse(null);
         System.out.println("삭제하려는 artist: "+artist.toString());

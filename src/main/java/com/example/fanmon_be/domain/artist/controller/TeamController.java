@@ -73,8 +73,9 @@ public class TeamController {
         //업뎃된 파일 있으면 그걸로 fname set해서 db에 저장
         String oldFname = team.getFname();
         MultipartFile uploadfile = team.getUploadfile();
-        String fname = uploadfile.getOriginalFilename();
-        if(fname!=null && !fname.equals("")) {
+        String fname = null;
+        if(uploadfile != null){
+            fname = uploadfile.getOriginalFilename();
             team.setFname(fname);
         }
         Team updatedTeam = teamService.updateTeam(teamuuid, team);
