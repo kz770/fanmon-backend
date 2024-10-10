@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 @Repository
 public interface ChatDAO extends JpaRepository<Chat, UUID> {
-
     @Query("SELECT c.chatuuid FROM Chat c WHERE c.artist.artistuuid = :artistuuid")
     UUID findChatuuidByArtistArtistuuid(@Param("artistuuid") UUID artistuuid);
 

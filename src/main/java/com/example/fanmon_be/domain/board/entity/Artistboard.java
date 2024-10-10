@@ -2,8 +2,10 @@ package com.example.fanmon_be.domain.board.entity;
 
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.artist.entity.Team;
+import com.example.fanmon_be.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,27 +13,31 @@ import java.util.UUID;
 @Entity
 @Data
 @Table(name="artistboard")
-public class Artistboard {
+public class Artistboard extends BaseEntity {
     @Id
     @Column(name = "artistboarduuid", nullable = false)
     private UUID artistboarduuid;
 
     @PrePersist
-    public void generateUUID(){
+    public void generateBaseColumns(){
         if(artistboarduuid == null){
             artistboarduuid = UUID.randomUUID();
         }
+        super.createdat =LocalDateTime.now();
+        super.updatedat = LocalDateTime.now();
     }
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="teamuuid", nullable = false)
     private Team team;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="artistuuid", nullable = false)
     private Artist artist;
 
     private LocalDateTime createdat;
+    private LocalDateTime updatedat;
+
     private String content;
     private long likecount;
 }
