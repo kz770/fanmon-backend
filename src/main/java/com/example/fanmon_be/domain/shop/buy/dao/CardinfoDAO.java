@@ -11,10 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface CardinfoDAO extends JpaRepository<Cardinfo, UUID>{
-
-    //아니 이거 정답이 뭐임
-    @Query(value = "SELECT * FROM cardinfo c WHERE HEX(useruuid) = :useruuid", nativeQuery = true)
-    List<Cardinfo> findByUseruuid(@Param("useruuid") String useruuid);
 }
 
 
