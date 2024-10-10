@@ -30,11 +30,11 @@ public class Goods {
         }
     }
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="managementuuid", nullable = false)
     private Management management;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="teamuuid", nullable = false)
     private Team team;
 

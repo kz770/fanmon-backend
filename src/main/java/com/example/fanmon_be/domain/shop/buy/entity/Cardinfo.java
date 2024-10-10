@@ -19,11 +19,11 @@ public class Cardinfo {
     @Column(name = "cardinfouuid", nullable = false)
     private UUID cardinfouuid;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="useruuid", nullable = false)
     private User user;
 
-    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="ordersuuid", nullable = false)
     private Orders orders;
 

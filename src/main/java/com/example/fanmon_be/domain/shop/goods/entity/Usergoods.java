@@ -26,11 +26,11 @@ public class Usergoods {
         }
     }
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="useruuid")
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="goodsuuid")
     private Goods goods;
 }

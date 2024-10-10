@@ -20,15 +20,15 @@ public class Ordersdetail {
     @Column(name = "ordersdetailuuid", nullable = false)
     private UUID ordersdetailuuid;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="useruuid", nullable = false)
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="ordersuuid", nullable = false)
     private Orders orders;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="goodsuuid", nullable = false)
     private Goods goods;
 
