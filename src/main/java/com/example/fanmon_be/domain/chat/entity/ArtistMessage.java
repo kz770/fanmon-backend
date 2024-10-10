@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 @Table(name="artistmessage")
 @Data
-public class ArtistMessage extends BaseEntity {
+public class ArtistMessage {
     @Id
     private UUID artistmessageuuid;
     @PrePersist
