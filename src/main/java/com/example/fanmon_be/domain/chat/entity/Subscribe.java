@@ -20,8 +20,8 @@ public class Subscribe {
     protected void generateBaseColumns() {
         if (subscribeuuid==null){
             this.subscribeuuid = UUID.randomUUID();
+            this.startsubscription = LocalDateTime.now();
         }
-        this.startsubscription=LocalDateTime.now();
         this.endsubscription = this.startsubscription.plusMonths(1);
     }
 
