@@ -4,6 +4,7 @@ package com.example.fanmon_be.domain.artist.controller;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.artist.service.ArtistService;
 import com.example.fanmon_be.domain.management.entity.Management;
+import com.example.fanmon_be.domain.user.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
