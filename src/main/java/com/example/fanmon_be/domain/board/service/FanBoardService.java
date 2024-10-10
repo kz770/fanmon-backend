@@ -22,4 +22,7 @@ public class FanBoardService {
     public List<Fanboard> fanBoardData(UUID uuid) {
         return dao.findFanboardByTeamTeamuuidOrder(uuid);
     }
+    public void delete(UUID uuid){
+        dao.deleteByFanboarduuid(uuid);
+    }
 }

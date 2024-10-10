@@ -89,4 +89,10 @@ public class BoardController {
         System.out.println("newPosting = " + newPosting);
         return ResponseEntity.ok(newPosting);
     }
+
+    @DeleteMapping("/board/fanboard/{fanboarduuid}")
+    public ResponseEntity<Void> deleteFanboard(@PathVariable UUID fanboarduuid){
+        fanBoardService.delete(fanboarduuid);
+        return ResponseEntity.noContent().build();
+    }
 }
