@@ -19,7 +19,7 @@ import java.util.UUID;
 @Entity
 @Table(name="usermessage")
 @Data
-public class UserMessage extends BaseEntity implements Serializable{
+public class UserMessage implements Serializable{
     @Id
     private UUID usermessageuuid;
     @PrePersist
