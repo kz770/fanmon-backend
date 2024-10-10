@@ -15,4 +15,11 @@ public class FanBoardService {
     public List<Fanboard> findById(UUID uuid){
         return dao.findFanboardByTeamTeamuuid(uuid);
     }
+    public void save(Fanboard fanboard){
+        dao.save(fanboard);
+    }
+
+    public List<Fanboard> fanBoardData(UUID uuid) {
+        return dao.findFanboardByTeamTeamuuidOrder(uuid);
+    }
 }

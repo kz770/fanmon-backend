@@ -47,7 +47,7 @@ public class BoardController {
     public ResponseEntity<List<Artistboard>> getArtistBoardData(@PathVariable UUID teamuuid) {
         // board dto에 필요한 데이터 목록
         List<Artistboard> artistboards = artistBoardService.findById(teamuuid);
-        System.out.println("artistboards = " + artistboards);
+//        System.out.println("artistboards = " + artistboards);
         return ResponseEntity.ok(artistboards);
     }
     @ResponseBody
@@ -55,15 +55,14 @@ public class BoardController {
     public ResponseEntity<List<Boardnotice>> getBoardNoticeData(@PathVariable UUID teamuuid) {
         // board notice에 필요한 데이터 목록
         List<Boardnotice> boardnotices = boardNoticeService.findById(teamuuid);
-        System.out.println("boardnotices = " + boardnotices);
+//        System.out.println("boardnotices = " + boardnotices);
         return ResponseEntity.ok(boardnotices);
     }
     @ResponseBody
     @GetMapping("/board/fanboard/{teamuuid}")
     public ResponseEntity<List<Fanboard>> getFanBoardData(@PathVariable UUID teamuuid) {
         // fan board에 필요한 데이터 목록
-        List<Fanboard> fanboards = fanBoardService.findById(teamuuid);
-        System.out.println("fanboards = " + fanboards);
+        List<Fanboard> fanboards = fanBoardService.fanBoardData(teamuuid);
         return ResponseEntity.ok(fanboards);
     }
 
@@ -81,16 +80,13 @@ public class BoardController {
         newPosting.setCreatedat(LocalDateTime.now());
 //        artistBoardService.save(newPosting);
         newPosting.setArtistboarduuid(UUID.randomUUID());
-        System.out.println("newPosting = " + newPosting);
+//        System.out.println("newPosting = " + newPosting);
         return ResponseEntity.ok(newPosting);
     }
     @PostMapping("/board/fanboard")
     public ResponseEntity<Fanboard> postOnFanboard(@RequestBody Fanboard newPosting){
-        newPosting.setCreatedat(LocalDateTime.now());
-        newPosting.setFanboarduuid(UUID.randomUUID());
-        newPosting.setUser(userDAO.findById(newPosting.getUser().getUseruuid()).get());
+        fanBoardService.save(newPosting);
         System.out.println("newPosting = " + newPosting);
         return ResponseEntity.ok(newPosting);
     }
-
 }
