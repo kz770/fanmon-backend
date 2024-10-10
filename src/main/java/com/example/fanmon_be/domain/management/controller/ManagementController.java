@@ -3,7 +3,6 @@ package com.example.fanmon_be.domain.management.controller;
 import com.example.fanmon_be.domain.management.dto.ManagementResponse;
 import com.example.fanmon_be.domain.management.dto.ManagementSignUpRequest;
 import com.example.fanmon_be.domain.management.dto.UpdateManagementRequest;
-import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.management.service.ManagementService;
 import com.example.fanmon_be.domain.user.dto.LoginRequest;
 import com.example.fanmon_be.domain.user.dto.LoginResponse;
@@ -60,10 +59,22 @@ public class ManagementController {
     @Operation (summary = "management 탈퇴")
     @PreAuthorize("hasRole('MANAGEMENT')")
     @DeleteMapping("/withdraw")
-    public ResponseEntity<Management> deleteManagement(
+    public ResponseEntity<Void> deleteManagement(
             @AuthenticationPrincipal UserPrincipal userPrincipal){
         UUID id = userPrincipal.getId();
         managementService.deleteManagement(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary="management 이메일 중복 확인")
+    @GetMapping("/check-email")
+    public ResponseEntity<Void> checkEmail(
+            @RequestParam String email){
+        boolean isDuplicate = managementService.checkEmail(email);
+        if(isDuplicate){
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    } else {
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
     }
 }
