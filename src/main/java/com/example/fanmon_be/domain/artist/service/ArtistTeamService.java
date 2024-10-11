@@ -49,7 +49,7 @@ public class ArtistTeamService {
         for (ArtistTeam artistTeam : listToDelete) {
             try {
                 System.out.println("삭제할 ArtistTeam: " + artistTeam);
-                artistTeamDAO.delete(artistTeam);
+                artistTeamDAO.deleteByArtistteamuuid(artistTeam.getArtistteamuuid());
             } catch (DataIntegrityViolationException e) {
                 System.err.println("데이터 무결성 오류: " + e.getMessage());
                 // 추가적인 처리(예: 사용자에게 오류 메시지 전달)

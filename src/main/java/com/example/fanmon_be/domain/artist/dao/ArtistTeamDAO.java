@@ -15,8 +15,8 @@ import java.util.UUID;
 public interface ArtistTeamDAO extends JpaRepository<ArtistTeam, UUID> {
     List<ArtistTeam> findByTeamTeamuuid(UUID teamuuid);
 
-//    @Transactional
-//    @Modifying
-//    @Query("DELETE FROM Artistteam where artistteamuuid = :uuid")
-//    void deleteByArtistteamuuid(@Param("uuid") UUID uuid);
+    @Transactional
+    @Modifying
+    @Query("delete from ArtistTeam where artistteamuuid = :artistteamuuid")
+    void deleteByArtistteamuuid(@Param("artistteamuuid") UUID artistteamuuid);
 }
