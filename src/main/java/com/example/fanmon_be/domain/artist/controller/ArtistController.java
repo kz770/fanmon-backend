@@ -4,6 +4,7 @@ package com.example.fanmon_be.domain.artist.controller;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.artist.service.ArtistService;
 import com.example.fanmon_be.domain.management.entity.Management;
+import com.example.fanmon_be.domain.user.enums.Role;
 import com.example.fanmon_be.domain.user.dto.LoginRequest;
 import com.example.fanmon_be.domain.user.dto.LoginResponse;
 import io.swagger.v3.oas.annotations.Operation;
