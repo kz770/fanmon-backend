@@ -1,15 +1,23 @@
 package com.example.fanmon_be.domain.shop.buy.controller;
 
-import com.example.fanmon_be.domain.shop.buy.entity.Cardinfo;
+import com.example.fanmon_be.domain.shop.buy.entity.Orders;
+import com.example.fanmon_be.domain.shop.buy.entity.Ordersdetail;
+import com.example.fanmon_be.domain.shop.buy.enums.OrdersStatus;
 import com.example.fanmon_be.domain.shop.buy.service.CardinfoService;
 import com.example.fanmon_be.domain.shop.buy.service.OrdersService;
 import com.example.fanmon_be.domain.shop.buy.service.OrdersdetailService;
+import com.example.fanmon_be.domain.shop.goods.entity.Goods;
+import com.example.fanmon_be.domain.user.entity.User;
 import com.example.fanmon_be.domain.user.service.UserService;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 
 @RestController
@@ -27,36 +35,44 @@ public class BuyingController {
 
     @Autowired
     UserService userService;
-
-    // 카드 정보를 불러오는 메소드
-//    @PostMapping("/buying/card/{useruuid}")
-//    public ResponseEntity<List<Cardinfo>> getUserAndCardInfo(@PathVariable String useruuid) {
-//        try {
-//            System.out.println("useruuid: " + useruuid);
-//
-//            // useruuid를 사용하여 카드 정보 조회
-//            List<Cardinfo> cardinfoList = cardinfoService.findByUseruuid(useruuid);
-//            System.out.println("cardinfo: " + cardinfoList);
-//
-//            // cardinfoList가 비어있으면 404 반환
-//            if (cardinfoList.isEmpty()) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//            }
-//
-//            return ResponseEntity.ok(cardinfoList);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Error fetching user and card info: " + e.getMessage());
-//
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+    
 
     //결제 성공
-    @PostMapping("/bought/{useruuid}")
-    public void successBuying(@PathVariable String useruuid) {
+    // Orders 테이블에 데이터 저장
+    @PostMapping("/bought/sendO/{useruuid}")
+    public ResponseEntity<Void> handleSendO(@PathVariable String useruuid, @RequestBody Map<String, Object> request) {
+        Orders orders = new Orders();
+        orders.setOrdersuuid((UUID) request.get("imp_uid"));
+        orders.setApplynum((String) request.get("apply_num"));
+        orders.setMerchantuid((String) request.get("merchant_uid"));
+        orders.setUser((User) request.get("user_data"));
+        orders.setAddress((String) request.get("buyer_addr"));
+        orders.setTotalcost((long) request.get("paid_amount"));
+        orders.setCreatedat((LocalDateTime)request.get("paid_at"));
+        orders.setStatus(OrdersStatus.valueOf("BOUGHT"));
+        orders.setQty((long) request.get("paid_qty"));
 
+        // 저장 끝났으면 ok사인!
+        return ResponseEntity.ok().build();
     }
+
+    // Orders Detail 테이블에 데이터 저장
+    @PostMapping("/bought/sendD/{useruuid}")
+    public ResponseEntity<Void> handleSendD(@PathVariable String useruuid, @RequestBody Map<String, Object> request) {
+        List<Map<String, Object>> Details = (List<Map<String, Object>>) request.get("");
+        for (Map<String, Object> detail : Details) {
+            Ordersdetail odetails = new Ordersdetail();
+            odetails.setUser((User) detail.get(""));
+            odetails.setOrders((Orders) detail.get(""));
+            odetails.setGoods((Goods) detail.get(""));
+            odetails.setTotalcost((long) detail.get(""));
+            odetails.setQty((long) detail.get(""));
+        }
+
+        // 저장 끝났으면 ok사인!
+        return ResponseEntity.ok().build();
+    }
+
 
 }
 
