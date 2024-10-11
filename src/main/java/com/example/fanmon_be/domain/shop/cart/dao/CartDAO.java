@@ -25,5 +25,5 @@ public interface CartDAO extends JpaRepository<Cart, UUID> {
     Optional<Cart> findByUserAndCartsequence(User user, Long cartsequence);
 
     //장바구니에 저장한 상품 삭제
-    int deleteByUseruuid(UUID useruuid);
+    int deleteByCartsequence(long cartsequence);
 }

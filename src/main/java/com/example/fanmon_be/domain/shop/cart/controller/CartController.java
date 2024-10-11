@@ -32,7 +32,6 @@ public class CartController {
         List<Cart> cartList = cartService.findByUser(useruuid);
 
         return ResponseEntity.ok(cartList);
-
     }
 
     // 장바구니에 새 상품 추가
