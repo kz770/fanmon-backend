@@ -29,7 +29,7 @@ public class GoodsViewController {
     private TeamService teamService;
 
     //팀별 굿즈샵 출력
-    @GetMapping("/shop/goods")
+    @GetMapping("/shop/goods/main")
     public ResponseEntity<List<Team>> findAllTeamList() {
         List<Team> teamlist = teamService.findAll();
         return ResponseEntity.ok(teamlist);

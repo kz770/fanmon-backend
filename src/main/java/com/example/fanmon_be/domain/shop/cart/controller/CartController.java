@@ -67,4 +67,11 @@ public class CartController {
         boolean result = cartService.deleteCartItem(useruuid, cartsequence);
         return ResponseEntity.ok(result);
     }
+
+    // 결제 후 장바구니 비우기
+    @GetMapping("/deleteAll/{useruuid}")
+    public ResponseEntity<Boolean> deleteAllCart(@PathVariable UUID useruuid) {
+        boolean result = cartService.deleteByUseruuid(useruuid);
+        return ResponseEntity.ok(result);
+    }
 }

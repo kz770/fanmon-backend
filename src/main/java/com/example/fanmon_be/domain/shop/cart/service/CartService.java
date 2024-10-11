@@ -92,7 +92,7 @@ public class CartService {
         }
     }
 
-    //장바구니 상품 삭제
+    //장바구니 특정 상품 삭제
 //    트랜잭션 허용해주시면 쓸게용.. 근데 이 어노테이션 없이도 잘만 돌아갑니덩
 //    @Transactional
     public boolean deleteCartItem(UUID useruuid, Long cartsequence) {
@@ -116,6 +116,12 @@ public class CartService {
         return result;
     }
 
+    //결제 후 장바구니 비우기
+    public boolean deleteByUseruuid(UUID useruuid) {
+        boolean result = false;
 
+
+        return result;
+    }
 
 }
