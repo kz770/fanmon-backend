@@ -71,6 +71,7 @@ public class CartController {
     // 결제 후 장바구니 비우기
     @GetMapping("/deleteAll/{useruuid}")
     public ResponseEntity<Boolean> deleteAllCart(@PathVariable UUID useruuid) {
+
         boolean result = cartService.deleteByUseruuid(useruuid);
         return ResponseEntity.ok(result);
     }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +58,7 @@ public class CartService {
         cart.setUser(user); // 사용자 UUID 설정
         cart.setGoods(goods); // 상품 UUID 설정
         cart.setQty(qty); // 수량 설정
+        cart.setCreatedat(LocalDateTime.now()); //날짜 설정
         cartDAO.save(cart);
 
         return true;
@@ -93,8 +95,7 @@ public class CartService {
     }
 
     //장바구니 특정 상품 삭제
-//    트랜잭션 허용해주시면 쓸게용.. 근데 이 어노테이션 없이도 잘만 돌아갑니덩
-//    @Transactional
+    @Transactional
     public boolean deleteCartItem(UUID useruuid, Long cartsequence) {
         boolean result = false;
         User user = userDAO.findById(useruuid).orElse(null);
@@ -119,8 +120,18 @@ public class CartService {
     //결제 후 장바구니 비우기
     public boolean deleteByUseruuid(UUID useruuid) {
         boolean result = false;
-
-
+        User user = userDAO.findById(useruuid).orElse(null);
+        try {
+            List<Cart> cartList  = cartDAO.findByUser(user);
+            if (!cartList .isEmpty()) {
+                cartDAO.deleteByUser(user);
+                result = true;
+            } else {
+                System.out.println("해당 카트가 존재하지 않거나, 사용자가 소유하지 않는 카트입니다.");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return result;
     }
 
