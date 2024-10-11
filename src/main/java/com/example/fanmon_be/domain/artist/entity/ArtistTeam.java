@@ -10,6 +10,7 @@ import java.util.UUID;
 @Table(name="artistteam")
 public class ArtistTeam {
     @Id
+    @Column(name = "artistteamuuid",nullable = false)
     private UUID artistteamuuid;
     @PrePersist
     protected void onCreate() {

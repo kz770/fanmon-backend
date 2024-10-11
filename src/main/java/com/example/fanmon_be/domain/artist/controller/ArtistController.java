@@ -4,6 +4,10 @@ package com.example.fanmon_be.domain.artist.controller;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.artist.service.ArtistService;
 import com.example.fanmon_be.domain.management.entity.Management;
+import com.example.fanmon_be.domain.user.enums.Role;
+import com.example.fanmon_be.domain.user.dto.LoginRequest;
+import com.example.fanmon_be.domain.user.dto.LoginResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -118,5 +122,11 @@ public class ArtistController {
     public ResponseEntity<Artist> deleteArtist(@PathVariable UUID artistuuid) {
         artistService.deleteArtist(artistuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "artist 로그인")
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest request) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(artistService.login(request));
     }
 }
