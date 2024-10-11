@@ -52,6 +52,9 @@ public class BuyingController {
         orders.setStatus(OrdersStatus.valueOf("BOUGHT"));
         orders.setQty((long) request.get("paid_qty"));
 
+        ordersService.save(orders);
+
+        System.out.println(orders);
         // 저장 끝났으면 ok사인!
         return ResponseEntity.ok().build();
     }
@@ -59,15 +62,17 @@ public class BuyingController {
     // Orders Detail 테이블에 데이터 저장
     @PostMapping("/bought/sendD/{useruuid}")
     public ResponseEntity<Void> handleSendD(@PathVariable String useruuid, @RequestBody Map<String, Object> request) {
-        List<Map<String, Object>> Details = (List<Map<String, Object>>) request.get("");
+        List<Map<String, Object>> Details = (List<Map<String, Object>>) request.get("DetailData");
         for (Map<String, Object> detail : Details) {
             Ordersdetail odetails = new Ordersdetail();
-            odetails.setUser((User) detail.get(""));
-            odetails.setOrders((Orders) detail.get(""));
-            odetails.setGoods((Goods) detail.get(""));
-            odetails.setTotalcost((long) detail.get(""));
-            odetails.setQty((long) detail.get(""));
+            odetails.setUser((User) detail.get("user_data"));
+            odetails.setOrders((Orders) detail.get("orders_data"));
+            odetails.setGoods((Goods) detail.get("goods_data"));
+            odetails.setTotalcost((long) detail.get("detail_amount"));
+            odetails.setQty((long) detail.get("detail_qty"));
         }
+
+        System.out.println(Details);
 
         // 저장 끝났으면 ok사인!
         return ResponseEntity.ok().build();
