@@ -48,5 +48,14 @@ public class TeamService {
             System.out.println("삭제하려는 team 못 불러옴");
         }
     }
+    //팀 follower 수 별로 order by
+    public List<Team> orderTeamByFollowers(UUID managementuuid){
+        return teamDAO.orderByFollowers(managementuuid);
+    }
+
+    //management 별 팀 개수 COUNT
+    public Long countByManagementUuid(UUID managementuuid){
+        return teamDAO.countByManagementUuid(managementuuid);
+    }
 
 }

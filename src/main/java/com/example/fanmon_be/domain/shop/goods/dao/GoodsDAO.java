@@ -5,6 +5,8 @@ import com.example.fanmon_be.domain.shop.goods.entity.Goods;
 import com.example.fanmon_be.domain.shop.goods.enums.GoodsCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +22,7 @@ public interface GoodsDAO extends JpaRepository<Goods, UUID> {
     List<Goods> findByTeamTeamuuid(UUID teamuuid);
 
     Goods findByGoodsuuid(UUID goodsuuid);
+
+    @Query("select count(goodsuuid) from Goods where management.managementuuid=:managementuuid")
+    Long countByManagementuuid(@Param("managementuuid") UUID managementuuid);
 }
