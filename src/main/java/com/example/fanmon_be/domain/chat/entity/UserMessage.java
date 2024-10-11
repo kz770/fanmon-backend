@@ -3,6 +3,7 @@ package com.example.fanmon_be.domain.chat.entity;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.chat.enums.MessageFrom;
 import com.example.fanmon_be.domain.user.entity.User;
+import com.example.fanmon_be.global.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -18,14 +19,15 @@ import java.util.UUID;
 @Entity
 @Table(name="usermessage")
 @Data
-public class UserMessage implements Serializable {
+public class UserMessage implements Serializable{
     @Id
     private UUID usermessageuuid;
     @PrePersist
-    protected void onCreate() {
+    protected void generateBaseColumns() {
         if (usermessageuuid==null){
             this.usermessageuuid = UUID.randomUUID();
         }
+        this.timestamp=LocalDateTime.now();
     }
 
     private String messagetext;

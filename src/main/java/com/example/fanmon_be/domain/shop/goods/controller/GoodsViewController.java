@@ -20,6 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/shop/goods")
 public class GoodsViewController {
 
     @Autowired
@@ -30,13 +31,14 @@ public class GoodsViewController {
 
     //팀별 굿즈샵 출력
     @GetMapping("/shop/goods/main")
+    @GetMapping("/main")
     public ResponseEntity<List<Team>> findAllTeamList() {
         List<Team> teamlist = teamService.findAll();
         return ResponseEntity.ok(teamlist);
     }
 
     //굿즈 nav바 카테고리 목록 출력
-    @GetMapping("/shop/goods/category")
+    @GetMapping("/category")
     public ResponseEntity<List<String>> findAllCategory() {
         List<String> categories = Arrays.stream(GoodsCategory.values())
             .map(Enum::name)
@@ -45,7 +47,7 @@ public class GoodsViewController {
     }
 
     //전체 굿즈 목록 출력
-    @GetMapping("/shop/goods/list/{teamuuid}/all")
+    @GetMapping("/list/{teamuuid}/all")
     public ResponseEntity<List<Goods>> findGoodsByCategory(@PathVariable UUID teamuuid, HttpSession session) {
         Enumeration<String> attributeNames = session.getAttributeNames();
         while (attributeNames.hasMoreElements()) {
@@ -61,7 +63,7 @@ public class GoodsViewController {
     }
 
     //카테고리별 굿즈 목록 출력
-    @GetMapping("/shop/goods/list/{teamuuid}/{category}")
+    @GetMapping("/list/{teamuuid}/{category}")
     public ResponseEntity<List<Goods>> findGoodsByCategory(@PathVariable UUID teamuuid, @PathVariable String category, HttpSession session) {
         System.out.println(session.getAttribute("category"));
         GoodsCategory goodsCategory;
@@ -78,7 +80,7 @@ public class GoodsViewController {
     }
 
     // 굿즈 상세 정보 출력
-    @GetMapping("/shop/goods/detail/{goodsuuid}")
+    @GetMapping("/detail/{goodsuuid}")
     @ResponseBody
     public ResponseEntity<Goods> findByID(@PathVariable UUID goodsuuid, HttpSession session) {
         session.setAttribute("goodsuuid", goodsuuid);

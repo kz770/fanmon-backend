@@ -2,6 +2,7 @@ package com.example.fanmon_be.domain.board.entity;
 
 import com.example.fanmon_be.domain.artist.entity.Team;
 import com.example.fanmon_be.domain.user.entity.User;
+import com.example.fanmon_be.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,17 +18,18 @@ public class Fanboard {
     private UUID fanboarduuid;
 
     @PrePersist
-    public void generateUUID(){
+    public void generateBaseColumns(){
         if(fanboarduuid == null){
             fanboarduuid = UUID.randomUUID();
         }
+        this.createdat =LocalDateTime.now();
     }
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="teamuuid", nullable = false)
     private Team team;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="useruuid", nullable = false)
     private User user;
 

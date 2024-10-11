@@ -10,6 +10,7 @@ import java.util.UUID;
 @Table(name="artistteam")
 public class ArtistTeam {
     @Id
+    @Column(name = "artistteamuuid",nullable = false)
     private UUID artistteamuuid;
     @PrePersist
     protected void onCreate() {
@@ -19,7 +20,7 @@ public class ArtistTeam {
     }
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name="teamuuid", updatable = true, nullable = false)
+    @JoinColumn(name="teamuuid", updatable = true)
     private Team team;
 
     @ManyToOne(cascade = CascadeType.REMOVE)

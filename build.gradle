@@ -49,8 +49,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	// Redis Pub/Sub
 	implementation 'org.springframework.data:spring-data-redis'
-	//Oauth2
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	//Socket io
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+  implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 

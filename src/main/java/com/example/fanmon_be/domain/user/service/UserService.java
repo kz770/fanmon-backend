@@ -94,4 +94,9 @@ public class UserService {
         }
         return false;
     }
+
+    //예은이가 임의로 추가했습니다 필요하시면 지워주세용
+    public User getUserById(UUID id){
+        return userDAO.findById(id).orElse(null);
+    }
 }

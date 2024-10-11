@@ -6,6 +6,7 @@ import com.example.fanmon_be.domain.management.dao.ManagementDAO;
 import com.example.fanmon_be.domain.management.entity.Management;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +36,7 @@ public class TeamService {
         team.setTeamuuid(teamuuid); //수정하는거니까 그 아이디 그대로 넣어주기
         return teamDAO.save(team);
     }
-
+    @Transactional
     public void deleteTeam(UUID teamuuid){
         Team team = teamDAO.findByTeamuuid(teamuuid);
         System.out.println("삭제하려는 team : "+team.toString());

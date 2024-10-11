@@ -19,10 +19,10 @@ import java.util.UUID;
 public class Orders {
 
     @Id
-    @Column(name = "orderuuid", nullable = false)
-    private UUID orderuuid;
+    @Column(name = "ordersuuid", nullable = false)
+    private UUID ordersuuid;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="useruuid", nullable = false)
     private User user;
 

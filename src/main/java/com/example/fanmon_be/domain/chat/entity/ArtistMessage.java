@@ -3,6 +3,7 @@ package com.example.fanmon_be.domain.chat.entity;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.chat.enums.MessageFrom;
 import com.example.fanmon_be.domain.user.entity.User;
+import com.example.fanmon_be.global.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -21,10 +22,11 @@ public class ArtistMessage {
     @Id
     private UUID artistmessageuuid;
     @PrePersist
-    protected void onCreate() {
+    protected void generateBaseColumns() {
         if (artistmessageuuid==null){
             this.artistmessageuuid = UUID.randomUUID();
         }
+        this.timestamp=LocalDateTime.now();
     }
 
     private String messagetext;

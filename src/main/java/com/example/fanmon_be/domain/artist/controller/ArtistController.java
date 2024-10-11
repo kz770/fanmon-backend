@@ -4,6 +4,10 @@ package com.example.fanmon_be.domain.artist.controller;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.artist.service.ArtistService;
 import com.example.fanmon_be.domain.management.entity.Management;
+import com.example.fanmon_be.domain.user.enums.Role;
+import com.example.fanmon_be.domain.user.dto.LoginRequest;
+import com.example.fanmon_be.domain.user.dto.LoginResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,8 +77,9 @@ public class ArtistController {
         //업뎃된 파일 있으면 그걸로 fname set해서 db에 저장
         String oldFname = artist.getFname();
         MultipartFile uploadfile = artist.getUploadfile();
-        String fname = uploadfile.getOriginalFilename();
-        if(fname!=null && !fname.equals("")) {
+        String fname = null;
+        if(uploadfile != null){
+            fname = uploadfile.getOriginalFilename();
             artist.setFname(fname);
         }
         Artist updatedArtist = artistService.updateArtist(artistuuid,artist);
@@ -117,5 +122,11 @@ public class ArtistController {
     public ResponseEntity<Artist> deleteArtist(@PathVariable UUID artistuuid) {
         artistService.deleteArtist(artistuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "artist 로그인")
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest request) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(artistService.login(request));
     }
 }
