@@ -8,10 +8,7 @@ import com.example.fanmon_be.domain.shop.goods.service.GoodsViewService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -30,7 +27,6 @@ public class GoodsViewController {
     private TeamService teamService;
 
     //팀별 굿즈샵 출력
-    @GetMapping("/shop/goods/main")
     @GetMapping("/main")
     public ResponseEntity<List<Team>> findAllTeamList() {
         List<Team> teamlist = teamService.findAll();
