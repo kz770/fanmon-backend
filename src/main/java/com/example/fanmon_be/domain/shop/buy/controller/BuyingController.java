@@ -54,7 +54,7 @@ public class BuyingController {
 
     //결제 성공
     @PostMapping("/bought/{useruuid}")
-    public void successBuy(@PathVariable String useruuid) {
+    public void successBuying(@PathVariable String useruuid) {
 
     }
 

@@ -32,7 +32,6 @@ public class CartController {
         List<Cart> cartList = cartService.findByUser(useruuid);
 
         return ResponseEntity.ok(cartList);
-
     }
 
     // 장바구니에 새 상품 추가
@@ -66,6 +65,13 @@ public class CartController {
     @GetMapping("/delete/{useruuid}/{cartsequence}")
     public ResponseEntity<Boolean> deleteCart(@PathVariable UUID useruuid, @PathVariable Long cartsequence) {
         boolean result = cartService.deleteCartItem(useruuid, cartsequence);
+        return ResponseEntity.ok(result);
+    }
+
+    // 결제 후 장바구니 비우기
+    @GetMapping("/deleteAll/{useruuid}")
+    public ResponseEntity<Boolean> deleteAllCart(@PathVariable UUID useruuid) {
+        boolean result = cartService.deleteByUseruuid(useruuid);
         return ResponseEntity.ok(result);
     }
 }

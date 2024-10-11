@@ -14,4 +14,8 @@ public class CardinfoService {
 
     @Autowired
     private CardinfoDAO cardinfoDAO;
+
+    public List<Cardinfo> findByUseruuid(String useruuid) {
+        return cardinfoDAO.findByUseruuid(useruuid);
+    }
 }
