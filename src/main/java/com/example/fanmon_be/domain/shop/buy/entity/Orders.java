@@ -26,6 +26,8 @@ public class Orders {
     @JoinColumn(name="useruuid", nullable = false)
     private User user;
 
+    private String applynum;
+    private String merchantuid;
     private String address;
     private long totalcost;
     private LocalDateTime createdat;
