@@ -3,6 +3,7 @@ package com.example.fanmon_be.domain.board.controller;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.board.dao.ArtistboardDAO;
 import com.example.fanmon_be.domain.board.entity.Artistboard;
+import com.example.fanmon_be.domain.board.entity.Fanboard;
 import com.example.fanmon_be.domain.board.service.ArtistBoardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletContext;
@@ -36,16 +37,46 @@ public class ArtistBoardController {
 
     @PostMapping("")
     public ResponseEntity<Artistboard> postOnArtistBoard(@RequestParam("post") String post,
-                                  @RequestParam("image")MultipartFile image){
-        String savePath = servletContext.getRealPath("/resources/board/"+image.getOriginalFilename());
+                                  @RequestParam(value = "image", required = false) MultipartFile image){
         try {
-            image.transferTo(new File(savePath)); // 파일 저장
             Artistboard artistboard = objectMapper.readValue(post, Artistboard.class);
-            String fname = "http://localhost:8080/resources/board/" + image.getOriginalFilename();
-            artistboard.setFname(fname);
-            System.out.println("path = " + fname);
+            if (image !=null && !image.isEmpty()){
+                String savePath = servletContext.getRealPath("/resources/board/" + image.getOriginalFilename());
+                image.transferTo(new File(savePath)); // 파일 저장
+                String fname = "http://localhost:8080/resources/board/" + image.getOriginalFilename();
+                artistboard.setFname(fname);
+                System.out.println("path = " + fname);
+            }
             artistBoardService.save(artistboard);
             return ResponseEntity.ok(artistboard); // 이미지 url을 리턴한다
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    // 게시물 수정
+    @PutMapping("/put")
+    public ResponseEntity<Artistboard> update(
+            @RequestParam("post") String post,
+            @RequestParam(value = "image", required = false) MultipartFile image) { // 이미지가 optional
+
+        try {
+            Artistboard artistboard = objectMapper.readValue(post, Artistboard.class);
+            if (image != null && !image.isEmpty()) { // 이미지가 있는 경우
+                String savePath = servletContext.getRealPath("/resources/board/" + image.getOriginalFilename());
+                image.transferTo(new File(savePath)); // 파일 저장
+                String fname = "http://localhost:8080/resources/board/" + image.getOriginalFilename();
+                artistboard.setFname(fname);
+                System.out.println("path = " + fname);
+            } else {
+                // 이미지가 없는 경우
+                String prevFname=artistboard.getFname();
+                if (prevFname!=null && !prevFname.equals("")){
+                    artistboard.setFname(prevFname); // 기존 이미지 URL로 설정
+                }
+            }
+            artistBoardService.save(artistboard); // 게시물 저장
+            return ResponseEntity.ok(artistboard); // 저장된 게시물 반환
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
