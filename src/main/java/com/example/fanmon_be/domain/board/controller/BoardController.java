@@ -12,11 +12,11 @@ import com.example.fanmon_be.domain.board.service.BoardNoticeService;
 import com.example.fanmon_be.domain.board.service.FanBoardService;
 import com.example.fanmon_be.domain.board.service.FanCommentService;
 import com.example.fanmon_be.domain.user.dao.UserDAO;
-import com.example.fanmon_be.domain.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -43,27 +43,18 @@ public class BoardController {
     private UserDAO userDAO;
 
     @ResponseBody
-    @GetMapping("/board/artistboard/{teamuuid}")
-    public ResponseEntity<List<Artistboard>> getArtistBoardData(@PathVariable UUID teamuuid) {
-        // board dto에 필요한 데이터 목록
-        List<Artistboard> artistboards = artistBoardService.findById(teamuuid);
-        System.out.println("artistboards = " + artistboards);
-        return ResponseEntity.ok(artistboards);
-    }
-    @ResponseBody
     @GetMapping("/board/boardnotice/{teamuuid}")
     public ResponseEntity<List<Boardnotice>> getBoardNoticeData(@PathVariable UUID teamuuid) {
         // board notice에 필요한 데이터 목록
         List<Boardnotice> boardnotices = boardNoticeService.findById(teamuuid);
-        System.out.println("boardnotices = " + boardnotices);
+//        System.out.println("boardnotices = " + boardnotices);
         return ResponseEntity.ok(boardnotices);
     }
     @ResponseBody
     @GetMapping("/board/fanboard/{teamuuid}")
     public ResponseEntity<List<Fanboard>> getFanBoardData(@PathVariable UUID teamuuid) {
         // fan board에 필요한 데이터 목록
-        List<Fanboard> fanboards = fanBoardService.findById(teamuuid);
-        System.out.println("fanboards = " + fanboards);
+        List<Fanboard> fanboards = fanBoardService.fanBoardData(teamuuid);
         return ResponseEntity.ok(fanboards);
     }
 
@@ -76,21 +67,17 @@ public class BoardController {
         artistList=artistService.findAll();
         return ResponseEntity.ok(artistList);
     }
-    @PostMapping("/board/artistboard")
-    public ResponseEntity<Artistboard> postOnArtistBoard(@RequestBody Artistboard newPosting){
-        newPosting.setCreatedat(LocalDateTime.now());
-//        artistBoardService.save(newPosting);
-        newPosting.setArtistboarduuid(UUID.randomUUID());
-        System.out.println("newPosting = " + newPosting);
-        return ResponseEntity.ok(newPosting);
-    }
+
     @PostMapping("/board/fanboard")
     public ResponseEntity<Fanboard> postOnFanboard(@RequestBody Fanboard newPosting){
-        newPosting.setCreatedat(LocalDateTime.now());
-        newPosting.setFanboarduuid(UUID.randomUUID());
-        newPosting.setUser(userDAO.findById(newPosting.getUser().getUseruuid()).get());
+        fanBoardService.save(newPosting);
         System.out.println("newPosting = " + newPosting);
         return ResponseEntity.ok(newPosting);
     }
 
+    @DeleteMapping("/board/fanboard/{fanboarduuid}")
+    public ResponseEntity<Void> deleteFanboard(@PathVariable UUID fanboarduuid){
+        fanBoardService.delete(fanboarduuid);
+        return ResponseEntity.noContent().build();
+    }
 }

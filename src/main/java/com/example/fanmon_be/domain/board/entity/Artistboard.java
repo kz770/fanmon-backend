@@ -23,8 +23,8 @@ public class Artistboard extends BaseEntity {
         if(artistboarduuid == null){
             artistboarduuid = UUID.randomUUID();
         }
-        super.createdat =LocalDateTime.now();
-        super.updatedat = LocalDateTime.now();
+        this.createdat =LocalDateTime.now();
+        this.updatedat = LocalDateTime.now();
     }
 
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -37,7 +37,7 @@ public class Artistboard extends BaseEntity {
 
     private LocalDateTime createdat;
     private LocalDateTime updatedat;
-
+    private  String fname;
     private String content;
     private long likecount;
 }
