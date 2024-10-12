@@ -6,6 +6,7 @@ import com.example.fanmon_be.domain.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -15,5 +16,9 @@ public class ChatService {
 
     public UUID findByArtistuuid(UUID artistuuid){
         return dao.findChatuuidByArtistArtistuuid(artistuuid);
+    }
+    public Chat findById(UUID uuid){
+        Chat chat = dao.findById(uuid).get();
+        return chat;
     }
 }

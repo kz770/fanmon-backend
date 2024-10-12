@@ -31,7 +31,7 @@ public class ArtistBoardController {
 
     @GetMapping("/{teamuuid}")
     public ResponseEntity<List<Artistboard>> getList(@PathVariable UUID teamuuid){
-        List<Artistboard> artistboardList=artistBoardService.findById(teamuuid);
+        List<Artistboard> artistboardList=artistBoardService.findByTeamuuid(teamuuid);
         return ResponseEntity.ok(artistboardList);
     }
 
@@ -70,7 +70,8 @@ public class ArtistBoardController {
                 System.out.println("path = " + fname);
             } else {
                 // 이미지가 없는 경우
-                String prevFname=artistboard.getFname();
+                Artistboard prevData = artistBoardService.findById(artistboard.getArtistboarduuid());
+                String prevFname=prevData.getFname();
                 if (prevFname!=null && !prevFname.equals("")){
                     artistboard.setFname(prevFname); // 기존 이미지 URL로 설정
                 }
