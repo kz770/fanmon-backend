@@ -4,11 +4,9 @@ import com.example.fanmon_be.domain.artist.dao.ArtistDAO;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.management.dao.ManagementDAO;
 import com.example.fanmon_be.domain.management.entity.Management;
-import com.example.fanmon_be.domain.user.enums.Role;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import com.example.fanmon_be.domain.user.dto.LoginRequest;
 import com.example.fanmon_be.domain.user.dto.LoginResponse;
+import com.example.fanmon_be.domain.user.enums.Role;
 import com.example.fanmon_be.global.exception.ModelNotFoundException;
 import com.example.fanmon_be.global.security.jwt.JwtPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +75,8 @@ public class ArtistService {
                 artist.getRole().toString()
         );
         return new LoginResponse(
-                accessToken
+                accessToken,
+                artist.getRole()
         );
     }
 
