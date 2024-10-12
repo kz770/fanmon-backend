@@ -62,7 +62,8 @@ public class UserService {
         );
 
         return new LoginResponse(
-                accessToken
+                accessToken,
+                user.getRole()
         );
     }
 
