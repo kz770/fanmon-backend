@@ -129,4 +129,14 @@ public class ArtistController {
     public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest request) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(artistService.login(request));
     }
+
+    //management 별 아티스트 개수 COUNT
+    @GetMapping("/count/{managementuuid}")
+    public ResponseEntity<Long> count(@PathVariable UUID managementuuid) {
+        Long count = artistService.countByManagementuuid(managementuuid);
+        if (count == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(count);
+    }
 }

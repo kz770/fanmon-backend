@@ -6,7 +6,6 @@ import com.example.fanmon_be.domain.management.service.GoodsService;
 import com.example.fanmon_be.domain.management.service.ManagementService;
 import com.example.fanmon_be.domain.shop.goods.entity.Goods;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,5 +139,15 @@ public class GoodsController {
         }
         System.out.println("team's Goods List : " + list);
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    //management 별 굿즈 COUNT
+    @GetMapping("/count/{managementuuid}")
+    public ResponseEntity<Long> countByManagementuuid(@PathVariable UUID managementuuid) {
+        Long count = goodsService.countByManagementuuid(managementuuid);
+        if (count == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(count);
     }
 }

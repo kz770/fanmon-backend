@@ -119,4 +119,21 @@ public class TeamController {
         teamService.deleteTeam(teamuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+//    팀 follower 수 별로 order by
+    @GetMapping("/followerorderby/{managementuuid}")
+    public ResponseEntity<List<Team>> getTeamsByOrder(@PathVariable UUID managementuuid) {
+        List<Team> list = teamService.orderTeamByFollowers(managementuuid);
+        return ResponseEntity.ok(list);
+    }
+
+    //management 별 팀 개수 COUNT
+    @GetMapping("/count/{managementuuid}")
+    public ResponseEntity<Long> getTeamCount(@PathVariable UUID managementuuid) {
+        Long count = teamService.countByManagementUuid(managementuuid);
+        if (count == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(count);
+    }
 }

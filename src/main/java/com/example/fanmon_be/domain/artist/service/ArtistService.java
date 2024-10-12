@@ -29,6 +29,8 @@ public class ArtistService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtPlugin jwtPlugin;
+    @Autowired
+    private ArtistDAO artistDAO;
 
     public List<Artist> findAll(){
         return dao.findAll();
@@ -77,5 +79,10 @@ public class ArtistService {
         return new LoginResponse(
                 accessToken
         );
+    }
+
+    //management 별 아티스트 개수 COUNT
+    public Long countByManagementuuid(UUID managementuuid){
+        return artistDAO.countByManagementManagementuuid(managementuuid);
     }
 }

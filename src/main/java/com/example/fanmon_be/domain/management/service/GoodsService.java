@@ -60,4 +60,9 @@ public class GoodsService {
     }
 
     public List<Goods> getGoodsByTeamuuid(UUID teamuuid) { return goodsDAO.findByTeamTeamuuid(teamuuid); }
+
+    //management 별 굿즈 COUNT
+    public Long countByManagementuuid(UUID managementuuid) {
+        return goodsDAO.countByManagementuuid(managementuuid);
+    }
 }
