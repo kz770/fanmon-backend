@@ -40,7 +40,6 @@ public class MessageController {
     @Autowired
     private ArtistDAO artistDAO;
 
-
     // 아티스트 -> 유저 메세지 전송 메서드
     @MessageMapping("/{artistuuid}/toFans")    // uuid로 메세지를 발행한 아티스트 구분
     @SendTo("/sub/{artistuuid}/toFans")    // 특정 artist를 구독한 유저 모두에게 메세지 전송
