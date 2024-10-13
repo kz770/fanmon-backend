@@ -75,8 +75,8 @@ public class ArtistService {
                 artist.getRole().toString()
         );
         return new LoginResponse(
-                accessToken
-//                artist.getRole()
+                accessToken,
+                artist.getRole()
         );
     }
 
