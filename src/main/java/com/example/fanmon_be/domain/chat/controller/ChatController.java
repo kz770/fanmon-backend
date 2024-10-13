@@ -1,6 +1,8 @@
 package com.example.fanmon_be.domain.chat.controller;
 
+import com.example.fanmon_be.domain.chat.entity.Chat;
 import com.example.fanmon_be.domain.chat.entity.Subscribe;
+import com.example.fanmon_be.domain.chat.service.ChatService;
 import com.example.fanmon_be.domain.chat.service.MessageService;
 import com.example.fanmon_be.domain.chat.service.SubscribeService;
 import com.example.fanmon_be.domain.user.dao.UserDAO;
@@ -22,6 +24,8 @@ public class ChatController {
     private MessageService messageService;
     @Autowired
     private SubscribeService subscribeService;
+    @Autowired
+    private ChatService chatService;
 
 
     // 불량 사용자 차단
@@ -46,6 +50,12 @@ public class ChatController {
         }
         System.out.println("구독리스트 존재!");
         return ResponseEntity.ok(subscriptions);
+    }
+
+    // 채팅 정보를 반환
+    @GetMapping("/chat/{chatuuid}")
+    public ResponseEntity<Chat> ChatRoom(@PathVariable UUID chatuuid){
+        return ResponseEntity.ok(chatService.findById(chatuuid));
     }
 
 
