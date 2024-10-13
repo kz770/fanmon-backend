@@ -124,7 +124,8 @@ public class BuyingController {
             Goods good = mapperG.convertValue(userDataMap, Goods.class);
             user = order.getUser();
             userDataMap = (LinkedHashMap<String, Object>) goodDataMap.get("user_data");
-            birthString = goodDataMap.get("birth").toString();
+            birthString = goodDataMap
+                    .get("birth").toString();
             formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 형식에 맞게 설정
             birthDate = LocalDate.parse(birthString, formatter);
             user.setBirth(birthDate); // LocalDate로 설정
