@@ -67,7 +67,7 @@ public class ManagementService {
 
         return new LoginResponse(
                 accessToken,
-                management.getRole()
+                management.getRole().toString()
         );
     }
 

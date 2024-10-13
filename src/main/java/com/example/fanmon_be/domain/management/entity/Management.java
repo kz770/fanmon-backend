@@ -66,7 +66,8 @@ public class Management extends BaseEntity {
                 this.email,
                 this.name,
                 this.address,
-                this.businessno
+                this.businessno,
+                this.role.toString()
         );
     }
 
