@@ -24,6 +24,13 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
+    //전체 team 리스트
+    @GetMapping("/list")
+    public ResponseEntity<List<Team>> list() {
+        List<Team> list = teamService.findAll();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
     //management의 team리스트
     @GetMapping("/list/{managementuuid}")
     public ResponseEntity<List<Team>> getTeams(@PathVariable UUID managementuuid) {
