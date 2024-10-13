@@ -17,4 +17,8 @@ public class ChatService {
     public UUID findByArtistuuid(UUID artistuuid){
         return dao.findChatuuidByArtistArtistuuid(artistuuid);
     }
+    public Chat findById(UUID uuid){
+        Chat chat = dao.findById(uuid).get();
+        return chat;
+    }
 }

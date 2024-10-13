@@ -1,6 +1,5 @@
 package com.example.fanmon_be.domain.board.service;
 
-import com.example.fanmon_be.domain.artist.dao.ArtistDAO;
 import com.example.fanmon_be.domain.board.dao.ArtistboardDAO;
 import com.example.fanmon_be.domain.board.entity.Artistboard;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ public class ArtistBoardService {
     @Autowired
     ArtistboardDAO artistboardDAO;
 
-    public List<Artistboard> findById(UUID uuid){
+    public List<Artistboard> findByTeamuuid(UUID uuid){
         return artistboardDAO.findArtistboardByTeamTeamuuidOrderByCreatedat(uuid);
     }
     public void save(Artistboard artistboard){
@@ -23,5 +22,8 @@ public class ArtistBoardService {
 
     public void delete(UUID uuid) {
         artistboardDAO.deleteByFanboarduuid(uuid);
+    }
+    public Artistboard findById(UUID uuid){
+        return artistboardDAO.findById(uuid).get();
     }
 }
