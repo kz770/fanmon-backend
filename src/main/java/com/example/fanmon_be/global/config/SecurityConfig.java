@@ -25,20 +25,17 @@ public class SecurityConfig {
     private final AccessDeniedHandler accessDeniedHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
-    private final CorsMvcConfig corsMvcConfig;
-
     private final JwtPlugin jwtPlugin;
 
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                           CustomAuthenticationEntryPoint authenticationEntryPoint,
-                          AccessDeniedHandler accessDeniedHandler, CustomOAuth2UserService customOAuth2UserService, CustomSuccessHandler customSuccessHandler, CorsMvcConfig corsMvcConfig, JwtPlugin jwtPlugin) {
+                          AccessDeniedHandler accessDeniedHandler, CustomOAuth2UserService customOAuth2UserService, CustomSuccessHandler customSuccessHandler, JwtPlugin jwtPlugin) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.accessDeniedHandler = accessDeniedHandler;
         this.customOAuth2UserService = customOAuth2UserService;
         this.customSuccessHandler = customSuccessHandler;
-        this.corsMvcConfig = corsMvcConfig;
         this.jwtPlugin = jwtPlugin;
     }
 
@@ -73,7 +70,6 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilter(corsMvcConfig.corsFilter())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> {
                     exceptionHandling.authenticationEntryPoint(authenticationEntryPoint);
