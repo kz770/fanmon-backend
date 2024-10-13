@@ -66,4 +66,11 @@ public class ChatController {
         // DB에 저장된 메세지 불러오기
         return messageService.getAllMessages(chatuuid);
     }
+
+    // 아티스트로 채팅 정보 검색
+    @ResponseBody
+    @GetMapping("/chat/chatinfo/{artistuuid}")
+    public Chat findChat(@PathVariable UUID artistuuid) {
+        return chatService.findChatInfo(artistuuid);
+    }
 }
