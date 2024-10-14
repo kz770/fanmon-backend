@@ -52,7 +52,7 @@ dependencies {
 
 	//Socket io
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-  implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+ 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
