@@ -18,10 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.nio.ByteBuffer;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -42,7 +40,23 @@ public class BuyingController {
 
     @Autowired
     UserService userService;
-    
+
+    // UUID를 바이트 배열로 변환
+    private byte[] convertToBytes(UUID uuid) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(new byte[16]);
+        byteBuffer.putLong(uuid.getMostSignificantBits());
+        byteBuffer.putLong(uuid.getLeastSignificantBits());
+        return byteBuffer.array();
+    }
+
+    // 바이트 배열을 16진수 문자열로 변환
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b)); // 각 바이트를 16진수로 변환
+        }
+        return sb.toString();
+    }
 
     //결제 성공
     // Orders 테이블에 데이터 저장
@@ -56,11 +70,17 @@ public class BuyingController {
 //          orders.setImpuid(request.get("imp_uid").toString());
 //          System.out.println(request.get("imp_uid"));
 
+
+            UUID ordersUuid = UUID.randomUUID();
+//            String hexUuid = bytesToHex(convertToBytes(ordersUuid)); // UUID -> UNHEX(REPLACE(UUID(), '-', '')) 형식으로 변환
+            orders.setOrdersuuid(ordersUuid); // ordersUuid는 수동으로 할당해야 함
+            System.out.println("Generated UUID: " + ordersUuid);
+
             orders.setMerchantuid(request.get("merchant_uid").toString());
-            System.out.println(request.get("merchant_uid").toString());
+            System.out.println("merchant_uid: "+request.get("merchant_uid").toString());
 
             orders.setApplynum(request.get("apply_num").toString());
-            System.out.println(request.get("apply_num").toString());
+            System.out.println("apply_num: "+request.get("apply_num").toString());
 
             long paidAtTime = ((Number) request.get("paid_at")).longValue();
             LocalDate paidAtDate = Instant.ofEpochSecond(paidAtTime)
@@ -70,30 +90,35 @@ public class BuyingController {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
             HashMap<String, Object> userDataMap = (HashMap<String, Object>) request.get("user_data");
-            long paidAtTimestamp = Long.parseLong(request.get("user_data").toString());
-            LocalDate datetest = Instant.ofEpochSecond(paidAtTimestamp)
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
+            String birthString = (String) userDataMap.get("birth");
+
+            // birth가 null이 아닐 때 처리
+            if (birthString != null) {
+                LocalDate birthDate = LocalDate.parse(birthString); // 기본 형식 yyyy-MM-dd
+                userDataMap.put("birth", birthDate); // User 엔티티에 맞게 변환된 값을 넣어줍니다.
+            }
+
+            // User 객체로 변환
             User user = mapper.convertValue(userDataMap, User.class);
-            user.setBirth(datetest); // LocalDate로 설정
-            System.out.println(datetest);
             orders.setUser(user);
             System.out.println("user:"+user);
 
             orders.setAddress(request.get("buyer_addr").toString());
-            System.out.println(request.get("buyer_addr").toString());
+            System.out.println("buyer_addr: "+request.get("buyer_addr").toString());
 
             orders.setTotalcost(((Number) request.get("paid_amount")).longValue());
-            System.out.println(((Number) request.get("paid_amount")).longValue());
+            System.out.println("paid_amount: "+((Number) request.get("paid_amount")).longValue());
 
-            orders.setCreatedat(LocalDateTime.parse(request.get("paid_at").toString()));
-            System.out.println(LocalDateTime.parse(request.get("paid_at").toString()));
+            long paidAtTimestamp = Long.parseLong(request.get("paid_at").toString());
+            LocalDateTime paidAtDateTime = LocalDateTime.ofEpochSecond(paidAtTimestamp, 0, ZoneOffset.UTC);
+            orders.setCreatedat(paidAtDateTime);
+            System.out.println("paid_at: " + paidAtDateTime);
 
             orders.setStatus(OrdersStatus.valueOf("BOUGHT"));
-            System.out.println(OrdersStatus.valueOf("BOUGHT"));
+            System.out.println("status: "+OrdersStatus.valueOf("BOUGHT"));
 
             orders.setQty(((Number) request.get("paid_qty")).longValue());
-            System.out.println(((Number) request.get("paid_qty")).longValue());
+            System.out.println("paid_qty: "+((Number) request.get("paid_qty")).longValue());
 
             ordersService.save(orders);
 
