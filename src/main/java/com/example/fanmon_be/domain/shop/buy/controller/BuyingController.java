@@ -41,21 +41,6 @@ public class BuyingController {
     @Autowired
     UserService userService;
 
-    // Orders 테이블의 uuid를 binary로 변환
-    public static byte[] asByteArray(UUID uuid) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(new byte[16]);
-        byteBuffer.putLong(uuid.getMostSignificantBits());
-        byteBuffer.putLong(uuid.getLeastSignificantBits());
-        return byteBuffer.array();
-    }
-    public static UUID asUuid(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        long mostSigBits = byteBuffer.getLong();
-        long leastSigBits = byteBuffer.getLong();
-        return new UUID(mostSigBits, leastSigBits);
-    }
-
-
     //결제 성공
     // Orders 테이블에 데이터 저장
     @PostMapping("/bought/sendO/{useruuid}")
@@ -83,14 +68,8 @@ public class BuyingController {
             mapper.registerModule(new JavaTimeModule());
             HashMap<String, Object> userDataMap = (HashMap<String, Object>) request.get("user_data");
             String birthString = (String) userDataMap.get("birth");
-
-            // birth가 null이 아닐 때 처리
-            if (birthString != null) {
-                LocalDate birthDate = LocalDate.parse(birthString); // 기본 형식 yyyy-MM-dd
-                userDataMap.put("birth", birthDate); // User 엔티티에 맞게 변환된 값을 넣어줍니다.
-            }
-
-            // User 객체로 변환
+            LocalDate birthDate = LocalDate.parse(birthString); // 기본 형식 yyyy-MM-dd
+            userDataMap.put("birth", birthDate); // User 엔티티에 맞게 변환된 값을 넣어줍니다.
             User user = mapper.convertValue(userDataMap, User.class);
             orders.setUser(user);
             System.out.println("user:"+user);
@@ -127,76 +106,62 @@ public class BuyingController {
     @PostMapping("/bought/sendD/{useruuid}")
     public ResponseEntity<Void> handleSendD(@PathVariable String useruuid, @RequestBody HashMap<String, Object> request) {
         System.out.println("Received data(D): " + request);
-
         List<Map<String, Object>> Details = (List<Map<String, Object>>) request.get("DetailData");
-        for (Map<String, Object> detail : Details) {
+        try{
 
-            Ordersdetail odetails = new Ordersdetail();
+            for (Map<String, Object> detail : Details) {
+                System.out.println("orders detail 루프 시작");
 
-            ObjectMapper mapper = new ObjectMapper();
-            LinkedHashMap<String, Object> userDataMap = (LinkedHashMap<String, Object>) request.get("user_data");
-            User user = mapper.convertValue(userDataMap, User.class);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 형식에 맞게 설정
-            try {
-                LocalDate birthDate = LocalDate.parse(userDataMap.get("birth").toString(), formatter);
-                user.setBirth(birthDate); // LocalDate로 설정
-                odetails.setUser(user);
-                System.out.println("user:"+user);
-            } catch (DateTimeParseException e) {
-                System.err.println("날짜 변환 오류: " + e.getMessage());
+                try {
+                    Ordersdetail odetails = new Ordersdetail();
+                    ObjectMapper mapper = new ObjectMapper();
+                    LinkedHashMap<String, Object> userDataMap = (LinkedHashMap<String, Object>) request.get("user_data");
+                    User user = mapper.convertValue(userDataMap, User.class);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 형식에 맞게 설정
+                    LocalDate birthDate = LocalDate.parse(userDataMap.get("birth").toString(), formatter);
+                    user.setBirth(birthDate);
+                    odetails.setUser(user);
+                    System.out.println("user:"+user);
+
+                    LinkedHashMap<String, Object> goodsDataMap = (LinkedHashMap<String, Object>)request.get("goods_data");
+                    Goods goods = mapper.convertValue(goodsDataMap, Goods.class);
+                    odetails.setGoods(goods);
+                    System.out.println("goods: "+goods);
+
+                    LinkedHashMap<String, Object> ordersDataMap = (LinkedHashMap<String, Object>)request.get("orders_data");
+                    Orders orders = mapper.convertValue(ordersDataMap, Orders.class);
+                    user = orders.getUser();
+                    String birthString = ordersDataMap.get("birth").toString();
+                    formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 적절한 포맷 지정
+                    birthDate = LocalDate.parse(birthString, formatter);
+                    user.setBirth(birthDate);
+                    odetails.setOrders(orders);
+                    System.out.println("orders");
+
+                    odetails.setTotalcost(((Number) detail.get("detail_amount")).longValue());
+                    System.out.println("detail_amount: "+((Number) detail.get("detail_amount")).longValue());
+
+                    odetails.setQty(((Number) detail.get("detail_qty")).longValue());
+                    System.out.println("detail_qty: "+((Number) detail.get("detail_qty")).longValue());
+
+                    System.out.println("odetails: "+odetails);
+                } catch (Exception e) {
+                    System.err.println("Error processing order: " + e.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
             }
 
-            ObjectMapper mapperU = new ObjectMapper();
-            userDataMap = (LinkedHashMap<String, Object>) request.get("user_data");
-            user = mapperU.convertValue(userDataMap, User.class);
-            String birthString = userDataMap.get("birth").toString();
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 형식에 맞게 설정
-            try {
-                LocalDate birthDate = LocalDate.parse(userDataMap.get("birth").toString(), formatter);
-                user.setBirth(birthDate); // LocalDate로 설정
-                System.out.println(user);
-            } catch (DateTimeParseException e) {
-                System.err.println("날짜 변환 오류: " + e.getMessage());
-            }
+            ordersdetailService.save((Ordersdetail) Details);
 
-            ObjectMapper mapperO = new ObjectMapper();
-            LinkedHashMap<String, Object> orderDataMap = (LinkedHashMap<String, Object>) request.get("orders_data");
-            Orders order = mapperO.convertValue(userDataMap, Orders.class);
-            user = order.getUser();
-            userDataMap = (LinkedHashMap<String, Object>) orderDataMap.get("user_data");
-            birthString = userDataMap.get("birth").toString();
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 형식에 맞게 설정
-            LocalDate birthDate = LocalDate.parse(birthString, formatter);
-            user.setBirth(birthDate);
-            odetails.setOrders(order);
-            System.out.println(order);
+            System.out.println("Details: "+Details);
 
-            ObjectMapper mapperG = new ObjectMapper();
-            LinkedHashMap<String, Object> goodDataMap = (LinkedHashMap<String, Object>) request.get("goods_data");
-            Goods good = mapperG.convertValue(userDataMap, Goods.class);
-            user = order.getUser();
-            userDataMap = (LinkedHashMap<String, Object>) goodDataMap.get("user_data");
-            birthString = goodDataMap
-                    .get("birth").toString();
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 형식에 맞게 설정
-            birthDate = LocalDate.parse(birthString, formatter);
-            user.setBirth(birthDate); // LocalDate로 설정
+            // 저장 끝났으면 ok사인!
+            return ResponseEntity.ok().build();
 
-
-            odetails.setGoods(good);
-            System.out.println("good: "+good);
-
-            odetails.setTotalcost(((Number) detail.get("detail_amount")).longValue());
-            System.out.println("detail_amount: "+((Number) detail.get("detail_amount")).longValue());
-
-            odetails.setQty(((Number) detail.get("detail_qty")).longValue());
-            System.out.println("detail_qty: "+((Number) detail.get("detail_qty")).longValue());
+        }catch (Exception e) {
+            System.err.println("Error processing order: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        System.out.println(Details);
-
-        // 저장 끝났으면 ok사인!
-        return ResponseEntity.ok().build();
     }
 
 
