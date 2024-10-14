@@ -1,5 +1,6 @@
 package com.example.fanmon_be.domain.artist.entity;
 
+import com.example.fanmon_be.domain.artist.dto.ArtistResponse;
 import com.example.fanmon_be.domain.management.entity.Management;
 import com.example.fanmon_be.domain.user.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,4 +50,17 @@ public class Artist {
     @Transient
     @JsonIgnore
     private MultipartFile uploadfile;
+
+    public ArtistResponse toResponse(){
+        return new ArtistResponse(
+                this.artistuuid,
+                this.name,
+                this.management,
+                this.debut,
+                this.email,
+                this.birth,
+                this.fname,
+                this.role.toString()
+        );
+    }
 }

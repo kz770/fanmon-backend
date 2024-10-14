@@ -38,15 +38,7 @@ public class TeamService {
     }
     @Transactional
     public void deleteTeam(UUID teamuuid){
-        Team team = teamDAO.findByTeamuuid(teamuuid);
-        System.out.println("삭제하려는 team : "+team.toString());
-        if(team != null){
-            team.setManagement(null); //management 참조 해제
-            teamDAO.save(team); //변경 사항 저장
-            teamDAO.delete(team); //팀 삭제
-        }else{
-            System.out.println("삭제하려는 team 못 불러옴");
-        }
+        teamDAO.deleteById(teamuuid);
     }
     //팀 follower 수 별로 order by
     public List<Team> orderTeamByFollowers(UUID managementuuid){

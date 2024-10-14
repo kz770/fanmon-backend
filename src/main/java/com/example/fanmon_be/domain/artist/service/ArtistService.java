@@ -1,6 +1,7 @@
 package com.example.fanmon_be.domain.artist.service;
 
 import com.example.fanmon_be.domain.artist.dao.ArtistDAO;
+import com.example.fanmon_be.domain.artist.dto.ArtistResponse;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.management.dao.ManagementDAO;
 import com.example.fanmon_be.domain.management.entity.Management;
@@ -37,6 +38,10 @@ public class ArtistService {
     public List<Artist> getArtistsByManagementuuid(UUID managementuuid){ return dao.findArtistsByManagementManagementuuid(managementuuid);}
 
     public Artist create(Artist artist){
+        //이메일 중복 체크
+        if(dao.existsByEmail(artist.getEmail())){
+            throw new IllegalArgumentException("Email already exists");
+        }
         artist.setRole(Role.ARTIST);
         artist.setPassword(passwordEncoder.encode(artist.getPassword()));
         return dao.save(artist);
@@ -52,15 +57,7 @@ public class ArtistService {
     }
     @Transactional
     public void deleteArtist(UUID artistuuid){
-        Artist artist = dao.findById(artistuuid).orElse(null);
-        System.out.println("삭제하려는 artist: "+artist.toString());
-        if(artist != null){
-            artist.setManagement(null); //management 참조 해제
-            dao.save(artist); //변경 사항 저장
-            dao.delete(artist); //아티스트 삭제
-        }else{
-            System.out.println("삭제하려는 artist 못 불러옴");
-        }
+        artistDAO.deleteByArtistuuid(artistuuid);
     }
 
     public LoginResponse login(LoginRequest request) throws Exception {
@@ -83,5 +80,11 @@ public class ArtistService {
     //management 별 아티스트 개수 COUNT
     public Long countByManagementuuid(UUID managementuuid){
         return artistDAO.countByManagementManagementuuid(managementuuid);
+    }
+
+    public ArtistResponse findById(UUID artistuuid) {
+        Artist artist = dao.findById(artistuuid)
+                .orElseThrow(() -> new ModelNotFoundException(artistuuid.toString()));
+        return artist.toResponse();
     }
 }

@@ -1,18 +1,20 @@
 package com.example.fanmon_be.domain.artist.controller;
 
 
+import com.example.fanmon_be.domain.artist.dto.ArtistResponse;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.artist.service.ArtistService;
 import com.example.fanmon_be.domain.management.entity.Management;
-import com.example.fanmon_be.domain.user.enums.Role;
 import com.example.fanmon_be.domain.user.dto.LoginRequest;
 import com.example.fanmon_be.domain.user.dto.LoginResponse;
+import com.example.fanmon_be.global.security.UserPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -119,7 +121,13 @@ public class ArtistController {
 
     //아티스트 삭제 DELETE
     @DeleteMapping("/{artistuuid}")
-    public ResponseEntity<Artist> deleteArtist(@PathVariable UUID artistuuid) {
+    public ResponseEntity<Artist> deleteArtist(@PathVariable UUID artistuuid,HttpServletRequest request) {
+        String path = request.getServletContext().getRealPath("/resources/artistimg");
+        Artist deleteArtist = artistService.getArtistById(artistuuid);
+        String oldFname = deleteArtist.getFname();
+        //원래 파일 삭제
+        File file = new File(path+"/"+oldFname);
+        file.delete();
         artistService.deleteArtist(artistuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -138,5 +146,11 @@ public class ArtistController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(count);
+    }
+    @Operation(summary = "회원조회")
+    @GetMapping("/myprofile")
+    public ResponseEntity<ArtistResponse> artistGet(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UUID id = userPrincipal.getId();
+        return ResponseEntity.status(HttpStatus.OK).body(artistService.findById(id));
     }
 }
