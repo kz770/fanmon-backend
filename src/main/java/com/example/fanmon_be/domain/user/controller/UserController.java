@@ -31,6 +31,7 @@ public class UserController {
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<UserResponse> signUp(@Valid @RequestBody SignUpRequest request) {
 //        return ResponseEntity.created(URI.create("/login")).body(userService.signUp(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.signUp(request));
@@ -38,6 +39,7 @@ public class UserController {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest request) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(userService.login(request));
     }
