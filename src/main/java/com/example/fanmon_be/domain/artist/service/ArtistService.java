@@ -37,6 +37,10 @@ public class ArtistService {
     public List<Artist> getArtistsByManagementuuid(UUID managementuuid){ return dao.findArtistsByManagementManagementuuid(managementuuid);}
 
     public Artist create(Artist artist){
+        //이메일 중복 체크
+        if(dao.existsByEmail(artist.getEmail())){
+            throw new IllegalArgumentException("Email already exists");
+        }
         artist.setRole(Role.ARTIST);
         artist.setPassword(passwordEncoder.encode(artist.getPassword()));
         return dao.save(artist);
@@ -52,15 +56,7 @@ public class ArtistService {
     }
     @Transactional
     public void deleteArtist(UUID artistuuid){
-        Artist artist = dao.findById(artistuuid).orElse(null);
-        System.out.println("삭제하려는 artist: "+artist.toString());
-        if(artist != null){
-            artist.setManagement(null); //management 참조 해제
-            dao.save(artist); //변경 사항 저장
-            dao.delete(artist); //아티스트 삭제
-        }else{
-            System.out.println("삭제하려는 artist 못 불러옴");
-        }
+        artistDAO.deleteByArtistuuid(artistuuid);
     }
 
     public LoginResponse login(LoginRequest request) throws Exception {
