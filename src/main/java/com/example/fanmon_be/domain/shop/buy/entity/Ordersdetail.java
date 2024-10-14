@@ -20,6 +20,13 @@ public class Ordersdetail {
     @Column(name = "ordersdetailuuid", nullable = false)
     private UUID ordersdetailuuid;
 
+    @PrePersist
+    public void generateBaseColumns(){
+        if(ordersdetailuuid == null){
+            ordersdetailuuid = UUID.randomUUID();
+        }
+    }
+
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="useruuid", nullable = false)
     private User user;

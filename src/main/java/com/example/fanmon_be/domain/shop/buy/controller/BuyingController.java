@@ -41,22 +41,20 @@ public class BuyingController {
     @Autowired
     UserService userService;
 
-    // UUID를 바이트 배열로 변환
-    private byte[] convertToBytes(UUID uuid) {
+    // Orders 테이블의 uuid를 binary로 변환
+    public static byte[] asByteArray(UUID uuid) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(new byte[16]);
         byteBuffer.putLong(uuid.getMostSignificantBits());
         byteBuffer.putLong(uuid.getLeastSignificantBits());
         return byteBuffer.array();
     }
-
-    // 바이트 배열을 16진수 문자열로 변환
-    private String bytesToHex(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
-            sb.append(String.format("%02x", b)); // 각 바이트를 16진수로 변환
-        }
-        return sb.toString();
+    public static UUID asUuid(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        long mostSigBits = byteBuffer.getLong();
+        long leastSigBits = byteBuffer.getLong();
+        return new UUID(mostSigBits, leastSigBits);
     }
+
 
     //결제 성공
     // Orders 테이블에 데이터 저장
@@ -67,14 +65,8 @@ public class BuyingController {
         Orders orders = new Orders();
 
         try {
-//          orders.setImpuid(request.get("imp_uid").toString());
-//          System.out.println(request.get("imp_uid"));
-
-
-            UUID ordersUuid = UUID.randomUUID();
-//            String hexUuid = bytesToHex(convertToBytes(ordersUuid)); // UUID -> UNHEX(REPLACE(UUID(), '-', '')) 형식으로 변환
-            orders.setOrdersuuid(ordersUuid); // ordersUuid는 수동으로 할당해야 함
-            System.out.println("Generated UUID: " + ordersUuid);
+            orders.setImpuid(request.get("imp_uid").toString());
+            System.out.println("imp_uid: "+request.get("imp_uid"));
 
             orders.setMerchantuid(request.get("merchant_uid").toString());
             System.out.println("merchant_uid: "+request.get("merchant_uid").toString());
@@ -165,7 +157,6 @@ public class BuyingController {
                 System.out.println(user);
             } catch (DateTimeParseException e) {
                 System.err.println("날짜 변환 오류: " + e.getMessage());
-                // 추가적인 오류 처리
             }
 
             ObjectMapper mapperO = new ObjectMapper();
@@ -176,7 +167,7 @@ public class BuyingController {
             birthString = userDataMap.get("birth").toString();
             formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 형식에 맞게 설정
             LocalDate birthDate = LocalDate.parse(birthString, formatter);
-            user.setBirth(birthDate); // LocalDate로 설정
+            user.setBirth(birthDate);
             odetails.setOrders(order);
             System.out.println(order);
 
@@ -190,14 +181,16 @@ public class BuyingController {
             formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 형식에 맞게 설정
             birthDate = LocalDate.parse(birthString, formatter);
             user.setBirth(birthDate); // LocalDate로 설정
+
+
             odetails.setGoods(good);
-            System.out.println(good);
+            System.out.println("good: "+good);
 
             odetails.setTotalcost(((Number) detail.get("detail_amount")).longValue());
-            System.out.println(((Number) detail.get("detail_amount")).longValue());
+            System.out.println("detail_amount: "+((Number) detail.get("detail_amount")).longValue());
 
             odetails.setQty(((Number) detail.get("detail_qty")).longValue());
-            System.out.println(((Number) detail.get("detail_qty")).longValue());
+            System.out.println("detail_qty: "+((Number) detail.get("detail_qty")).longValue());
         }
 
         System.out.println(Details);

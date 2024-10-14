@@ -22,10 +22,18 @@ public class Orders {
     @Column(name = "ordersuuid", nullable = false)
     private UUID ordersuuid;
 
+    @PrePersist
+    public void generateBaseColumns(){
+        if(ordersuuid == null){
+            ordersuuid = UUID.randomUUID();
+        }
+    }
+
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name="useruuid", nullable = false)
     private User user;
 
+    private String impuid;
     private String applynum;
     private String merchantuid;
     private String address;
