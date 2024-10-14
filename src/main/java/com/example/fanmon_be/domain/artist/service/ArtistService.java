@@ -1,6 +1,7 @@
 package com.example.fanmon_be.domain.artist.service;
 
 import com.example.fanmon_be.domain.artist.dao.ArtistDAO;
+import com.example.fanmon_be.domain.artist.dto.ArtistResponse;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.management.dao.ManagementDAO;
 import com.example.fanmon_be.domain.management.entity.Management;
@@ -83,5 +84,11 @@ public class ArtistService {
     //management 별 아티스트 개수 COUNT
     public Long countByManagementuuid(UUID managementuuid){
         return artistDAO.countByManagementManagementuuid(managementuuid);
+    }
+
+    public ArtistResponse findById(UUID artistuuid) {
+        Artist artist = dao.findById(artistuuid)
+                .orElseThrow(() -> new ModelNotFoundException(artistuuid.toString()));
+        return artist.toResponse();
     }
 }

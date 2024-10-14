@@ -1,18 +1,20 @@
 package com.example.fanmon_be.domain.artist.controller;
 
 
+import com.example.fanmon_be.domain.artist.dto.ArtistResponse;
 import com.example.fanmon_be.domain.artist.entity.Artist;
 import com.example.fanmon_be.domain.artist.service.ArtistService;
 import com.example.fanmon_be.domain.management.entity.Management;
-import com.example.fanmon_be.domain.user.enums.Role;
 import com.example.fanmon_be.domain.user.dto.LoginRequest;
 import com.example.fanmon_be.domain.user.dto.LoginResponse;
+import com.example.fanmon_be.global.security.UserPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -138,5 +140,11 @@ public class ArtistController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(count);
+    }
+    @Operation(summary = "회원조회")
+    @GetMapping("/myprofile")
+    public ResponseEntity<ArtistResponse> artistGet(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UUID id = userPrincipal.getId();
+        return ResponseEntity.status(HttpStatus.OK).body(artistService.findById(id));
     }
 }
