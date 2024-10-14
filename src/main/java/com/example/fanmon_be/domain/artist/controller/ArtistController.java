@@ -121,7 +121,13 @@ public class ArtistController {
 
     //아티스트 삭제 DELETE
     @DeleteMapping("/{artistuuid}")
-    public ResponseEntity<Artist> deleteArtist(@PathVariable UUID artistuuid) {
+    public ResponseEntity<Artist> deleteArtist(@PathVariable UUID artistuuid,HttpServletRequest request) {
+        String path = request.getServletContext().getRealPath("/resources/artistimg");
+        Artist deleteArtist = artistService.getArtistById(artistuuid);
+        String oldFname = deleteArtist.getFname();
+        //원래 파일 삭제
+        File file = new File(path+"/"+oldFname);
+        file.delete();
         artistService.deleteArtist(artistuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -3,9 +3,11 @@ package com.example.fanmon_be.domain.artist.dao;
 import com.example.fanmon_be.domain.artist.entity.Team;
 import com.example.fanmon_be.domain.management.entity.Management;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,4 +24,9 @@ public interface TeamDAO extends JpaRepository<Team, UUID> {
 
     @Query("select count(teamuuid) from Team where management.managementuuid=:managementuuid")
     Long countByManagementUuid(@Param("managementuuid") UUID managementuuid);
+
+    @Transactional
+    @Modifying
+    @Query("delete from Team where teamuuid=:teamuuid")
+    void deleteByTeamuuid(@Param("teamuuid") UUID teamuuid);
 }
