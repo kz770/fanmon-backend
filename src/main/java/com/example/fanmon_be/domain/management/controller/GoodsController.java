@@ -113,8 +113,12 @@ public class GoodsController {
 
     //굿즈 삭제 DELETE
     @DeleteMapping("/{goodsuuid}")
-    public ResponseEntity<Goods> deleteGoods(@PathVariable UUID goodsuuid) {
-        System.out.println("삭제할 goodsuuid : " + goodsuuid);
+    public ResponseEntity<Goods> deleteGoods(@PathVariable UUID goodsuuid, HttpServletRequest request) {
+        String path = request.getServletContext().getRealPath("/resources/goodsimg");
+        Goods deleteGoods = goodsService.getGoodsById(goodsuuid);
+        String oldFname = deleteGoods.getFname();
+        File file = new File(path+"/"+oldFname);
+        file.delete();
         goodsService.deleteGoods(goodsuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

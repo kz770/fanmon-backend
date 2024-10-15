@@ -122,7 +122,12 @@ public class TeamController {
 
     //팀 삭제
     @DeleteMapping("/{teamuuid}")
-    public ResponseEntity<Team> deleteTeam(@PathVariable UUID teamuuid) {
+    public ResponseEntity<Team> deleteTeam(@PathVariable UUID teamuuid, HttpServletRequest request) {
+        String path = request.getServletContext().getRealPath("/resources/teamimg");
+        Team deleteTeam = teamService.getTeamById(teamuuid);
+        String oldFname = deleteTeam.getFname();
+        File file = new File(path+"/"+oldFname);
+        file.delete();
         teamService.deleteTeam(teamuuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
