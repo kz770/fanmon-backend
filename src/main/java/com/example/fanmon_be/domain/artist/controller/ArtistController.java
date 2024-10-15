@@ -153,4 +153,11 @@ public class ArtistController {
         UUID id = userPrincipal.getId();
         return ResponseEntity.status(HttpStatus.OK).body(artistService.findById(id));
     }
+
+    @GetMapping("dupliCheck/{email}")
+    public ResponseEntity<Boolean> dupliCheck(@PathVariable String email) {
+        Boolean existEmail = artistService.existByEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(existEmail);
+    }
+
 }
