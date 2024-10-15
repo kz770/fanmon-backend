@@ -58,16 +58,6 @@ public class BoardController {
         return ResponseEntity.ok(fanboards);
     }
 
-    @ResponseBody
-    @GetMapping("/board/members/{teamuuid}")
-    public ResponseEntity<List<Artist>> teamProfile(@PathVariable UUID teamuuid){
-        List<Artist> artistList = new ArrayList<>();
-//        artistTeamService.findByTeamTeamuuid();
-        // 임시로 그냥 아티스트 넘겨주기
-        artistList=artistService.findAll();
-        return ResponseEntity.ok(artistList);
-    }
-
     @PostMapping("/board/fanboard")
     public ResponseEntity<Fanboard> postOnFanboard(@RequestBody Fanboard newPosting){
         fanBoardService.save(newPosting);

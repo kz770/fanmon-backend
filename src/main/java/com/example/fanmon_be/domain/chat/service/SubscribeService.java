@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,6 +27,14 @@ public class SubscribeService {
             return subscribe;
         }
         return null;
+    }
+
+    public Optional<Subscribe> findById(UUID uuid){
+        return dao.findById(uuid);
+    }
+
+    public void save(Subscribe subscribe) {
+        dao.save(subscribe);
     }
 
     public List<Subscribe> mySubscriptionList(UUID useruuid){
