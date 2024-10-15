@@ -1,0 +1,540 @@
+[33mcommit 2b3276f93a8c7adaa37c6d82a29d9afce5ca3d8c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeat/115-chatlist[m[33m)[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Sat Oct 12 17:50:19 2024 +0900
+
+    [Feat] 구독리스트 데이터 응답
+        - 컨트롤러 분리
+        - 구독리스트 반환
+
+[33mcommit 713b132d537a1ebc2eaaf4afa13453b0af9f0856[m
+Merge: 0e825a4 5000820
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Sat Oct 12 17:42:10 2024 +0900
+
+    [Merge] 충돌해결
+
+[33mcommit 0e825a4e5e68193b5a0187e402ac080bfbdf37d4[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Sat Oct 12 17:40:16 2024 +0900
+
+    [Feat] 구독리스트 데이터 응답
+    - 컨트롤러 분리
+    - 구독리스트 반환
+
+[33mcommit 5000820bc10bd81fc9b868b9bf20b99ad76c34f4[m
+Merge: 6ba2d40 bb2b85b
+Author: qordpsem <152257506+qordpsem@users.noreply.github.com>
+Date:   Sat Oct 12 14:43:03 2024 +0900
+
+    Merge pull request #117 from fan-mon/bugfix/116-response_role
+    
+    [Bugfix] 로그인 응답에 role 추가
+
+[33mcommit bb2b85b0844dcdc581d2cf413fc11ce5a4ec9958[m
+Author: qordpsem <qordpsem@gmail.com>
+Date:   Sat Oct 12 14:42:31 2024 +0900
+
+    [Bugfix] 로그인 응답에 role 추가
+    
+    - artist, management, user 로그인 시 응답에 role 추가
+
+[33mcommit 6ba2d406c8aa18d5c64d2340a7af2667e5c43bbb[m
+Merge: 64de9e4 febec55
+Author: kz <98440593+kz770@users.noreply.github.com>
+Date:   Sat Oct 12 14:00:00 2024 +0900
+
+    Merge pull request #114 from fan-mon/feat/89-boardback
+    
+    [Feat] boardback
+
+[33mcommit 64de9e4a7a2691c4884557d38b6f7f1584e8e3ee[m
+Merge: 63127a3 862ea92
+Author: nickie <71312414+nk2200@users.noreply.github.com>
+Date:   Sat Oct 12 13:53:39 2024 +0900
+
+    Merge pull request #113 from fan-mon/feat/106-management
+    
+    [Feat] OrdersDetail 집계 기능
+
+[33mcommit febec55c956c26be14c797aaf4c44540799b336e[m[33m ([m[1;31morigin/feat/89-boardback[m[33m, [m[1;32mfeat/89-boardback[m[33m)[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Sat Oct 12 13:37:53 2024 +0900
+
+    [Feat] 팀 게시판 아티스트 보드 구현
+
+[33mcommit 862ea92bacb76073d5d90fe1bafb3a97e33fa590[m
+Author: nk2200 <gaeun514@gmail.com>
+Date:   Sat Oct 12 00:15:56 2024 +0900
+
+    [Feat] OrdersDetail 집계 기능
+    
+    - ordersdetail 집계 위한 메소드 생성
+    - GoodsDTO 생성
+    - Team 집계 위한 메소드 생성
+    - artist 집계 위한 메소드 생성
+    - goods 집계 위한 메소드 생성
+
+[33mcommit 63127a3601231d732ae3c57b77181da8a4c7dddf[m[33m ([m[1;31morigin/main[m[33m)[m
+Merge: 16c770e e9e2246
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 20:40:16 2024 +0900
+
+    Merge pull request #111 from fan-mon/feat/108-buying
+    
+    [Feat] 엔티티 수정 및 오류 픽스
+
+[33mcommit e9e22463e9cefb6134daffefc096f7c0620674be[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 20:28:19 2024 +0900
+
+    [BugFix] 장바구니 추가시 날ã짜 기록 누락 오류 해결
+
+[33mcommit 213025ec8bbbebe5cb104273651ea867053f8620[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 19:59:57 2024 +0900
+
+    [Feat] DB결제 후 DB 저장
+
+[33mcommit a17efb737c9374f06b1884ddc53ff0ea9f6c218c[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 18:23:49 2024 +0900
+
+    [Feat] 결제 후 Orders 테이블에 DB넣도록 수정
+
+[33mcommit 16c770eb27af9a2f634279363237006c905a7b7b[m
+Merge: cc65c38 b42cb4c
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 16:33:39 2024 +0900
+
+    Merge pull request #110 from fan-mon/feat/108-buying
+    
+    [BugFix] 날아간 파일 복구
+
+[33mcommit b42cb4c1faa059f07581ed286c8e65371f12e844[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 16:29:27 2024 +0900
+
+    [Modify] 실행 오류 해결
+
+[33mcommit 363a2cbe0e74d0b7fd17856ce78dd1ece7d0c744[m
+Merge: 305f789 cc65c38
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 16:28:34 2024 +0900
+
+    [Modify] 충돌 오류 해결
+
+[33mcommit 305f78921d6988c889141a9d7cf0c9e3e79f32b1[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 16:26:29 2024 +0900
+
+    [BugFix] 없어진 파일 복구
+
+[33mcommit 639981f7f2adb016a2ee62581de5e7239b3f85c0[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 16:01:59 2024 +0900
+
+    [BugFix] 이전 작업 내용 복구
+
+[33mcommit 63c7f24323c30d971521fcdaa2c842d23b1a75d2[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 15:49:59 2024 +0900
+
+    [Feat] 카트 삭제 밑바밥깔기
+
+[33mcommit cc65c383dd287037cb12efcbd3f189f9dd7231fe[m
+Merge: 67146f3 c834ed7
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 15:35:57 2024 +0900
+
+    Merge pull request #107 from fan-mon/feat/78-back
+    
+    [Feat] shop 작업
+
+[33mcommit c834ed716819f2d37b03acee8e6e8982e482bb2a[m
+Merge: 19fa942 67146f3
+Author: ccc700 <700eeu@gmail.com>
+Date:   Fri Oct 11 15:28:58 2024 +0900
+
+    Merge branch 'dev' of https://github.com/fan-mon/backend into feat/78-back
+
+[33mcommit 3708b2ed84162d6ed076df6d4cbfaa0e3130a718[m
+Merge: 7cc1882 67146f3
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Fri Oct 11 14:52:52 2024 +0900
+
+    [Merge] 충돌 해결
+
+[33mcommit 67146f3422650f535df6012556b2b1212fc92413[m
+Merge: 6a8f822 700ed59
+Author: nickie <71312414+nk2200@users.noreply.github.com>
+Date:   Fri Oct 11 14:51:44 2024 +0900
+
+    Merge pull request #105 from fan-mon/feat/102-management
+    
+    [Modify] Artistteam 엔티티 수정
+
+[33mcommit 700ed599407fe1cb4b5b6c09ca85c12ccdd96d91[m
+Merge: 5b162c5 6a8f822
+Author: nickie <71312414+nk2200@users.noreply.github.com>
+Date:   Fri Oct 11 14:51:35 2024 +0900
+
+    Merge branch 'dev' into feat/102-management
+
+[33mcommit 6a8f82295e8e602df6081b94494285325848905a[m
+Merge: 7903f84 829f02e
+Author: qordpsem <152257506+qordpsem@users.noreply.github.com>
+Date:   Fri Oct 11 14:49:03 2024 +0900
+
+    Merge pull request #103 from fan-mon/feat/101-artist_login
+    
+    [Feat] artist login
+
+[33mcommit 5b162c5a55280dbd88e1e60e93530d971897f070[m
+Author: nk2200 <gaeun514@gmail.com>
+Date:   Fri Oct 11 14:43:48 2024 +0900
+
+    [Feat] OrdersDetail 집계 기능
+    
+    - ArtistService 계정 생성시 Role ARTIST로 박기
+    - ArtistService 계정 생성시 password 암호화
+    - Artistteam 엔티티 수정
+    - Artistteam 삭제기능
+
+[33mcommit 7cc1882cf205bdd0f8492c6cf7a69088c7a72042[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Fri Oct 11 01:43:55 2024 +0900
+
+    [Feat] artistboard 작성 기능 구현
+    - artist board controller 분리
+
+[33mcommit 2e9cee24ddae0af54c2198db845e26644bc43cd1[m
+Author: nk2200 <gaeun514@gmail.com>
+Date:   Thu Oct 10 21:57:56 2024 +0900
+
+    [Feat] OrdersDetail 집계 기능
+    
+    - ArtistService 계정 생성시 Role ARTIST로 박기
+    - ArtistService 계정 생성시 password 암호화
+    - OrdersDetail 집계 메소드
+
+[33mcommit 345457d9a1d7f837d6ac08e05a426945fdb68a88[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Thu Oct 10 21:52:13 2024 +0900
+
+    [Feat] fanboard 삭제 기능 구현
+
+[33mcommit 9d4f145c3d8c0ee78546d3e0a3589cac64ca8b85[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Thu Oct 10 21:24:46 2024 +0900
+
+    [Feat] fanboard 수정 기능 구현
+
+[33mcommit 19fa9425a66a07b9080a896c4c4f406e3d686b6e[m
+Merge: 84f7c15 7903f84
+Author: ccc700 <700eeu@gmail.com>
+Date:   Thu Oct 10 21:17:57 2024 +0900
+
+    Merge branch 'dev' of https://github.com/fan-mon/backend into feat/78-back
+
+[33mcommit 84f7c158225993f20ce5ed35f06893355fa20363[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Thu Oct 10 21:17:52 2024 +0900
+
+    [modify]감동의 수정
+
+[33mcommit 7903f84f9bb298e6f72f6e4a04209e3fd395ccf1[m
+Merge: 1a09672 d1d063f
+Author: kz <98440593+kz770@users.noreply.github.com>
+Date:   Thu Oct 10 20:52:48 2024 +0900
+
+    Merge pull request #104 from fan-mon/feat/89-boardback
+    
+    [Modfiy] entity 추가 수정
+
+[33mcommit d1d063fce64a3cda01598e4759c4708fae457fc4[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Thu Oct 10 20:35:16 2024 +0900
+
+    [Modfiy] entity 추가 수정
+
+[33mcommit 829f02ed0efeed059592e8ff4897994e91bfc0c1[m
+Author: qordpsem <qordpsem@gmail.com>
+Date:   Thu Oct 10 18:55:41 2024 +0900
+
+    [Feat] artist login
+    
+    - artist login 로직 추가 (controller, dao, service)
+
+[33mcommit 1a096727200f32bed11cd25b752128e9cca38c6a[m
+Merge: 47a74b7 a506a09
+Author: kz <98440593+kz770@users.noreply.github.com>
+Date:   Thu Oct 10 18:41:37 2024 +0900
+
+    Merge pull request #100 from fan-mon/feat/89-boardback
+    
+    [Modfiy] entity 추가 수정
+
+[33mcommit a506a0956df2f7751e4a8fd403a9cc82777b4967[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Thu Oct 10 18:40:58 2024 +0900
+
+    [Modfiy] entity 추가 수정
+
+[33mcommit 03b09e75b7bdc80f2ad55973ef58d42b74a44987[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Thu Oct 10 17:32:57 2024 +0900
+
+    [Modfiy] entity 추가 수정
+
+[33mcommit 47a74b7c260728c10855a89e84d046bf411989e2[m
+Merge: 1737ba8 5e897d2
+Author: ccc700 <700eeu@gmail.com>
+Date:   Thu Oct 10 16:22:35 2024 +0900
+
+    Merge pull request #99 from fan-mon/feat/78-back
+    
+    [Modify] percascade 수정
+
+[33mcommit 5e897d2f12c51c15203334468c930ad5c8c81841[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Thu Oct 10 16:17:44 2024 +0900
+
+    [Modify] percascade 수정
+
+[33mcommit 1737ba82425e360f7393900b0dd76a17930e8fa7[m
+Merge: 0f824f8 dc57342
+Author: ccc700 <700eeu@gmail.com>
+Date:   Thu Oct 10 15:45:10 2024 +0900
+
+    Merge pull request #98 from fan-mon/feat/78-back
+    
+    말머리도 없고 제목도 없고
+
+[33mcommit dc57342a5aeb5fc4ae1b27e0ca177dac0e931063[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Thu Oct 10 15:42:28 2024 +0900
+
+    [Modify] 이전~
+
+[33mcommit 0f824f8bb10f4bc7fc4ec71e7701bd4322f966a1[m
+Merge: 2fa5861 80ee71c
+Author: CHOIMORAE <142777296+mochoi42@users.noreply.github.com>
+Date:   Thu Oct 10 15:41:07 2024 +0900
+
+    Merge pull request #97 from fan-mon/feature/96-stayroom
+    
+    [Feat] DB 백업이전 push
+
+[33mcommit 80ee71cbf041a4631da42ef1e6c558a17346cbfe[m
+Merge: 10bddf6 2fa5861
+Author: CHOIMORAE <142777296+mochoi42@users.noreply.github.com>
+Date:   Thu Oct 10 15:40:58 2024 +0900
+
+    Merge branch 'dev' into feature/96-stayroom
+
+[33mcommit 2fa5861fa53baaa6eee906098dbed52510475c25[m
+Merge: ecfdde2 78004a4
+Author: kz <98440593+kz770@users.noreply.github.com>
+Date:   Thu Oct 10 15:38:46 2024 +0900
+
+    Merge pull request #95 from fan-mon/feat/89-boardback
+    
+    [Modify] entity 긴급 수정
+
+[33mcommit 10bddf66b9c34aa50d7e80430be8b0a4ec2a788b[m
+Author: mochoi42 <principle950@naver.com>
+Date:   Thu Oct 10 15:32:43 2024 +0900
+
+    [Feat] DB 백업
+
+[33mcommit ecfdde2c7df586d9b93d3febfcffa91f339232da[m
+Merge: a5cdea2 af3174a
+Author: nickie <71312414+nk2200@users.noreply.github.com>
+Date:   Thu Oct 10 15:32:39 2024 +0900
+
+    Merge pull request #94 from fan-mon/feat/93-management
+    
+    [Modify] Management
+
+[33mcommit 78004a4258147f585ce07c39d975b3af2078b22f[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Thu Oct 10 15:25:50 2024 +0900
+
+    [Modfiy] entity 수정
+
+[33mcommit af3174ac25d99d3053f9ce3e37ac7c7264aefc81[m
+Author: nk2200 <gaeun514@gmail.com>
+Date:   Thu Oct 10 15:23:06 2024 +0900
+
+    [Modify] Management
+    
+     - ArtistTeam Entity teamuuid not null 제약조건 삭제
+     - Artist,Team,Goods 업데이트 로직 수정
+
+[33mcommit 669d7a0aee8de4ace9615d80cda2603f2b7b590d[m
+Merge: a5cdea2 817f7b6
+Author: ccc700 <700eeu@gmail.com>
+Date:   Thu Oct 10 15:11:13 2024 +0900
+
+    [BugFix] 병합 충돌 해결
+
+[33mcommit a5cdea2e9fcb3302563b144a119348cc217c88c9[m
+Author: qordpsem <qordpsem@gmail.com>
+Date:   Thu Oct 10 14:50:14 2024 +0900
+
+    [Feat] artist role 추가
+    
+    - artist entity role 추가
+
+[33mcommit b826c8a9f5639ac1567bca59671e996cdcfdfb54[m
+Merge: 6c88159 525635d
+Author: qordpsem <152257506+qordpsem@users.noreply.github.com>
+Date:   Thu Oct 10 11:28:04 2024 +0900
+
+    Merge pull request #92 from fan-mon/feat/91-checkemail
+    
+    [Feat] 이메일 중복 확인
+
+[33mcommit 6c8815976e5fc76514ce003ed2ada4671847f276[m
+Merge: 452385a 596e4dd
+Author: nickie <71312414+nk2200@users.noreply.github.com>
+Date:   Thu Oct 10 11:27:35 2024 +0900
+
+    Merge pull request #90 from fan-mon/feat/88-management
+    
+    [Feat] Management Team 관리기능
+
+[33mcommit 525635de8911e19712c9f620e6fc8c72778d7240[m
+Author: qordpsem <qordpsem@gmail.com>
+Date:   Thu Oct 10 10:45:57 2024 +0900
+
+    [Feat] 이메일 중복 확인
+    
+    - user, management 이메일 중복확인 위해 controller, service 에 코드 추가
+    - email already exists Exception 추가
+    - delete 시 보안 을 위해 void 로 변경
+
+[33mcommit 817f7b65d0896f52e73bd7f856fd14c33566d6cd[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Thu Oct 10 07:29:55 2024 +0900
+
+    [Modify] 여전히 수정중
+
+[33mcommit b6161ceae35aace11b5f24f177b505147064ae78[m
+Author: uhyunjin <uhyeonjin0619@gmail.com>
+Date:   Thu Oct 10 03:21:45 2024 +0900
+
+    [Feat] 아티스트/유저 게시글 작성
+    - save 에러로 DB 저장은 X
+
+[33mcommit 596e4dd94b1388746225e42cf5778824182284be[m
+Author: nk2200 <gaeun514@gmail.com>
+Date:   Wed Oct 9 23:25:11 2024 +0900
+
+    [Feat] Management Team 관리기능
+    
+     - Team Create 수정
+     - ArtistTeam Controller 작성
+     - Team Update, Delete 구현
+     - ArtistTeam 엔티티 오타 수정
+
+[33mcommit 452385ab58f26f8350a32ef857d552ae588dbab1[m
+Merge: faf78a6 3330c48
+Author: qordpsem <152257506+qordpsem@users.noreply.github.com>
+Date:   Wed Oct 9 22:45:54 2024 +0900
+
+    Merge pull request #75 from fan-mon/feat/45-login_jwt
+    
+    [Feat] jwt 적용
+
+[33mcommit 1c437a8bdcf4e984b1261d0d2d6ba46e8869012c[m
+Merge: af483d1 faf78a6
+Author: ccc700 <700eeu@gmail.com>
+Date:   Wed Oct 9 22:25:56 2024 +0900
+
+    Merge branch 'dev' of https://github.com/fan-mon/backend into feat/78-back
+
+[33mcommit 3330c48f75e89eb205c7df1472ccdf09be1376d5[m
+Merge: 945b961 08eb0c7
+Author: qordpsem <qordpsem@gmail.com>
+Date:   Wed Oct 9 21:31:19 2024 +0900
+
+    Merge remote-tracking branch 'origin/feat/45-login_jwt' into feat/45-login_jwt
+
+[33mcommit 945b96152b72bacf73c10f2375061116f26ffc76[m
+Author: qordpsem <qordpsem@gmail.com>
+Date:   Wed Oct 9 21:29:08 2024 +0900
+
+    [Feat] user, management 탈퇴
+    
+    - soft delete 일단 미적용... (추후 할거 다하고 시간남으면 적용...)
+
+[33mcommit faf78a62043685a88b97ceba91a033a9e7477fde[m
+Merge: a467558 dc9607c
+Author: nickie <71312414+nk2200@users.noreply.github.com>
+Date:   Wed Oct 9 16:02:54 2024 +0900
+
+    Merge pull request #87 from fan-mon/feat/80-management
+    
+    [Feat] Management Artist, Team CRUD
+
+[33mcommit a4675586a9ba7243ff2e47951e6db65201e9511f[m
+Merge: c0f0748 ee85a14
+Author: kz <98440593+kz770@users.noreply.github.com>
+Date:   Wed Oct 9 15:59:41 2024 +0900
+
+    Merge pull request #86 from fan-mon/feat/85-messagelist
+    
+    [Modify] 메세지 리스트 불러오기 수정
+
+[33mcommit 08eb0c7a92bd87c4984184c79d41138d4b50db3f[m
+Merge: 9d01ea9 c0f0748
+Author: qordpsem <152257506+qordpsem@users.noreply.github.com>
+Date:   Wed Oct 9 14:57:16 2024 +0900
+
+    Merge branch 'dev' into feat/45-login_jwt
+
+[33mcommit 9d01ea9e21427e17f741c01f771acae49e93fa47[m
+Author: qordpsem <qordpsem@gmail.com>
+Date:   Wed Oct 9 14:56:18 2024 +0900
+
+    [Feat] 소셜로그인 (구글)
+    
+    - 프론트에 띄우는데 오래걸려서,, 이제 커밋앤푸쉬,,,, 프론트에 정보 띄우기 성공,,
+
+[33mcommit ad6c97df65bd079e5ce82a40dbc34568c488b88d[m
+Author: qordpsem <qordpsem@gmail.com>
+Date:   Tue Oct 8 23:25:32 2024 +0900
+
+    [Modify] 회원가입, 회원수정 시 postcode  추가
+    
+    - user entity,service, response 에 postcode 추가
+
+[33mcommit af483d15d3c58ccac91e77ea986a185d7ec60f2c[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Tue Oct 8 21:58:50 2024 +0900
+
+    [Modify] 일단 다 주석
+
+[33mcommit dc9607c9ad33095d8b2da5e07b575633eade032f[m
+Author: nk2200 <gaeun514@gmail.com>
+Date:   Tue Oct 8 21:57:16 2024 +0900
+
+    [Feat] Management Artist, Team CRUD
+    
+    - Goods Update, Delete 수정
+    - Artist Update, Delete 구현
+    - Team Create, Read 구현
+
+[33mcommit f47c2169bf54f82f7daab5953dea23dca8b6529d[m
+Merge: 7778f86 c0f0748
+Author: ccc700 <700eeu@gmail.com>
+Date:   Tue Oct 8 21:13:13 2024 +0900
+
+    Merge branch 'dev' of https://github.com/fan-mon/backend into feat/78-back
+
+[33mcommit 7778f86ec1a8cf18741f940e678b1477e1523c0c[m
+Author: ccc700 <700eeu@gmail.com>
+Date:   Tue Oct 8 21:13:08 2024 +0900
+
+    [Modify] 삽질중
