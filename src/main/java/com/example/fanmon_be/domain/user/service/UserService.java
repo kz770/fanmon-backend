@@ -76,7 +76,7 @@ public class UserService {
     public UserResponse updateUser(UUID useruuid, UpdateUserRequest request){
        User user = userDAO.findById(useruuid)
                .orElseThrow(() -> new ModelNotFoundException(useruuid.toString()));
-       user.setPassword(passwordEncoder.encode(request.getPassword()));
+//       user.setPassword(passwordEncoder.encode(request.getPassword()));
        user.setPhone(request.getPhone());
        user.setAddress(request.getAddress());
        user.setPostcode(request.getPostcode());
