@@ -3,7 +3,6 @@ package com.example.fanmon_be.domain.shop.buy.controller;
 import com.example.fanmon_be.domain.shop.buy.entity.Orders;
 import com.example.fanmon_be.domain.shop.buy.entity.Ordersdetail;
 import com.example.fanmon_be.domain.shop.buy.enums.OrdersStatus;
-import com.example.fanmon_be.domain.shop.buy.service.CardinfoService;
 import com.example.fanmon_be.domain.shop.buy.service.OrdersService;
 import com.example.fanmon_be.domain.shop.buy.service.OrdersdetailService;
 import com.example.fanmon_be.domain.shop.goods.entity.Goods;
@@ -18,10 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.nio.ByteBuffer;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 
@@ -34,9 +31,6 @@ public class BuyingController {
 
     @Autowired
     OrdersdetailService ordersdetailService;
-
-    @Autowired
-    CardinfoService cardinfoService;
 
     @Autowired
     UserService userService;

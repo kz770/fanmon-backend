@@ -8,5 +8,4 @@ import java.util.UUID;
 
 @Repository
 public interface OrdersDAO extends JpaRepository<Orders, UUID> {
-
 }
