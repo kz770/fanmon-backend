@@ -29,5 +29,5 @@ public interface ArtistDAO extends JpaRepository<Artist, UUID> {
     @Query("delete from Artist where artistuuid=:artistuuid")
     void deleteByArtistuuid(@Param("artistuuid") UUID artistuuid);
 
-    boolean existsByEmail(String email);
+    Boolean existsByEmail(String email);
 }
