@@ -87,4 +87,9 @@ public class ArtistService {
                 .orElseThrow(() -> new ModelNotFoundException(artistuuid.toString()));
         return artist.toResponse();
     }
+
+    //이메일 중록 처리
+    public Boolean existByEmail(String email){
+        return artistDAO.existsByEmail(email);
+    }
 }
