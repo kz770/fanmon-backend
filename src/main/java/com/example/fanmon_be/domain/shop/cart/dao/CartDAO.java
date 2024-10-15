@@ -2,8 +2,12 @@ package com.example.fanmon_be.domain.shop.cart.dao;
 
 import com.example.fanmon_be.domain.shop.cart.entity.Cart;
 import com.example.fanmon_be.domain.user.entity.User;
+import jakarta.persistence.ManyToOne;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +29,14 @@ public interface CartDAO extends JpaRepository<Cart, UUID> {
     Optional<Cart> findByUserAndCartsequence(User user, Long cartsequence);
 
     // 장바구니에 저장한 상품 삭제
+    @Transactional
+    @Modifying
+    @Query("delete from Cart where cartsequence=:cartsequence")
     int deleteByCartsequence(long cartsequence);
 
     // 장바구니 비우기
+    @Transactional
+    @Modifying
+    @Query("delete from Cart where user=:user")
     boolean deleteByUser(User user);
 }

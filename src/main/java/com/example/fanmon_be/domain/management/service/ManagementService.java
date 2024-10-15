@@ -80,7 +80,8 @@ public class ManagementService {
     public ManagementResponse updateManagement(UUID managementuuid, UpdateManagementRequest request){
         Management management = managementDAO.findById(managementuuid)
                 .orElseThrow(() -> new ModelNotFoundException(managementuuid.toString()));
-        management.setPassword(passwordEncoder.encode(request.getPassword()));
+//        management.setPassword(passwordEncoder.encode(request.getPassword()));
+        management.setName(request.getName());
         management.setAddress(request.getAddress());
         return managementDAO.save(management).toResponse();
     }
