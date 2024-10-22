@@ -21,7 +21,7 @@ public class CorsMvcConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(","))); // ,로 구분된 다수의 도메인 지원
-        configuration.setAllowedMethods(Arrays.asList("*")); // 허용할 메서드
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","OPTIONS","DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*")); // 허용할 헤더
         configuration.setAllowCredentials(true); // 인증 정보 허용
 
