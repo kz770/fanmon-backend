@@ -46,10 +46,12 @@ public class Management extends BaseEntity {
 
     @Column(name="role", nullable=false)
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private Role role = Role.MANAGEMENT;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private ManagementStatus status = ManagementStatus.NOT_APPROVED;
 
     private String address;

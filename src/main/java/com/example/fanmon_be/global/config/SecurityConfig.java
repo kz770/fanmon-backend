@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsUtils;
+
 
 @Configuration
 @EnableWebSecurity
@@ -56,6 +58,7 @@ public class SecurityConfig {
                                 .userService(customOAuth2UserService))
                         .successHandler(customSuccessHandler))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // Preflight 요청 허용
                         .requestMatchers(
                                 "/",
                                 "/index.html",

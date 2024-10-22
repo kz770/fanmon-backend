@@ -44,6 +44,7 @@ public class  User extends BaseEntity {
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private Role role = Role.USER;
 
     @Column(name="name")

@@ -41,8 +41,10 @@ logging:
   level:
     org:
       hibernate: debug
+      springframework:
+        web: debug
+        http: debug
     root: warn
-    org.springframework: warn
     org.hibernate: warn
 auth:
   jwt:
