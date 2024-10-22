@@ -5,6 +5,7 @@ import com.example.fanmon_be.global.security.CustomAuthenticationEntryPoint;
 import com.example.fanmon_be.global.security.CustomSuccessHandler;
 import com.example.fanmon_be.global.security.jwt.JwtAuthenticationFilter;
 import com.example.fanmon_be.global.security.jwt.JwtPlugin;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -29,6 +30,9 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtPlugin jwtPlugin;
 
+    @Autowired
+    CorsMvcConfig corsMvcConfig;
+
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                           CustomAuthenticationEntryPoint authenticationEntryPoint,
@@ -49,7 +53,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-//                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 활성화
+                .cors(cors -> cors.configurationSource(corsMvcConfig.corsConfigurationSource())) // CORS 활성화
                 .csrf(csrf -> csrf.disable())
                 .formLogin(formLogin -> formLogin.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
