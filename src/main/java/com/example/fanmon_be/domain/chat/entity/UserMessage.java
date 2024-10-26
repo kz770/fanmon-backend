@@ -27,7 +27,6 @@ public class UserMessage implements Serializable{
         if (usermessageuuid==null){
             this.usermessageuuid = UUID.randomUUID();
         }
-        this.timestamp=LocalDateTime.now();
     }
 
     private String messagetext;
