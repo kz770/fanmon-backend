@@ -26,7 +26,6 @@ public class ArtistMessage {
         if (artistmessageuuid==null){
             this.artistmessageuuid = UUID.randomUUID();
         }
-        this.timestamp=LocalDateTime.now();
     }
 
     private String messagetext;
