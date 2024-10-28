@@ -138,16 +138,15 @@ public class BuyingController {
                     odetails.setQty(((Number) detail.get("detail_qty")).longValue());
                     System.out.println("detail_qty: "+((Number) detail.get("detail_qty")).longValue());
 
+                    ordersdetailService.save(odetails);
                     System.out.println("odetails: "+odetails);
+
+
                 } catch (Exception e) {
                     System.err.println("Error processing order: " + e.getMessage());
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                 }
             }
-
-            ordersdetailService.save((Ordersdetail) Details);
-
-            System.out.println("Details: "+Details);
 
             // 저장 끝났으면 ok사인!
             return ResponseEntity.ok().build();
