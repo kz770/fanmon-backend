@@ -66,8 +66,9 @@
 - 장바구니에 넣은 상품 결제
 
 
-| <img width="400px" src="https://github.com/user-attachments/assets/4674ae46-aec9-45ec-84ee-c22fd99d8f45"/> | <img width="400px" src="https://github.com/user-attachments/assets/96540463-8742-44aa-b33d-5344cabcf3e6"/>  | <img width="400px" src="https://github.com/user-attachments/assets/e0c0436b-bd1d-4dfa-b18c-2366a7b8c45c"/> |
-| --- | --- | --- |
+| <img width="800px" src="https://github.com/user-attachments/assets/4674ae46-aec9-45ec-84ee-c22fd99d8f45"/> | <img width="800px" src="https://github.com/user-attachments/assets/96540463-8742-44aa-b33d-5344cabcf3e6"/>  | 
+| --- | --- |
+|<img width="400px" src="https://github.com/user-attachments/assets/e0c0436b-bd1d-4dfa-b18c-2366a7b8c45c"/> | |
   
 ### 6. 1대1 영상팬미팅
 
