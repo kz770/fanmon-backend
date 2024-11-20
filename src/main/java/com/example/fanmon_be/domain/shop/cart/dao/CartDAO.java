@@ -38,5 +38,5 @@ public interface CartDAO extends JpaRepository<Cart, UUID> {
     @Transactional
     @Modifying
     @Query("delete from Cart where user=:user")
-    boolean deleteByUser(User user);
+    int deleteByUser(User user);
 }

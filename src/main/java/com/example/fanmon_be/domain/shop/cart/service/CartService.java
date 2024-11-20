@@ -124,12 +124,15 @@ public class CartService {
         try {
             List<Cart> cartList  = cartDAO.findByUser(user);
             if (!cartList .isEmpty()) {
-                cartDAO.deleteByUser(user);
-                result = true;
+                int flag = cartDAO.deleteByUser(user);
+                if(flag>0){
+                    result = true;
+                }
             } else {
                 System.out.println("해당 카트가 존재하지 않거나, 사용자가 소유하지 않는 카트입니다.");
             }
         } catch (Exception e){
+            System.err.println("장바구니 삭제 중 오류 발생: " + e.getMessage());
             e.printStackTrace();
         }
         return result;
