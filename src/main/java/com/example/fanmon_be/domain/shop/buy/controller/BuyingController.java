@@ -38,20 +38,21 @@ public class BuyingController {
     //결제 성공
     // Orders 테이블에 데이터 저장
     @PostMapping("/bought/sendO/{useruuid}")
-    public ResponseEntity<Void> handleSendO(@PathVariable String useruuid, @RequestBody HashMap<String, Object> request) {
+    public ResponseEntity<Map<String, Object>> handleSendO(@PathVariable String useruuid, @RequestBody HashMap<String, Object> request) {
         System.out.println("Received data(O): " + request);
 
+        Map<String, Object> response = new HashMap<>();
         Orders orders = new Orders();
 
         try {
             orders.setImpuid(request.get("imp_uid").toString());
-            System.out.println("imp_uid: "+request.get("imp_uid"));
+            System.out.println("imp_uid: " + request.get("imp_uid"));
 
             orders.setMerchantuid(request.get("merchant_uid").toString());
-            System.out.println("merchant_uid: "+request.get("merchant_uid").toString());
+            System.out.println("merchant_uid: " + request.get("merchant_uid").toString());
 
             orders.setApplynum(request.get("apply_num").toString());
-            System.out.println("apply_num: "+request.get("apply_num").toString());
+            System.out.println("apply_num: " + request.get("apply_num").toString());
 
             long paidAtTime = ((Number) request.get("paid_at")).longValue();
             LocalDate paidAtDate = Instant.ofEpochSecond(paidAtTime)
@@ -66,13 +67,13 @@ public class BuyingController {
             userDataMap.put("birth", birthDate); // User 엔티티에 맞게 변환된 값을 넣어줍니다.
             User user = mapper.convertValue(userDataMap, User.class);
             orders.setUser(user);
-            System.out.println("user:"+user);
+            System.out.println("user:" + user);
 
             orders.setAddress(request.get("buyer_addr").toString());
-            System.out.println("buyer_addr: "+request.get("buyer_addr").toString());
+            System.out.println("buyer_addr: " + request.get("buyer_addr").toString());
 
             orders.setTotalcost(((Number) request.get("paid_amount")).longValue());
-            System.out.println("paid_amount: "+((Number) request.get("paid_amount")).longValue());
+            System.out.println("paid_amount: " + ((Number) request.get("paid_amount")).longValue());
 
             long paidAtTimestamp = Long.parseLong(request.get("paid_at").toString());
             LocalDateTime paidAtDateTime = LocalDateTime.ofEpochSecond(paidAtTimestamp, 0, ZoneOffset.UTC);
@@ -80,81 +81,96 @@ public class BuyingController {
             System.out.println("paid_at: " + paidAtDateTime);
 
             orders.setStatus(OrdersStatus.valueOf("BOUGHT"));
-            System.out.println("status: "+OrdersStatus.valueOf("BOUGHT"));
+            System.out.println("status: " + OrdersStatus.valueOf("BOUGHT"));
 
             orders.setQty(((Number) request.get("paid_qty")).longValue());
-            System.out.println("paid_qty: "+((Number) request.get("paid_qty")).longValue());
+            System.out.println("paid_qty: " + ((Number) request.get("paid_qty")).longValue());
 
             ordersService.save(orders);
 
             System.out.println(orders);
-            // 저장 끝났으면 ok사인!
-            return ResponseEntity.ok().build();
+            System.out.println("orders 저장성공");
+
+            //생성된 ordersuuid 전송
+            response.put("ordersuuid", orders.getOrdersuuid());  // 주문 UUID를 응답에 포함
+
+            // 성공 응답 생성
+            response.put("status", "success");
+            response.put("message", "Order saved successfully");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.err.println("Error processing order: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+            // 오류 응답 생성
+            response.put("status", "error");
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     // Orders Detail 테이블에 데이터 저장
     @PostMapping("/bought/sendD/{useruuid}")
-    public ResponseEntity<Void> handleSendD(@PathVariable String useruuid, @RequestBody HashMap<String, Object> request) {
+    public ResponseEntity<Map<String, Object>> handleSendD(@PathVariable String useruuid, @RequestBody HashMap<String, Object> request) {
         System.out.println("Received data(D): " + request);
-        List<Map<String, Object>> Details = (List<Map<String, Object>>) request.get("DetailData");
-        try{
 
+        Map<String, Object> response = new HashMap<>();
+        List<Map<String, Object>> Details = (List<Map<String, Object>>) request.get("DetailData");
+
+        try {
             for (Map<String, Object> detail : Details) {
                 System.out.println("orders detail 루프 시작");
 
-                try {
-                    Ordersdetail odetails = new Ordersdetail();
-                    ObjectMapper mapper = new ObjectMapper();
-                    LinkedHashMap<String, Object> userDataMap = (LinkedHashMap<String, Object>) request.get("user_data");
-                    User user = mapper.convertValue(userDataMap, User.class);
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 형식에 맞게 설정
-                    LocalDate birthDate = LocalDate.parse(userDataMap.get("birth").toString(), formatter);
-                    user.setBirth(birthDate);
-                    odetails.setUser(user);
-                    System.out.println("user:"+user);
+                Ordersdetail odetails = new Ordersdetail();
+                ObjectMapper mapper = new ObjectMapper();
 
-                    LinkedHashMap<String, Object> goodsDataMap = (LinkedHashMap<String, Object>)request.get("goods_data");
-                    Goods goods = mapper.convertValue(goodsDataMap, Goods.class);
-                    odetails.setGoods(goods);
-                    System.out.println("goods: "+goods);
+                // User 데이터 처리
+                LinkedHashMap<String, Object> userDataMap = (LinkedHashMap<String, Object>) request.get("user_data");
+                User user = mapper.convertValue(userDataMap, User.class);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate birthDate = LocalDate.parse(userDataMap.get("birth").toString(), formatter);
+                user.setBirth(birthDate);
+                odetails.setUser(user);
+                System.out.println("user:" + user);
 
-                    LinkedHashMap<String, Object> ordersDataMap = (LinkedHashMap<String, Object>)request.get("orders_data");
-                    Orders orders = mapper.convertValue(ordersDataMap, Orders.class);
-                    user = orders.getUser();
-                    String birthString = ordersDataMap.get("birth").toString();
-                    formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 적절한 포맷 지정
-                    birthDate = LocalDate.parse(birthString, formatter);
-                    user.setBirth(birthDate);
-                    odetails.setOrders(orders);
-                    System.out.println("orders");
+                // Goods 데이터 처리
+                LinkedHashMap<String, Object> goodsDataMap = (LinkedHashMap<String, Object>) request.get("goods_data");
+                Goods goods = mapper.convertValue(goodsDataMap, Goods.class);
+                odetails.setGoods(goods);
+                System.out.println("goods: " + goods);
 
-                    odetails.setTotalcost(((Number) detail.get("detail_amount")).longValue());
-                    System.out.println("detail_amount: "+((Number) detail.get("detail_amount")).longValue());
+                // Orders 데이터 처리
+                LinkedHashMap<String, Object> ordersDataMap = (LinkedHashMap<String, Object>) request.get("orders_data");
+                Orders orders = mapper.convertValue(ordersDataMap, Orders.class);
+                user = orders.getUser();
+                String birthString = ordersDataMap.get("birth").toString();
+                formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                birthDate = LocalDate.parse(birthString, formatter);
+                user.setBirth(birthDate);
+                odetails.setOrders(orders);
+                System.out.println("orders");
 
-                    odetails.setQty(((Number) detail.get("detail_qty")).longValue());
-                    System.out.println("detail_qty: "+((Number) detail.get("detail_qty")).longValue());
+                // Detail 데이터 처리
+                odetails.setTotalcost(((Number) detail.get("detail_amount")).longValue());
+                System.out.println("detail_amount: " + ((Number) detail.get("detail_amount")).longValue());
 
-                    System.out.println("odetails: "+odetails);
-                } catch (Exception e) {
-                    System.err.println("Error processing order: " + e.getMessage());
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                }
+                odetails.setQty(((Number) detail.get("detail_qty")).longValue());
+                System.out.println("detail_qty: " + ((Number) detail.get("detail_qty")).longValue());
+
+                ordersdetailService.save(odetails);
+                System.out.println("odetails: " + odetails);
             }
 
-            ordersdetailService.save((Ordersdetail) Details);
-
-            System.out.println("Details: "+Details);
-
-            // 저장 끝났으면 ok사인!
-            return ResponseEntity.ok().build();
-
-        }catch (Exception e) {
+            // 성공 응답 생성
+            response.put("status", "success");
+            response.put("message", "Order details saved successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
             System.err.println("Error processing order: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+            // 오류 응답 생성
+            response.put("status", "error");
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
