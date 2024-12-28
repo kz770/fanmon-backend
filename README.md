@@ -1,49 +1,33 @@
 ## 프로젝트 개요
+![image](https://github.com/user-attachments/assets/bfbbe36c-d259-4d15-80fc-44d0c53b347d)
 
-종합 엔터테인먼트 어플리케이션
-
-
-
-## ERD
+## DB ERD
 
 ![image](https://github.com/user-attachments/assets/ebed9c73-9647-4778-80dd-617a038432d4)
 
 
 ## 아키텍쳐
 
-
-
-
-## 팀원 소개
-
-| 유현진 | 박규희 | 최모래 | 최가은 | 김예은 |
-| --- | --- | --- | --- | --- |
-| <img width="160px" src="https://avatars.githubusercontent.com/u/98440593?v=4" /> | <img width="160px" src="https://avatars.githubusercontent.com/u/152257506?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/89964419?s=64&v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/71312414?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/169978756?v=4"/> |
-| [@kz770](https://github.com/kz770) | [@qordpsem](https://github.com/qordpsem) | [@mochoi42](https://github.com/mochoi42) | @nk2200 | [@ccc700](https://github.com/ccc700) |
-| Full-Stack | Back-end | Back-end | Full-Stack | Full-Stack |
-| - 채팅 기능 |  |  | - 매니지먼트 관리 기능 | - 이커머스 기능 |
-| - 게시판 기능 ||| - 메인 페이지 ||
+![image](https://github.com/user-attachments/assets/241c4d7a-ca0d-41d0-9f51-c364d8ca50cd)
 
 
 
 ## 담당 파트 소개
 
-
-
-
 ### 1. 회원가입  및 로그인
 
 - 오어스를 이용한 회원가입과 로그인
 
-  
 
 ### 2. 채팅 기능
-
 - 아티스트와 팬 채팅기능
+![image](https://github.com/user-attachments/assets/dd697b3d-f66a-454c-9a07-fca1d687361a)
+
 - 불량유저 차단
+![image](https://github.com/user-attachments/assets/c64beb21-b664-4a7b-998f-79bb729f63b9)
+
 - 채팅 구독 기능
-
-
+![image](https://github.com/user-attachments/assets/6d95d44d-568c-45c3-b73b-f6717fbb8302)
 
 
 ### 3. 매니지먼트 관리
@@ -53,27 +37,23 @@
 - 굿즈 관리
 - 현황 대시보드
 
-  
 
 ### 4. 게시판
+|아티스트 전용 게시판|팀에 소속된 아티스트 프로필|
+|---|---|
+|![image](https://github.com/user-attachments/assets/47036002-88b2-4d41-b5d6-b3cd9c861ef0)|![image](https://github.com/user-attachments/assets/1a0fb851-1dd7-457b-81e5-4eb02aa759f9)
 
-- 아티스트 전용 게시판
-- 팬 전용 게시판
-- 매니지먼트 공지란
-- 팀에 소속된 아티스트 프로필
+|팬 전용 게시판|매니지먼트 공지란|
+|---|---|
+|![image](https://github.com/user-attachments/assets/37ccab29-252d-4f6c-a934-e96640bbb5c9)||
 
-  
+
 
 ### 5. 굿즈 이커머스
 
 - 상품 둘러보기
 - 장바구니에 상품 넣기
 - 장바구니에 넣은 상품 결제
-
-
-| <img width="800px" src="https://github.com/user-attachments/assets/4674ae46-aec9-45ec-84ee-c22fd99d8f45"/> | <img width="800px" src="https://github.com/user-attachments/assets/96540463-8742-44aa-b33d-5344cabcf3e6"/>  | 
-| --- | --- |
-|<img width="800px" src="https://github.com/user-attachments/assets/e0c0436b-bd1d-4dfa-b18c-2366a7b8c45c"/> | |
   
 ### 6. 1대1 영상팬미팅
 
@@ -94,7 +74,15 @@
 
 
 
-## DB ERD
+## 팀원 소개
+
+| 유현진 | 박규희 | 최모래 | 최가은 | 김예은 |
+| --- | --- | --- | --- | --- |
+| <img width="160px" src="https://avatars.githubusercontent.com/u/98440593?v=4" /> | <img width="160px" src="https://avatars.githubusercontent.com/u/152257506?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/89964419?s=64&v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/71312414?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/169978756?v=4"/> |
+| [@kz770](https://github.com/kz770) | [@qordpsem](https://github.com/qordpsem) | [@mochoi42](https://github.com/mochoi42) | @nk2200 | [@ccc700](https://github.com/ccc700) |
+| Full-Stack | Back-end | Back-end | Full-Stack | Full-Stack |
+| - 채팅 기능 |  |  | - 매니지먼트 관리 기능 | - 이커머스 기능 |
+| - 게시판 기능 ||| - 메인 페이지 ||
 
 
 
