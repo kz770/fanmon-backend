@@ -24,15 +24,18 @@
 |---|
 |![image](https://github.com/user-attachments/assets/dd697b3d-f66a-454c-9a07-fca1d687361a)|
 |유저와 아티스트의 채팅기능
-아티스트의 채팅은...|
+아티스트의 채팅은 해당 아티스트를 구독한 전부에게 전달되고
+팬의 채팅은 아티스트에게만 전달됩니다.|
 
 |불량유저 차단|
 |---|
 |![image](https://github.com/user-attachments/assets/c64beb21-b664-4a7b-998f-79bb729f63b9)|
+|사용자가 아티스트 계정을 사용하고 있으면 팬의 채팅을 클릭했을 때 차단 가능|
 
 |채팅 구독 기능|
 |---|
-|![image](https://github.com/user-attachments/assets/6d95d44d-568c-45c3-b73b-f6717fbb8302)|
+|![image](https://github.com/user-attachments/assets/95f81255-122b-48eb-9687-25a2cdb94a5f)|
+|유저가 구독중인 리스트를 불러와서 헤더에 동적으로 렌더링|
 
 
 ### 3. 매니지먼트 관리
@@ -44,13 +47,20 @@
 
 
 ### 4. 게시판
-|아티스트 전용 게시판|팀에 소속된 아티스트 프로필|
-|---|---|
-|![image](https://github.com/user-attachments/assets/47036002-88b2-4d41-b5d6-b3cd9c861ef0)|![image](https://github.com/user-attachments/assets/1a0fb851-1dd7-457b-81e5-4eb02aa759f9)
 
-|팬 전용 게시판|매니지먼트 공지란|
-|---|---|
-|![image](https://github.com/user-attachments/assets/37ccab29-252d-4f6c-a934-e96640bbb5c9)||
+- 로그인 한 사용자의 역할에 따라서 해당하는 컴포넌트에 동적으로 글 작성기능을 활성화
+
+|아티스트 전용 게시판|
+|---|
+|![image](https://github.com/user-attachments/assets/47036002-88b2-4d41-b5d6-b3cd9c861ef0)|
+
+|팀에 소속된 아티스트 프로필|
+|---|
+|![image](https://github.com/user-attachments/assets/1a0fb851-1dd7-457b-81e5-4eb02aa759f9)|
+
+|팬 전용 게시판|
+|---|
+|![image](https://github.com/user-attachments/assets/37ccab29-252d-4f6c-a934-e96640bbb5c9)|
 
 
 
