@@ -4,6 +4,11 @@
 
 
 
+## ERD
+
+![image](https://github.com/user-attachments/assets/ebed9c73-9647-4778-80dd-617a038432d4)
+
+
 ## 아키텍쳐
 
 
