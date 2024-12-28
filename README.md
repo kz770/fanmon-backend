@@ -20,14 +20,19 @@
 
 
 ### 2. 채팅 기능
-- 아티스트와 팬 채팅기능
-![image](https://github.com/user-attachments/assets/dd697b3d-f66a-454c-9a07-fca1d687361a)
+|아티스트와 팬 채팅기능|
+|---|
+|![image](https://github.com/user-attachments/assets/dd697b3d-f66a-454c-9a07-fca1d687361a)|
+|유저와 아티스트의 채팅기능
+아티스트의 채팅은...|
 
-- 불량유저 차단
-![image](https://github.com/user-attachments/assets/c64beb21-b664-4a7b-998f-79bb729f63b9)
+|불량유저 차단|
+|---|
+|![image](https://github.com/user-attachments/assets/c64beb21-b664-4a7b-998f-79bb729f63b9)|
 
-- 채팅 구독 기능
-![image](https://github.com/user-attachments/assets/6d95d44d-568c-45c3-b73b-f6717fbb8302)
+|채팅 구독 기능|
+|---|
+|![image](https://github.com/user-attachments/assets/6d95d44d-568c-45c3-b73b-f6717fbb8302)|
 
 
 ### 3. 매니지먼트 관리
